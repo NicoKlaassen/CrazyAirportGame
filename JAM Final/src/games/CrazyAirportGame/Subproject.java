@@ -7,10 +7,11 @@ public class Subproject {
 	boolean active;
 	boolean built;
 	String name;
-	ArrayList<SubprojectField> fields= new ArrayList<SubprojectField>();
+	ArrayList<SubprojectField> fields;
 	
 	public Subproject(String name, ArrayList<SubprojectField> fields) {
 		active=false;
+		built=false;
 		this.name=name;
 		this.fields=fields;
 	}

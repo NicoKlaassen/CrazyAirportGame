@@ -14,9 +14,9 @@ public class Player implements Comparable<Player> {
 	boolean hasVCard11;
 	boolean hasVCard24;
 	
-	public Player(String name, int score){
+	public Player(String name){
 		this.name=name;
-		this.score=score;
+		score=0;
 		this.skipNextRound=false;
 		this.hasVCard11=false;
 		this.hasVCard24=false;
@@ -32,15 +32,15 @@ public class Player implements Comparable<Player> {
 	}
 
 	public void setScore(int score) {
-		this.score = score;
+		this.score += score;
 	}
 
 	public ArrayList<Subproject> getSubProjectsActive() {
 		return subProjectsActive;
 	}
 
-	public void setSubProjectsActive(ArrayList<Subproject> subProjectsActive) {
-		this.subProjectsActive = subProjectsActive;
+	public void addSubProjectsActive(Subproject subProjectsActive) {
+		this.subProjectsActive.add(subProjectsActive);
 	}
 
 	public ArrayList<Chip> getChips() {
@@ -55,16 +55,16 @@ public class Player implements Comparable<Player> {
 		return vCards;
 	}
 
-	public void setvCards(ArrayList<VerantwortungsLOSCard> vCards) {
-		this.vCards = vCards;
+	public void addvCard(VerantwortungsLOSCard vCard) {
+		this.vCards.add(vCard);
 	}
 
 	public ArrayList<EreginisLOSCard> geteCards() {
 		return eCards;
 	}
 
-	public void seteCards(ArrayList<EreginisLOSCard> eCards) {
-		this.eCards = eCards;
+	public void addeCard(EreginisLOSCard eCard) {
+		this.eCards.add(eCard);
 	}
 
 	public boolean isSkipNextRound() {

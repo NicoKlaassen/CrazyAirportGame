@@ -7,117 +7,139 @@ import java.util.Collections;
 
 public class Table {
 	
-	
 	ArrayList<VerantwortungsLOSCard> verantworungsLOSE=new ArrayList<VerantwortungsLOSCard>();
-	ArrayList<Integer> verantworungsLOSEDrawn=new ArrayList<Integer>();
+	ArrayList<VerantwortungsLOSCard> verantworungsLOSEDrawn=new ArrayList<VerantwortungsLOSCard>();
 	ArrayList<EreginisLOSCard> ereignisLOSE=new ArrayList<EreginisLOSCard>();
-	ArrayList<Integer> ereignisLOSEDrawn=new ArrayList<Integer>();
+	ArrayList<EreginisLOSCard> ereignisLOSEDrawn=new ArrayList<EreginisLOSCard>();
+	ArrayList<Subproject> subProjects=new ArrayList<Subproject>();
+	ArrayList<Player> players=new ArrayList<Player>();
 	
-	public ArrayList<VerantwortungsLOSCard> fillVerantworungsLOSArray() {
+	public void fillVerantworungsLOSArray() {
 	for(int i=1; i<=24; i++) {
 		VerantwortungsLOSCard c=new VerantwortungsLOSCard(i);
 		verantworungsLOSE.add(c);
-	}
-	return verantworungsLOSE;
+		}
 	}
 	
-	public ArrayList<EreginisLOSCard> fillEreignisLOSArray() {
+	public void fillEreignisLOSArray() {
 		for(int i=1; i<=55; i++) {
 			EreginisLOSCard c= new EreginisLOSCard(i);
 			ereignisLOSE.add(c);
 		}
-	return ereignisLOSE;
 	}
 	
+	//Create all subprojects with their Field-ArrayLists
+	public void initSubprojects(){
+		ArrayList<SubprojectField> fieldsFirestation=new ArrayList<SubprojectField>(Arrays.asList(
+				new SubprojectField(10, false),
+				new SubprojectField(10, false),
+				new SubprojectField(50, true),
+				new SubprojectField(10, false),
+				new SubprojectField(20, false),
+				new SubprojectField(30, false),
+				new SubprojectField(40, true),
+				new SubprojectField(20, false),
+				new SubprojectField(50, false)));
+		subProjects.add(new Subproject("Feuerwache",fieldsFirestation));
+		ArrayList<SubprojectField> fieldsNorthStreet=new ArrayList<SubprojectField>(Arrays.asList(
+				new SubprojectField(10, false),
+				new SubprojectField(30, false),
+				new SubprojectField(10, false),
+				new SubprojectField(20, false),
+				new SubprojectField(50, false),
+				new SubprojectField(20, true),
+				new SubprojectField(10, false),
+				new SubprojectField(30, true),
+				new SubprojectField(30, false)));
+		subProjects.add(new Subproject("Landebahn Nord",fieldsNorthStreet));
+		ArrayList<SubprojectField> fieldsSouthStreet=new ArrayList<SubprojectField>(Arrays.asList(
+				new SubprojectField(20, false),
+				new SubprojectField(10, false),
+				new SubprojectField(20, true),
+				new SubprojectField(10, false),
+				new SubprojectField(50, false),
+				new SubprojectField(50, false),
+				new SubprojectField(10, true),
+				new SubprojectField(20, false),
+				new SubprojectField(40, false)));
+		subProjects.add(new Subproject("Landebahn Süd",fieldsSouthStreet));
+		ArrayList<SubprojectField> fieldsTerminalA=new ArrayList<SubprojectField>(Arrays.asList(
+				new SubprojectField(20, false),
+				new SubprojectField(20, false),
+				new SubprojectField(10, true),
+				new SubprojectField(30, false),
+				new SubprojectField(10, true),
+				new SubprojectField(50, false)));
+		subProjects.add(new Subproject("Terminal A",fieldsTerminalA));
+		ArrayList<SubprojectField> fieldsTerminalB=new ArrayList<SubprojectField>(Arrays.asList(
+				new SubprojectField(20, false),
+				new SubprojectField(10, false),
+				new SubprojectField(30, true),
+				new SubprojectField(10, false),
+				new SubprojectField(10, false),
+				new SubprojectField(50, true),
+				new SubprojectField(20, false),
+				new SubprojectField(50, false)));
+		subProjects.add(new Subproject("Terminal B",fieldsTerminalB));
+		ArrayList<SubprojectField> fieldsMainTerminal=new ArrayList<SubprojectField>(Arrays.asList(
+				new SubprojectField(20, false),
+				new SubprojectField(10, true),
+				new SubprojectField(30, false),
+				new SubprojectField(10, false),
+				new SubprojectField(10, false),
+				new SubprojectField(20, true),
+				new SubprojectField(50, true),
+				new SubprojectField(10, false),
+				new SubprojectField(50, false)));
+		subProjects.add(new Subproject("Hauptterminal",fieldsMainTerminal));
+		ArrayList<SubprojectField> fieldsParkStation=new ArrayList<SubprojectField>(Arrays.asList(
+				new SubprojectField(50, false),
+				new SubprojectField(50, false),
+				new SubprojectField(50, true),
+				new SubprojectField(20, false),
+				new SubprojectField(20, true),
+				new SubprojectField(20, false),
+				new SubprojectField(50, false),
+				new SubprojectField(20, false)));
+		subProjects.add(new Subproject("Parkplatz",fieldsParkStation));
+		ArrayList<SubprojectField> fieldsPreStation=new ArrayList<SubprojectField>(Arrays.asList(
+				new SubprojectField(20, false),
+				new SubprojectField(10, false),
+				new SubprojectField(50, true),
+				new SubprojectField(20, false),
+				new SubprojectField(50, false),
+				new SubprojectField(20, false)));
+		subProjects.add(new Subproject("Vorfeld",fieldsPreStation));
+	}
+	
+	//Shuffles all the decks
 	public void shuffleDecks() {
 		Collections.shuffle(ereignisLOSE);
 		Collections.shuffle(verantworungsLOSE);
+		Collections.shuffle(subProjects);
 	}
 	
-	public ArrayList<Subproject> initSubprojects(){
-		ArrayList<Subproject> subprojects=new ArrayList<Subproject>();
-		ArrayList<SubprojectField> fieldsFirestation=new ArrayList<SubprojectField>(Arrays.asList(
-				new SubprojectField(10, false, false),
-				new SubprojectField(10, false, false),
-				new SubprojectField(50, true, false),
-				new SubprojectField(10, false, false),
-				new SubprojectField(20, false, false),
-				new SubprojectField(30, false, false),
-				new SubprojectField(40, true, false),
-				new SubprojectField(20, false, false),
-				new SubprojectField(50, false, false)));
-		subprojects.add(new Subproject("Feuerwache",fieldsFirestation));
-		ArrayList<SubprojectField> fieldsNorthStreet=new ArrayList<SubprojectField>(Arrays.asList(
-				new SubprojectField(10, false, false),
-				new SubprojectField(30, false, false),
-				new SubprojectField(10, false, false),
-				new SubprojectField(20, false, false),
-				new SubprojectField(50, false, false),
-				new SubprojectField(20, true, false),
-				new SubprojectField(10, false, false),
-				new SubprojectField(30, true, false),
-				new SubprojectField(30, false, false)));
-		subprojects.add(new Subproject("Landebahn Nord",fieldsNorthStreet));
-		ArrayList<SubprojectField> fieldsSouthStreet=new ArrayList<SubprojectField>(Arrays.asList(
-				new SubprojectField(20, false, false),
-				new SubprojectField(10, false, false),
-				new SubprojectField(20, true, false),
-				new SubprojectField(10, false, false),
-				new SubprojectField(50, false, false),
-				new SubprojectField(50, false, false),
-				new SubprojectField(10, true, false),
-				new SubprojectField(20, false, false),
-				new SubprojectField(40, false, false)));
-		subprojects.add(new Subproject("Landebahn Süd",fieldsSouthStreet));
-		ArrayList<SubprojectField> fieldsTerminalA=new ArrayList<SubprojectField>(Arrays.asList(
-				new SubprojectField(20, false, false),
-				new SubprojectField(20, false, false),
-				new SubprojectField(10, true, false),
-				new SubprojectField(30, false, false),
-				new SubprojectField(10, true, false),
-				new SubprojectField(50, false, false)));
-		subprojects.add(new Subproject("Terminal A",fieldsTerminalA));
-		ArrayList<SubprojectField> fieldsTerminalB=new ArrayList<SubprojectField>(Arrays.asList(
-				new SubprojectField(20, false, false),
-				new SubprojectField(10, false, false),
-				new SubprojectField(30, true, false),
-				new SubprojectField(10, false, false),
-				new SubprojectField(10, false, false),
-				new SubprojectField(50, true, false),
-				new SubprojectField(20, false, false),
-				new SubprojectField(50, false, false)));
-		subprojects.add(new Subproject("Terminal B",fieldsTerminalB));
-		ArrayList<SubprojectField> fieldsMainTerminal=new ArrayList<SubprojectField>(Arrays.asList(
-				new SubprojectField(20, false, false),
-				new SubprojectField(10, true, false),
-				new SubprojectField(30, false, false),
-				new SubprojectField(10, false, false),
-				new SubprojectField(10, false, false),
-				new SubprojectField(20, true, false),
-				new SubprojectField(50, true, false),
-				new SubprojectField(10, false, false),
-				new SubprojectField(50, false, false)));
-		subprojects.add(new Subproject("Hauptterminal",fieldsMainTerminal));
-		ArrayList<SubprojectField> fieldsParkStation=new ArrayList<SubprojectField>(Arrays.asList(
-				new SubprojectField(50, false, false),
-				new SubprojectField(50, false, false),
-				new SubprojectField(50, true, false),
-				new SubprojectField(20, false, false),
-				new SubprojectField(20, true, false),
-				new SubprojectField(20, false, false),
-				new SubprojectField(50, false, false),
-				new SubprojectField(20, false, false)));
-		subprojects.add(new Subproject("Parkplatz",fieldsParkStation));
-		ArrayList<SubprojectField> fieldsPreStation=new ArrayList<SubprojectField>(Arrays.asList(
-				new SubprojectField(20, false, false),
-				new SubprojectField(10, false, false),
-				new SubprojectField(50, true, false),
-				new SubprojectField(20, false, false),
-				new SubprojectField(50, false, false),
-				new SubprojectField(20, false, false)));
-		subprojects.add(new Subproject("Vorfeld",fieldsPreStation));
-		
-		return subprojects;
+	//Add player to playerlist
+	public void addPlayer(Player player){
+		players.add(player);
+	}
+	
+	//Assign subprojects to players in playerlist ToDo schöner machen
+	public void assignStartSubprojects() {
+		for(Player p:players) {
+			int i=0;
+			p.addSubProjectsActive(subProjects.get(i));
+			p.subProjectsActive.get(0).active=true;
+			i++;
+		}
+	}
+	
+	//Get next free field method in subproject
+	public void openUpStartProjects() {
+		for(Player p:players) {
+			p.subProjectsActive.get(0).fields.get(0).isChipped=true;
+			p.setScore(p.subProjectsActive.get(0).fields.get(0).getAmountSZT());
+		}
 	}
 	
 	//If result==true --> pull card from EreignisLOSes | If result==false place chip on existing project 
@@ -133,13 +155,8 @@ public class Table {
 		return result;
 	}
 	
-	public void drawVerantwortungsLOS(int id) {
-		int randomPull = (int)(Math.random() * verantworungsLOSE.size()) + 1;
-		while(verantworungsLOSEDrawn.contains(randomPull)){
-			randomPull = (int)(Math.random() * verantworungsLOSE.size()) + 1;
-		}
-		Card drawnCard = new EreginisLOSCard(randomPull);
-		verantworungsLOSEDrawn.add(drawnCard.getId());
+	public void drawVerantwortungsLOS(Player player) {
+		VerantwortungsLOSCard drawnCard=verantworungsLOSE.get(0);
 		switch(drawnCard.getId()) {
 		case 1:
 			//+100 Mio. SZT to the player
@@ -190,16 +207,13 @@ public class Table {
 		case 24:
 			//+50 Mio. SZT to the player and take a chip from the left neighbor to use it later
 		}
-		verantworungsLOSE.remove(randomPull);
+		verantworungsLOSEDrawn.add(drawnCard);
+		player.addvCard(drawnCard);
+		verantworungsLOSE.remove(0);
 	}
 
-	public void drawEreignisLOS(int id) {
-		int randomPull = (int)(Math.random() * ereignisLOSE.size()) + 1;
-		while(ereignisLOSEDrawn.contains(randomPull)){
-			randomPull = (int)(Math.random() * ereignisLOSE.size()) + 1;
-		}
-		Card drawnCard = new VerantwortungsLOSCard(randomPull);
-		ereignisLOSEDrawn.add(drawnCard.getId());
+	public void drawEreignisLOS(Player player) {
+		EreginisLOSCard drawnCard=ereignisLOSE.get(0); 
 		switch(drawnCard.getId()) {
 		case 1:
 			//+100 Mio. SZT to the player
@@ -250,7 +264,9 @@ public class Table {
 		case 24:
 			//+50 Mio. SZT to the player and take a chip from the left neighbor to use it later
 		}
-		ereignisLOSE.remove(randomPull);
+		ereignisLOSEDrawn.add(drawnCard);
+		player.addeCard(drawnCard);
+		ereignisLOSE.remove(0);
 	}
 
 }

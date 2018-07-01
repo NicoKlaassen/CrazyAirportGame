@@ -7,10 +7,10 @@ public class SubprojectField {
 	boolean isChipped;
 	
 	
-	public SubprojectField(int amountSZT, boolean isVField, boolean isChipped) {
+	public SubprojectField(int amountSZT, boolean isVField) {
 		this.amountSZT = amountSZT;
 		this.isVField = isVField;
-		this.isChipped = isChipped;
+		this.isChipped=false;;
 	}
 	
 	public boolean isChipped() {
