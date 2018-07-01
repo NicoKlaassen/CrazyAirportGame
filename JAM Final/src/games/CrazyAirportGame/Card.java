@@ -1,6 +1,6 @@
 package games.CrazyAirportGame;
 
-public class Card {
+public abstract class Card {
 
 	int id;
 

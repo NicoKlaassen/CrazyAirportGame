@@ -10,32 +10,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class CrazyAirportGame extends Game{
-	
-	Card[] verantworungsLOSE=new Card[55];
-	Card[] ereignisLOSE=new Card[24];
-	
-	
-	public Card[] fillVerantworungsLOSArray() {
-	for(int i=1; i<=55; i++) {
-		verantworungsLOSE[i]=new Card(i) ;
-	}
-	return verantworungsLOSE;
-	}
-	
-	public Card[] fillEreignisLOSArray() {
-		for(int i=1; i<=55; i++) {
-			ereignisLOSE[i]=new Card(i) ;
-		}
-	return ereignisLOSE;
-	}
-	
-	public void drawVerantwortungsLOS(int id) {
-		int randomPull = (int)(Math.random() * verantworungsLOSE.length) + 1;
-		Card drawnCard = new Card(randomPull);
-		switch(drawnCard.getId()) {
-		case 1:
-		}
-	}
 
 	@Override
 	public String getSite() {
