@@ -117,31 +117,14 @@ public class Table {
 		Collections.shuffle(ereignisLOSE);
 		Collections.shuffle(verantworungsLOSE);
 		Collections.shuffle(subProjects);
+		Collections.shuffle(players);
 	}
 	
 	//Add player to playerlist
 	public void addPlayer(Player player){
 		players.add(player);
 	}
-	
-	//Assign subprojects to players in playerlist ToDo schöner machen
-	public void assignStartSubprojects() {
-		for(Player p:players) {
-			int i=0;
-			p.addSubProjectsActive(subProjects.get(i));
-			p.subProjectsActive.get(0).active=true;
-			i++;
-		}
-	}
-	
-	//Get next free field method in subproject
-	public void openUpStartProjects() {
-		for(Player p:players) {
-			p.subProjectsActive.get(0).fields.get(0).isChipped=true;
-			p.setScore(p.subProjectsActive.get(0).fields.get(0).getAmountSZT());
-		}
-	}
-	
+
 	//If result==true --> pull card from EreignisLOSes | If result==false place chip on existing project 
 	public boolean rollTheDice() {
 		boolean result;
@@ -154,6 +137,68 @@ public class Table {
 		}
 		return result;
 	}
+	
+	//Assign subprojects to players in playerlist ToDo schöner machen
+	public void assignStartSubprojects() {
+		for(Player p:players) {
+			int i=0;
+			subProjects.get(i).setOwner(p);
+			subProjects.get(i).setActive(true);
+			i++;
+		}
+	}
+	
+	//Assign single project to single player
+	public void assignProjectToPlayer(Player player) {
+		for(Subproject project:subProjects) {
+			if(project.active==false) {
+				project.setOwner(player);
+				project.setActive(true);
+				break;
+			}
+		}
+	}
+
+	//Opens up the Start-Project of every player. No check "is V-Field" needed
+	public void openUpStartProjects() {
+		for(Player p:players) {
+			for(Subproject sp:subProjects) {
+				if(sp.getOwner()==p) {
+					Chip chip=p.useChip(p);
+					sp.fields.get(0).setChipped(true);
+					sp.fields.get(0).setChip(chip);
+					p.setScore(sp.fields.get(0).getAmountSZT());
+				}
+			}
+		}
+	}
+	
+	public void openUpProject(Player player) {
+		for(Subproject project:subProjects) {
+			if(project.owner==player && project.fields.get(0).isChipped==false) {
+				Chip chip=player.useChip(player);
+				project.fields.get(0).setChipped(true);
+				project.fields.get(0).setChip(chip);	
+				player.setScore(project.getFields().get(0).getAmountSZT());
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public void drawVerantwortungsLOS(Player player) {
 		VerantwortungsLOSCard drawnCard=verantworungsLOSE.get(0);

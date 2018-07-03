@@ -6,7 +6,6 @@ public class Player implements Comparable<Player> {
 
 	String name;
 	int score;
-	ArrayList<Subproject> subProjectsActive = new ArrayList<Subproject>();
 	ArrayList<Chip> chips = new ArrayList<Chip>();
 	ArrayList<VerantwortungsLOSCard> vCards = new ArrayList<VerantwortungsLOSCard>();
 	ArrayList<EreginisLOSCard> eCards = new ArrayList<EreginisLOSCard>();
@@ -55,14 +54,6 @@ public class Player implements Comparable<Player> {
 
 	public void setScore(int score) {
 		this.score += score;
-	}
-
-	public ArrayList<Subproject> getSubProjectsActive() {
-		return subProjectsActive;
-	}
-
-	public void addSubProjectsActive(Subproject subProjectsActive) {
-		this.subProjectsActive.add(subProjectsActive);
 	}
 
 	public ArrayList<Chip> getChips() {

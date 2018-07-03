@@ -8,7 +8,7 @@ public class Subproject {
 	boolean built;
 	String name;
 	ArrayList<SubprojectField> fields;
-	ArrayList<Chip> chipsInProject;
+	Player owner;
 
 	public Subproject(String name, ArrayList<SubprojectField> fields) {
 		active=false;
@@ -36,15 +36,7 @@ public class Subproject {
 		}
 		return result;
 	}
-	
-	public ArrayList<Chip> getChipsInProject() {
-		return chipsInProject;
-	}
 
-	public void addChip(Chip chip) {
-		this.chipsInProject.add(chip);
-	}
-	
 	public boolean isActive() {
 		return active;
 	}
@@ -68,4 +60,13 @@ public class Subproject {
 	public ArrayList<SubprojectField> getFields() {
 		return fields;
 	}
+
+	public Player getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Player owner) {
+		this.owner = owner;
+	}
+
 }

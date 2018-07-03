@@ -5,8 +5,8 @@ public class SubprojectField {
 	int amountSZT;
 	boolean isVField;
 	boolean isChipped;
-	
-	
+	Chip chip;
+
 	public SubprojectField(int amountSZT, boolean isVField) {
 		this.amountSZT = amountSZT;
 		this.isVField = isVField;
@@ -31,5 +31,14 @@ public class SubprojectField {
 	public boolean isVField() {
 		return isVField;
 	}
+
+	public Chip getChip() {
+		return chip;
+	}
+
+	public void setChip(Chip chip) {
+		this.chip = chip;
+	}
+
 	
 }
