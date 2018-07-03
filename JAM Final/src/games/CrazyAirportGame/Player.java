@@ -22,6 +22,28 @@ public class Player implements Comparable<Player> {
 		this.hasVCard24=false;
 	}
 	
+	public ArrayList<Chip> chipsNotPlacedYet(){
+		ArrayList<Chip> chipsNotPlaced=new ArrayList<Chip>();
+		for(Chip c:chips) {
+			if(c.isPlaced==false) {
+				chipsNotPlaced.add(c);
+			}
+		}
+		return chipsNotPlaced;
+	}
+	
+	public Chip useChip(Player player) {
+		Chip chip=null;
+		for(Chip c:player.getChips()) {
+			if(c.isPlaced==false) {
+				c.isPlaced=true;
+				chip=c;
+				break;
+			}
+		}
+		return chip;
+	}
+	
     @Override
     public int compareTo(Player arg0) {
 	return arg0.getScore() - this.getScore();
