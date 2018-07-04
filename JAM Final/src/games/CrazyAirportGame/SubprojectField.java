@@ -2,10 +2,10 @@ package games.CrazyAirportGame;
 
 public class SubprojectField {
 	
-	int amountSZT;
-	boolean isVField;
-	boolean isChipped;
-	Chip chip;
+	private int amountSZT;
+	private boolean isVField;
+	private boolean isChipped;
+	private Chip chip;
 
 	public SubprojectField(int amountSZT, boolean isVField) {
 		this.amountSZT = amountSZT;

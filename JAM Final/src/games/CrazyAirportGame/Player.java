@@ -11,20 +11,20 @@ public class Player implements Comparable<Player> {
 	ArrayList<EreginisLOSCard> eCards = new ArrayList<EreginisLOSCard>();
 	boolean skipNextRound;
 	boolean hasVCard11;
-	boolean hasVCard24;
+	boolean hasVCard23;
 	
 	public Player(String name){
 		this.name=name;
 		score=0;
 		this.skipNextRound=false;
 		this.hasVCard11=false;
-		this.hasVCard24=false;
+		this.hasVCard23=false;
 	}
 	
 	public ArrayList<Chip> chipsNotPlacedYet(){
 		ArrayList<Chip> chipsNotPlaced=new ArrayList<Chip>();
 		for(Chip c:chips) {
-			if(c.isPlaced==false) {
+			if(!c.isPlaced()) {
 				chipsNotPlaced.add(c);
 			}
 		}
@@ -34,8 +34,8 @@ public class Player implements Comparable<Player> {
 	public Chip useChip() {
 		Chip chip=null;
 		for(Chip c:this.getChips()) {
-			if(c.isPlaced==false) {
-				c.isPlaced=true;
+			if(!c.isPlaced()) {
+				c.setPlaced(true);
 				chip=c;
 				break;
 			}
@@ -101,15 +101,25 @@ public class Player implements Comparable<Player> {
 	}
 
 	public boolean isHasVCard24() {
-		return hasVCard24;
+		return hasVCard23;
 	}
 
 	public void setHasVCard24(boolean hasVCard24) {
-		this.hasVCard24 = hasVCard24;
+		this.hasVCard23 = hasVCard24;
 	}
 
 	public String getName() {
 		return name;
 	}
+
+/*	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Player) {
+			if(obj.get)
+		}
+		else return false;
+	}*/
+	
+	
 
 }

@@ -151,7 +151,7 @@ public class Table {
 	//Assign single project to single player
 	public void assignProjectToPlayer(Player player) {
 		for(Subproject project:subProjects) {
-			if(project.active==false) {
+			if(!project.isActive()) {
 				project.setOwner(player);
 				project.setActive(true);
 				break;
@@ -173,10 +173,10 @@ public class Table {
 		}
 	}
 	
-	//opens up a new project for a specific player
+	//opens up a new project for a specific player 
 	public void openUpProject(Player player) {
 		for(Subproject project:subProjects) {
-			if(project.owner==player && project.fields.get(0).isChipped==false) {
+			if(project.owner==player && project.fields.get(0).isChipped()==false) {
 				Chip chip=player.useChip();
 				project.fields.get(0).setChipped(true);
 				project.fields.get(0).setChip(chip);	
@@ -210,7 +210,7 @@ public class Table {
 		player.setScore(lastField.getAmountSZT());
 		for(Player p:players) {
 			if(p!=player) {
-				p.setScore(lastField.getAmountSZT()*-1);
+				p.setScore(lastField.getAmountSZT()*-1); //Fehlerbehandlung wenn spieler betrag nicht hat
 				player.setScore(lastField.getAmountSZT());
 			}
 		project.setBuilt(true);
@@ -254,6 +254,7 @@ public class Table {
 		}
 	}
 	
+	//not needed
 	public Subproject playerSelectProject(Player player) {
 		Subproject project=null;
 		//############ToDO#############
@@ -263,7 +264,7 @@ public class Table {
 	//Process a turn with rolling the dice
 	public void processTurn(Player player) {
 		if(player.isSkipNextRound()==true) {
-			player.setSkipNextRound(false);
+			player.setSkipNextRound(false);//hat spieler noch chips
 		}
 		else {
 			boolean dice=rollTheDice();
@@ -271,8 +272,7 @@ public class Table {
 				drawEreignisLOS(player);
 			}
 			else {
-				Subproject project=playerSelectProject(player);
-				setChipOnField(project, player);
+				//setChipOnField(project, player); needs a project from player
 			}
 		}
 	}
@@ -283,18 +283,7 @@ public class Table {
 	}
 	
 	public Player getRightNeighbor(Player player) {
-		Player rightNeighbor=null;
-		int i=-1;
-		for(Player p:players) {
-			i++;
-			if(p==player) {
-				if(i+1>players.size()) {
-					i=0;
-				}
-				rightNeighbor=players.get(i+1);
-				break;
-			}
-		}
+		Player rightNeighbor=players.get((players.indexOf(player)+1)%players.size());
 		return rightNeighbor;
 	}
 	
@@ -305,7 +294,7 @@ public class Table {
 			i++;
 			if(p==player) {
 				if (i==0){
-					i=players.size();
+					i=players.size()-1;
 				}
 				leftNeighbor=players.get(i);
 				break;
@@ -314,20 +303,15 @@ public class Table {
 		return leftNeighbor;
 	}
 	
-	public void makePlayerSitOutNextRound(Player player) {
+	public void makePlayerSuspend(Player player) {
 		player.setSkipNextRound(true);
 	}
 	
-	public void playerCanStartNewProject(Player player) {
-		//Player can decide whether he would like to open a new project or not and when he wants which project? ###########ToDo##########
-	}
-	
 	public void removeChipFromProjectAndPutItInAnother(Subproject outProject, Subproject inProject, Player player) {
-		if(outProject.getLastChippedField()!=outProject.getFields().get(0)) {
+			Chip chip=outProject.getLastChippedField().getChip();
 			outProject.getLastChippedField().setChip(null);
 			outProject.getLastChippedField().setChipped(false);
 			setChipOnField(inProject, player);
-		}
 	}
 	
 	public void addTwoChipsOnExisitingProjects(Player player) {
@@ -364,27 +348,120 @@ public class Table {
 		}
 	}
 	
+	public void getChipFromLeftNeighbor(Player player) {
+		int i=-1;
+		for(Player p:players) {
+			i++;
+			if(p==player) {
+				if(i==0) {
+					for(Chip chip:players.get(players.size()).getChips()) {
+						player.addChip(chip);
+						players.get(players.size()).getChips().remove(chip);
+						break;
+					}
+				}
+				else if(i>0) {
+					for(Chip chip:players.get(i-1).getChips()) {
+						player.addChip(chip);
+						players.get(i-1).getChips().remove(chip);
+						break;
+					}
+				}
+			}
+		}
+	}
+	
 	public void getChipFromSecondLeftPlayer(Player player) {
 		int i=-1;
 		for(Player p:players) {
 			i++;
 			if(p==player) {
 				if(i==2) {
-					players.get(0);
+					for(Chip chip:players.get(0).getChips()) {
+						if(!chip.isPlaced()) {
+							player.addChip(chip);
+							players.get(0).getChips().remove(chip);
+							break;
+						}
+					}
+					
 				}
 				else if(i==1) {
-					players.get(players.size()-1);
+					for(Chip chip:players.get(players.size()).getChips()) {
+						if(!chip.isPlaced()) {
+							player.addChip(chip);
+							players.get(players.size()-1).getChips().remove(chip);
+							break;
+						}
+					}
 				}
 				else if(i==0) {
-					players.get(players.size()-2);
+					for(Chip chip:players.get(players.size()-1).getChips()) {
+						if(!chip.isPlaced()) {
+							player.addChip(chip);
+							players.get(players.size()-2).getChips().remove(chip);
+							break;
+						}
+					}
 				}
 				else if(i>2) {
-					players.get(i-2);
+					for(Chip chip:players.get(i-2).getChips()) {
+						if(!chip.isPlaced()) {
+							player.addChip(chip);
+							players.get(i-2).getChips().remove(chip);
+							break;
+						}
+					}
 				}
 			}
 		}
 	}
 	
+	public void getSZTFromSecondLeftPlayer(Player player, int SZT) {
+		int i=-1;
+		for(Player p:players) {
+			i++;
+			if(p==player) {
+				if(i==2) {
+					players.get(0).setScore(SZT*-1);
+					player.setScore(SZT);
+					break;
+				}
+				else if(i==1) {
+					players.get(players.size()-1).setScore(SZT*-1);
+					player.setScore(SZT);
+					break;
+				}
+				else if(i==0) {
+					players.get(players.size()-2).setScore(SZT*-1);
+					player.setScore(SZT);
+					break;
+				}
+				else if(i>2) {
+					players.get(i-2).setScore(SZT*-1);
+					player.setScore(SZT);
+					break;
+				}
+			}
+		}
+	}
+	
+	public void takeAwaySZTFromEveryPlayer(Player player, int SZT) {
+		for(Player p:players) {
+			if(p!=player) {
+				p.setScore(SZT*-1);
+				player.setScore(SZT);
+			}
+		}
+	}
+	
+	public void setCard11True(Player player) {
+		player.setHasVCard11(true);
+	}
+	
+	public void setCard23True(Player player) {
+		player.setHasVCard24(true);
+	}
 	
 	public void drawVerantwortungsLOS(Player player) {
 		VerantwortungsLOSCard drawnCard=verantworungsLOSE.get(0);
@@ -410,7 +487,7 @@ public class Table {
 		case 10:
 			//+100 Mio. SZT to the player
 		case 11:
-			//remove chip out of existing project (not the Start-Chip) and put it into another project
+			//FassungLOS! remove chip out of existing project (not the Start-Chip) and put it into another project
 		case 12:
 			//+50 Mio. SZT to the player and 2 chips on already existing projects
 		case 13:
@@ -418,7 +495,7 @@ public class Table {
 		case 14:
 			//+80 Mio. SZT to the player and if possible start new project
 		case 15:
-			//+100 Mio. SZT to the player and remove last two chips of a project and keep them to use them later
+			//+100 Mio. SZT to the player and remove last chips of two chosen project and keep them to use them later
 		case 16:
 			//+100 Mio. SZT to the player and two chips on non Start-Fields
 		case 17:

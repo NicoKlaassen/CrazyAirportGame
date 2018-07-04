@@ -20,7 +20,7 @@ public class Subproject {
 	public SubprojectField getNextFreeField() {
 		SubprojectField nextFreeField = null;
 		for(SubprojectField field:this.getFields()) {
-			if(field.isChipped==false) {
+			if(!field.isChipped()) {
 				nextFreeField=field;
 				break;
 			}
@@ -38,9 +38,7 @@ public class Subproject {
 	}
 	
 	public SubprojectField getLastField() {
-		SubprojectField lastField=null;
-		lastField=this.getFields().get(this.getFields().size()-1);
-		return lastField;
+		return this.getFields().get(this.getFields().size()-1);
 	}
 	
 	public SubprojectField getLastChippedField() {
@@ -48,7 +46,7 @@ public class Subproject {
 		int i=-1;
 		for(SubprojectField field:this.getFields()) {
 			i++;
-			if(field.isChipped==false) {
+			if(!field.isChipped()) {
 				lastChipped=this.getFields().get(i-1);
 			}
 		}
