@@ -21,26 +21,14 @@ public class Player implements Comparable<Player> {
 		this.hasVCard23=false;
 	}
 	
-	public ArrayList<Chip> chipsNotPlacedYet(){
-		ArrayList<Chip> chipsNotPlaced=new ArrayList<Chip>();
-		for(Chip c:chips) {
-			if(!c.isPlaced()) {
-				chipsNotPlaced.add(c);
-			}
-		}
-		return chipsNotPlaced;
+	public boolean isChipStealable() {
+		return chips.size()>=2;
 	}
 	
-	public Chip useChip() {
-		Chip chip=null;
-		for(Chip c:this.getChips()) {
-			if(!c.isPlaced()) {
-				c.setPlaced(true);
-				chip=c;
-				break;
-			}
-		}
-		return chip;
+	public Chip removeChip() {
+		Chip result=chips.get(0);
+		chips.remove(result);
+		return result;
 	}
 	
     @Override
@@ -52,32 +40,21 @@ public class Player implements Comparable<Player> {
 		return score;
 	}
 
-	public void setScore(int score) {
+	public void raiseScore(int score) {
 		this.score += score;
 	}
-
-	public ArrayList<Chip> getChips() {
-		return chips;
-	}
-
-	public void setChips(ArrayList<Chip> chips) {
-		this.chips = chips;
+	
+	public void lowerScore(int score) {
+		this.score -= score;
 	}
 
 	public void addChip(Chip chip) {
+		chip.setCurrentOwner(this);
 		chips.add(chip);
-	}
-	
-	public ArrayList<VerantwortungsLOSCard> getvCards() {
-		return vCards;
 	}
 
 	public void addvCard(VerantwortungsLOSCard vCard) {
 		this.vCards.add(vCard);
-	}
-
-	public ArrayList<EreginisLOSCard> geteCards() {
-		return eCards;
 	}
 
 	public void addeCard(EreginisLOSCard eCard) {

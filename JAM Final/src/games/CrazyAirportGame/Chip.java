@@ -4,16 +4,12 @@ import java.awt.Color;
 
 public class Chip {
 
-	private Player realOwner;
+	private final Player realOwner;
 	private Player currentOwner;
-	private Color color;
-	private boolean isPlaced;
 
-	public Chip(Player owner, Color color) {
+	public Chip(Player owner) {
 		this.realOwner=owner;
 		this.currentOwner=owner;
-		this.color=color;
-		this.isPlaced=false;
 	}
 	
 	public Player getCurrentOwner() {
@@ -24,24 +20,12 @@ public class Chip {
 		this.currentOwner = currentOwner;
 	}
 
-	public Color getColor() {
-		return color;
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
-	}
-
-	public boolean isPlaced() {
-		return isPlaced;
-	}
-
-	public void setPlaced(boolean isPlaced) {
-		this.isPlaced = isPlaced;
-	}
-
 	public Player getRealOwner() {
 		return realOwner;
 	}
-
+	
+	public void reset() {
+		this.currentOwner=this.getRealOwner();
+		this.realOwner.addChip(this);
+	}
 }

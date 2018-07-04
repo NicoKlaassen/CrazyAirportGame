@@ -2,23 +2,23 @@ package games.CrazyAirportGame;
 
 public class SubprojectField {
 	
-	private int amountSZT;
-	private boolean isVField;
-	private boolean isChipped;
+	private final int amountSZT;
+	private final boolean isVField;
 	private Chip chip;
+	private final boolean isLastField;
 
-	public SubprojectField(int amountSZT, boolean isVField) {
+	public SubprojectField(int amountSZT, boolean isVField, boolean isLastField) {
 		this.amountSZT = amountSZT;
 		this.isVField = isVField;
-		this.isChipped=false;;
-	}
-	
-	public boolean isChipped() {
-		return isChipped;
+		this.isLastField=isLastField;
 	}
 
-	public void setChipped(boolean isChipped) {
-		this.isChipped = isChipped;
+	public boolean isLastField() {
+		return isLastField;
+	}
+
+	public boolean isChipped() {
+		return this.chip!=null;
 	}
 
 	public int getAmountSZT() {
