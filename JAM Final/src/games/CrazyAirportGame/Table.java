@@ -164,7 +164,7 @@ public class Table {
 		for(Player p:players) {
 			for(Subproject sp:subProjects) {
 				if(sp.getOwner()==p) {
-					Chip chip=p.useChip(p);
+					Chip chip=p.useChip();
 					sp.fields.get(0).setChipped(true);
 					sp.fields.get(0).setChip(chip);
 					p.setScore(sp.fields.get(0).getAmountSZT());
@@ -173,10 +173,11 @@ public class Table {
 		}
 	}
 	
+	//opens up a new project for a specific player
 	public void openUpProject(Player player) {
 		for(Subproject project:subProjects) {
 			if(project.owner==player && project.fields.get(0).isChipped==false) {
-				Chip chip=player.useChip(player);
+				Chip chip=player.useChip();
 				project.fields.get(0).setChipped(true);
 				project.fields.get(0).setChip(chip);	
 				player.setScore(project.getFields().get(0).getAmountSZT());
@@ -184,20 +185,205 @@ public class Table {
 		}
 	}
 	
+	public boolean airportIsBuilt() {
+		boolean isBuilt=true;
+		for(Subproject project:subProjects) {
+			if(project.isBuilt()==false) {
+				isBuilt=false;
+				break;
+			}
+		}
+		return isBuilt;
+	}
 	
+	/*Finishes project by:
+	 * 	- Setting last field on chipped
+	 * 	- Putting chip on field
+	 * 	- Reduce score of other players by fieldSZT and up amount of player
+	 * 	- setting built=true and active=false
+	 */
+	public void finishProject(Subproject project, Player player) {
+		Chip chip=player.useChip();
+		SubprojectField lastField=project.getLastField();
+		lastField.setChipped(true);
+		lastField.setChip(chip);
+		player.setScore(lastField.getAmountSZT());
+		for(Player p:players) {
+			if(p!=player) {
+				p.setScore(lastField.getAmountSZT()*-1);
+				player.setScore(lastField.getAmountSZT());
+			}
+		project.setBuilt(true);
+		project.setActive(false);
+		if(airportIsBuilt()==true) {
+			//method to handle end of game ################ToDo################
+		}
+		}
+	}
 	
+	//Handles placing chip on a V-Field
+	public void setChipOnVField(Subproject project, Player player) {
+		Chip chip=player.useChip();
+		SubprojectField vField=project.getNextFreeField();
+		vField.setChipped(true);
+		vField.setChip(chip);
+		player.setScore(vField.getAmountSZT());
+		drawVerantwortungsLOS(player);
+	}
 	
+	//Handles playing chip on a non V- and non End-Field
+	public void setChipOnStandardField(Subproject project, Player player) {
+		Chip chip=player.useChip();
+		SubprojectField vField=project.getNextFreeField();
+		vField.setChipped(true);
+		vField.setChip(chip);
+		player.setScore(vField.getAmountSZT());
+	}
 	
+	//Handles placing a chip on either a End-, V- or Normal-Field
+	public void setChipOnField(Subproject project, Player player) {
+		SubprojectField field=project.getNextFreeField();
+		if(field.isVField()==true) {
+			setChipOnVField(project, player);
+		}
+		if(project.getLastField()==field) {
+			finishProject(project, player);
+		}
+		else {
+			setChipOnStandardField(project, player);
+		}
+	}
 	
+	public Subproject playerSelectProject(Player player) {
+		Subproject project=null;
+		//############ToDO#############
+		return project;
+	}
 	
+	//Process a turn with rolling the dice
+	public void processTurn(Player player) {
+		if(player.isSkipNextRound()==true) {
+			player.setSkipNextRound(false);
+		}
+		else {
+			boolean dice=rollTheDice();
+			if(dice==true) {
+				drawEreignisLOS(player);
+			}
+			else {
+				Subproject project=playerSelectProject(player);
+				setChipOnField(project, player);
+			}
+		}
+	}
 	
+	//Increases score of specific player by specific amount
+	public void upScoreOfPlayer(Player player, int SZT) {
+		player.setScore(SZT);
+	}
 	
+	public Player getRightNeighbor(Player player) {
+		Player rightNeighbor=null;
+		int i=-1;
+		for(Player p:players) {
+			i++;
+			if(p==player) {
+				if(i+1>players.size()) {
+					i=0;
+				}
+				rightNeighbor=players.get(i+1);
+				break;
+			}
+		}
+		return rightNeighbor;
+	}
 	
+	public Player getLeftNeighbor(Player player) {
+		Player leftNeighbor=null;
+		int i=-1;
+		for(Player p:players) {
+			i++;
+			if(p==player) {
+				if (i==0){
+					i=players.size();
+				}
+				leftNeighbor=players.get(i);
+				break;
+			}
+		}
+		return leftNeighbor;
+	}
 	
+	public void makePlayerSitOutNextRound(Player player) {
+		player.setSkipNextRound(true);
+	}
 	
+	public void playerCanStartNewProject(Player player) {
+		//Player can decide whether he would like to open a new project or not and when he wants which project? ###########ToDo##########
+	}
 	
+	public void removeChipFromProjectAndPutItInAnother(Subproject outProject, Subproject inProject, Player player) {
+		if(outProject.getLastChippedField()!=outProject.getFields().get(0)) {
+			outProject.getLastChippedField().setChip(null);
+			outProject.getLastChippedField().setChipped(false);
+			setChipOnField(inProject, player);
+		}
+	}
 	
+	public void addTwoChipsOnExisitingProjects(Player player) {
+		if(!player.chipsNotPlacedYet().isEmpty()) {
+		if(player.chipsNotPlacedYet().size()>=2) {
+			Chip chip1=player.useChip();
+			setChipOnField(playerSelectProject(player), player);
+			Chip chip2=player.useChip();
+			setChipOnField(playerSelectProject(player), player);
+		}
+		else if(player.chipsNotPlacedYet().size()==1) {
+			Chip chip=player.useChip();
+			setChipOnField(playerSelectProject(player), player);
+			}
+		}
+	}
 	
+	public void removeTwoChipsFromExistingProject(Subproject project1, Subproject project2, Player player) {
+		if(project1.getLastChippedField()!=project1.getFields().get(0) && project2.getLastChippedField()!=project2.getFields().get(0)) {
+			Chip chip1=project1.getLastChippedField().getChip();
+			project1.getLastChippedField().setChip(null);
+			project1.getLastChippedField().setChipped(false);
+			player.chips.add(chip1);
+			Chip chip2=project2.getLastChippedField().getChip();
+			project2.getLastChippedField().setChip(null);
+			project2.getLastChippedField().setChipped(false);
+			player.chips.add(chip2);
+		}
+	}
+	
+	public void SZTToEveryPlayer(int value) {
+		for(Player p:players) {
+			p.setScore(value);
+		}
+	}
+	
+	public void getChipFromSecondLeftPlayer(Player player) {
+		int i=-1;
+		for(Player p:players) {
+			i++;
+			if(p==player) {
+				if(i==2) {
+					players.get(0);
+				}
+				else if(i==1) {
+					players.get(players.size()-1);
+				}
+				else if(i==0) {
+					players.get(players.size()-2);
+				}
+				else if(i>2) {
+					players.get(i-2);
+				}
+			}
+		}
+	}
 	
 	
 	public void drawVerantwortungsLOS(Player player) {

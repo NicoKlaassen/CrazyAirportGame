@@ -31,9 +31,9 @@ public class Player implements Comparable<Player> {
 		return chipsNotPlaced;
 	}
 	
-	public Chip useChip(Player player) {
+	public Chip useChip() {
 		Chip chip=null;
-		for(Chip c:player.getChips()) {
+		for(Chip c:this.getChips()) {
 			if(c.isPlaced==false) {
 				c.isPlaced=true;
 				chip=c;
@@ -64,6 +64,10 @@ public class Player implements Comparable<Player> {
 		this.chips = chips;
 	}
 
+	public void addChip(Chip chip) {
+		chips.add(chip);
+	}
+	
 	public ArrayList<VerantwortungsLOSCard> getvCards() {
 		return vCards;
 	}

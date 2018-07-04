@@ -17,16 +17,13 @@ public class SubprojectField {
 		return isChipped;
 	}
 
-
 	public void setChipped(boolean isChipped) {
 		this.isChipped = isChipped;
 	}
 
-
 	public int getAmountSZT() {
 		return amountSZT;
 	}
-
 
 	public boolean isVField() {
 		return isVField;
