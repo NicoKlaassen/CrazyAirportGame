@@ -9,23 +9,37 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class CrazyAirportGame extends Game{
-
+	private int html = 2;
+	
 	@Override
 	public String getSite() {
-		// TODO Auto-generated method stub
+		try {
+			if(html==1) {
+				return FileHelper.getFile("CrazyAirportGame/lobby.html");
+			}
+			if(html==2) {
+				return FileHelper.getFile("CrazyAirportGame/spiel.html");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
 	public String getCSS() {
-		// TODO Auto-generated method stub
+		try {
+			return global.FileHelper.getFile("CrazyAirportGame/css/CrazyAirportGame.css");
+		} catch (IOException e) {
+			System.err
+					.println("Loading of file CrazyAirportGame/css/CrazyAirportGame.css failed");
+		}
 		return null;
 	}
 
 	@Override
 	public String getJavaScript() {
-		// TODO Auto-generated method stub
-		return null;
+		return "<script src=\"javascript/CrazyAirportGame.js\"></script>";
 	}
 
 	@Override
