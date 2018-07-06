@@ -7,15 +7,21 @@ public class Subproject {
 	private String name;
 	private ArrayList<SubprojectField> fields;
 	private int nextFree;
+	private int id;
 	
-	public Subproject(String name, ArrayList<SubprojectField> fields) {
+	public Subproject(String name, ArrayList<SubprojectField> fields, int id) {
 		this.name=name;
 		this.fields=fields;
 		this.nextFree=0;
+		this.id=id;
 	}
 	
+	public int getId() {
+		return id;
+	}
+
 	public SubprojectField setChip(Chip chip) {
-		SubprojectField result=this.getNextFreeField();
+		SubprojectField result=this.fields.get(nextFree);
 		result.setChip(chip);
 		nextFree++;
 		return result;
@@ -23,8 +29,8 @@ public class Subproject {
 	
 	public Chip removeLastChip() {
 		nextFree--;
-		Chip result=this.getNextFreeField().getChip();
-		getNextFreeField().setChip(null);
+		Chip result=this.fields.get(nextFree).getChip();
+		fields.get(nextFree).setChip(null);
 		return result;
 	}
 	
@@ -35,9 +41,17 @@ public class Subproject {
 		}
 	}
 	
-	public SubprojectField getNextFreeField() {
-		return fields.get(nextFree);
+	public SubprojectField getFinishField() {
+		return this.fields.get(fields.size()-1);
 	}
+	
+	public ArrayList<SubprojectField> getFields() {
+		return fields;
+	}
+
+/*	public SubprojectField getNextFreeField() {
+		return fields.get(nextFree);
+	}*/
 	
 	public boolean isNextFreeFieldLast() {
 		return nextFree==fields.size()-1;

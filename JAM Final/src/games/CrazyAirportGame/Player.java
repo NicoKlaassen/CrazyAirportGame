@@ -2,23 +2,25 @@ package games.CrazyAirportGame;
 
 import java.util.ArrayList;
 
+import userManagement.User;
+
 public class Player implements Comparable<Player> {
 
-	String name;
-	int score;
-	ArrayList<Chip> chips = new ArrayList<Chip>();
-	ArrayList<VerantwortungsLOSCard> vCards = new ArrayList<VerantwortungsLOSCard>();
-	ArrayList<EreginisLOSCard> eCards = new ArrayList<EreginisLOSCard>();
-	boolean skipNextRound;
-	boolean hasVCard11;
-	boolean hasVCard23;
-	
-	public Player(String name){
-		this.name=name;
+	private int score;
+	private ArrayList<Chip> chips = new ArrayList<Chip>();
+	private ArrayList<VerantwortungsLOSCard> vCards = new ArrayList<VerantwortungsLOSCard>();
+	private ArrayList<EreginisLOSCard> eCards = new ArrayList<EreginisLOSCard>();
+	private boolean skipNextRound;
+	private boolean hasVCard11;
+	private boolean hasVCard23;
+	private User user;
+
+	public Player(User user){
 		score=0;
 		this.skipNextRound=false;
 		this.hasVCard11=false;
 		this.hasVCard23=false;
+		this.user=user;
 	}
 	
 	public boolean isChipStealable() {
@@ -77,16 +79,20 @@ public class Player implements Comparable<Player> {
 		this.hasVCard11 = hasVCard11;
 	}
 
-	public boolean isHasVCard24() {
+	public boolean isHasVCard23() {
 		return hasVCard23;
 	}
 
-	public void setHasVCard24(boolean hasVCard24) {
+	public void setHasVCard23(boolean hasVCard24) {
 		this.hasVCard23 = hasVCard24;
 	}
+	
+	public User getUser() {
+		return user;
+	}
 
-	public String getName() {
-		return name;
+	public ArrayList<Chip> getChips() {
+		return chips;
 	}
 
 /*	@Override

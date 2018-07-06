@@ -461,7 +461,7 @@ public class TableOld {
 	}
 	
 	public void setCard23True(Player player) {
-		player.setHasVCard24(true);
+		player.setHasVCard23(true);
 	}
 	
 	public void drawVerantwortungsLOS(Player player) {
