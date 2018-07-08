@@ -1,0 +1,15 @@
+#dice{
+    float : left;
+}
+
+#diceText{
+    padding-left: 25px;
+}
+
+#projects{
+    float : left;
+}
+
+#exit{
+    float : right;
+}

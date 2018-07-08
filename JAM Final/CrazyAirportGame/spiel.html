@@ -23,7 +23,7 @@
 			  <tr>
 				<th>Nr.</th>
 				<th>Name</th>
-				<th>Steuerzahlertaler in Mio.</th>
+				<th>Steuerzahlertaler</th>
 				<th>Chips</th>
 			  </tr>
 			</thead>
@@ -31,37 +31,93 @@
 			  <tr>
 				<td>1</td>
 				<td>Nico</td>
-				<td>20</td>
+				<td>200 Mio.</td>
 				<td>7</td>
 			  </tr>
 			  <tr>
 				<td>2</td>
 				<td>Emre</td>
-				<td>20</td>
+				<td>200 Mio.</td>
 				<td>7</td>
 			  </tr>
 			  <tr>
 				<td>3</td>
 				<td>Marius</td>
-				<td>20</td>
+				<td>200 Mio.</td>
 				<td>7</td>
 			  </tr>
 			  <tr>
 				<td>4</td>
 				<td>Furkan</td>
-				<td>20</td>
+				<td>200 Mio.</td>
 				<td>7</td>
 			  </tr>
 			  <tr>
 				<td>5</td>
 				<td>Martin</td>
-				<td>20</td>
+				<td>200 Mio.</td>
 				<td>7</td>
 			  </tr>
 			</tbody>
-		  </table>
-		  <button type="button" class="btn btn-success" onclick="init();" >Würfeln</button>
-		  <button type="button" class="btn btn-danger">Spiel verlassen</button>
+			</table>
+			
+			<p id="dice">
+				<button type="button" id="wuerfelBut" class="btn btn-success" onclick="roll()" >Würfeln</button>
+				<h3 id="diceText">Ergebnis: 3</h3>
+			</p>
+
+			<table class="table table-sm" id="projects">
+				<thead>
+					<tr>
+					<th>Teilabschnitt</th>
+					<th>Besitzer</th>
+					<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+					<td style="color:#ADBBAA">Landebahn Nord</td>
+					<td>2</td>
+					<td><button type="button" class="btn btn-primary btn-sm" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#F2AA56">Landebahn Süd</td>
+					<td>3</td>
+					<td><button type="button" class="btn btn-primary btn-sm" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#92684F">Vorfeld</td>
+					<td>1</td>
+					<td><button type="button" class="btn btn-primary btn-sm" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#BE82B5">Hauptterminal</td>
+					<td>5</td>
+					<td><button type="button" class="btn btn-primary btn-sm" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#6487C1">Terminal A</td>
+					<td>4</td>
+					<td><button type="button" class="btn btn-primary btn-sm" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#DECB62">Terminal B</td>
+					<td>-</td>
+					<td style="color:#FF0800">Nicht begonnen</td>
+					</tr>
+					<tr>
+					<td style="color:#EA9988">Feuerwache</td>
+					<td>-</td>
+					<td style="color:#FF0800">Nicht begonnen</td>
+					</tr>
+					<tr>
+					<td style="color:#A8D9E7">Parkplatz</td>
+					<td>5</td>
+					<td style="color:#31FF00">Abgeschlossen</td>
+					</tr>
+				</tbody>
+				</table>
+		  <button type="button" id="exit" class="btn btn-danger">Spiel verlassen</button>
 	</div>
 	</div>
 
