@@ -87,6 +87,10 @@ public class Player implements Comparable<Player> {
 		this.hasVCard23 = hasVCard24;
 	}
 	
+	public ArrayList<VerantwortungsLOSCard> getvCards() {
+		return vCards;
+	}
+
 	public User getUser() {
 		return user;
 	}

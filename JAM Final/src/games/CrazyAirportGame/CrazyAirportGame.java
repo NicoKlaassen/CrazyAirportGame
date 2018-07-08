@@ -48,20 +48,35 @@ public class CrazyAirportGame extends Game{
     			sendGameDataToClients("showECard");
     			switch(eCard.getId()) {
     			case 3:
+    				sendGameDataToUser(table.getCurrent().getUser(), "askForProjectToSetTwoChips");
     				break;
     			case 10:
+    				sendGameDataToUser(table.getLeftNeighbor().getUser(), "burn20ORPlaceChip");
     				break;
     			case 24:
+    				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
     				break;
     			case 42:
+    				sendGameDataToUser(table.getCurrent().getUser(), "aksForInAndOutProject");
     				break;
     			case 47:
+    				table.getCurrent().raiseScore(20);
+    				VerantwortungsLOSCard vCard=table.drawVCard();
+        			messageToSend=Integer.toString(vCard.getId());
+        			sendGameDataToClients("showVCard");
     				break;
     			case 49:
+    				VerantwortungsLOSCard vCard2=table.drawVCard();
+        			messageToSend=Integer.toString(vCard2.getId());
+        			sendGameDataToClients("showVCard");
     				break;
     			case 51:
+    				sendGameDataToUser(table.getCurrent().getUser(), "choosePlayerToStealFrom");
     				break;
     			case 53:
+    				VerantwortungsLOSCard vCard3=table.drawVCard();
+        			messageToSend=Integer.toString(vCard3.getId());
+        			sendGameDataToClients("showVCard");
     				break;
     			default:
     				table.processStandardECard(eCard);
@@ -82,16 +97,35 @@ public class CrazyAirportGame extends Game{
     			sendGameDataToClients("showVCard");
     			switch(vCard.getId()) {
     			case 8:
+    				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsTwiceBurn");
     				break;
     			case 12:
+    				table.getCurrent().raiseScore(50);
+    				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelection");
     				break;
     			case 15:
+    				table.getCurrent().raiseScore(100);
+    				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");
     				break;
     			case 16:
+    				table.getCurrent().raiseScore(100);
+    				if(table.getCurrent().getChips().size()>=2) {
+    					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsPlaceTwoChips");
+    				}
+    				else if(table.getCurrent().getChips().size()==1) {
+    					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+    				}
     				break;
     			case 17:
+    				if(table.getCurrent().getChips().size()>=2) {
+    					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsPlaceTwoChips");
+    				}
+    				else if(table.getCurrent().getChips().size()==1) {
+    					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+    				}
     				break;
     			case 20:
+    				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsExtraDice");
     				break;
     			default:
     				table.processStandardVCard(vCard);
@@ -104,7 +138,6 @@ public class CrazyAirportGame extends Game{
     	reactionMethods.put("specialCardAnswer11", (User user, JsonObject message)->{
     		boolean answer=message.get("answer").getAsBoolean();
     		if(answer) {
-    			//ToDo handle Card 11
     			sendGameDataToUser(table.getCurrent().getUser(), "showCard11Choice");
     		}
     		else {
@@ -120,7 +153,6 @@ public class CrazyAirportGame extends Game{
     	reactionMethods.put("specialCardAnswer23", (User user, JsonObject message)->{
     		boolean answer=message.get("answer").getAsBoolean();
     		if(answer) {
-    			//ToDo handle Card 23
     			sendGameDataToUser(table.getCurrent().getUser(), "showCard23Choice");
     		}
     		else {
@@ -146,14 +178,122 @@ public class CrazyAirportGame extends Game{
     		sendGameDataToUser(table.getCurrent().getUser(), "showDiceButton");
 		});
     	
-    	reactionMethods.put("subprojectAnswer", (User user, JsonObject message)->{
+    	reactionMethods.put("subprojectAnswerTwoChipsInOneProject", (User user, JsonObject message)->{
     		Subproject answerProject=table.getActiveProjectByID(message.get("projectID").getAsInt());
     		table.setTwoChipsInOneProject(answerProject);
     		sendGameDataToClients("tableStatus");
+			table.endTurn();
     	});
     	
+    	reactionMethods.put("removeChipFromProjectAndPutItIntoAnotherAnswer",(User user, JsonObject message)->{
+    		Subproject fromProject=table.getActiveProjectByID(message.get("fromProjectID").getAsInt());
+    		Subproject toProject=table.getActiveProjectByID(message.get("toProjectID").getAsInt());
+    		table.removeChipFromProjectAndPutItIntoAnother(fromProject, toProject);
+    		sendGameDataToClients("tableStatus");
+    		table.endTurn();
+    	});
     	
+    	reactionMethods.put("removeChipFromProjectAndPutItIntoAnotherAnswerExtraDice",(User user, JsonObject message)->{
+    		Subproject fromProject=table.getActiveProjectByID(message.get("fromProjectID").getAsInt());
+    		Subproject toProject=table.getActiveProjectByID(message.get("toProjectID").getAsInt());
+    		table.removeChipFromProjectAndPutItIntoAnother(fromProject, toProject);
+    		sendGameDataToClients("showDiceButton");
+    	});
     	
+    	reactionMethods.put("add2ChipsOnExistingProjects", (User user, JsonObject message)-> {
+    		Subproject answerProject1=table.getActiveProjectByID(message.get("projectID1").getAsInt());
+    		Subproject answerProject2=table.getActiveProjectByID(message.get("projectID2").getAsInt());
+    		if(answerProject1.getId()==answerProject2.getId()) {
+    			table.add2ChipsOnTheSameProject(answerProject1);
+    		}
+    		else if(answerProject1.getId()!=answerProject2.getId()) {
+    			table.add2ChipsOnExistingProjects(answerProject1, answerProject2);
+    		}
+    		sendGameDataToClients("tableStatus");
+    		table.endTurn();
+    	});
+    	
+    	reactionMethods.put("chipOnFieldBurnSZTTwice", (User user, JsonObject message)-> {
+    		Subproject answerProject=table.getActiveProjectByID(message.get("projectID").getAsInt());
+    		table.setChipOnExistingProjectBurnSZTTwice(answerProject);
+    		sendGameDataToClients("tableStatus");
+    		table.endTurn();
+    	});
+    	
+    	reactionMethods.put("remove2ChipsFromProjectsAndAddToPlayer", (User user, JsonObject message)-> {
+    		Subproject answerProject1=table.getActiveProjectByID(message.get("projectID1").getAsInt());
+    		Subproject answerProject2=table.getActiveProjectByID(message.get("projectID2").getAsInt());
+    		table.remove2ChipsFromProjectsAndAddToPlayer(answerProject1, answerProject2);
+    		sendGameDataToClients("tableStatus");
+    		table.endTurn();
+    	});
+    	
+    	reactionMethods.put("twoChipsInOneProject", (User user, JsonObject message)-> {
+    		Subproject answerProject=table.getActiveProjectByID(message.get("projectID").getAsInt());
+    		table.setTwoChipsInOneProject(answerProject);
+    		sendGameDataToClients("tableStatus");
+    		table.endTurn();
+    	});
+    	
+    	reactionMethods.put("takeAway20SZTFromPlayer", (User user, JsonObject message)-> {
+    		Player player=table.getPlayerByName(message.get("player").getAsString());
+    		table.takeAway20SZTFromPlayer(player);
+    		sendGameDataToClients("tableStatus");
+    		table.endTurn();
+    	});
+    	
+    	reactionMethods.put("burnOrPlace", (User user, JsonObject message)-> {
+    		boolean answer=message.get("decision").getAsBoolean();
+    		if(answer) {
+    			table.getCurrent().raiseScore(20);
+    			sendGameDataToClients("tableStatus");
+        		table.endTurn();
+    		}
+    		else if(!answer){
+    			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+    		}
+    	});
+    	
+    	reactionMethods.put("processVCard", (User user, JsonObject message)-> {
+    		int id=message.get("VCardID").getAsInt();
+    		switch(id) {
+			case 8:
+				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsTwiceBurn");
+				break;
+			case 12:
+				table.getCurrent().raiseScore(50);
+				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelection");
+				break;
+			case 15:
+				table.getCurrent().raiseScore(100);
+				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");
+				break;
+			case 16:
+				table.getCurrent().raiseScore(100);
+				if(table.getCurrent().getChips().size()>=2) {
+					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsPlaceTwoChips");
+				}
+				else if(table.getCurrent().getChips().size()==1) {
+					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+				}
+				break;
+			case 17:
+				if(table.getCurrent().getChips().size()>=2) {
+					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsPlaceTwoChips");
+				}
+				else if(table.getCurrent().getChips().size()==1) {
+					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+				}
+				break;
+			case 20:
+				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsExtraDice");
+				break;
+			default:
+				table.processStandardVCard(table.getVCardFromCurrentByID(id));
+			}
+		sendGameDataToClients("tableStatus");
+		table.endTurn();
+    	});
     }
     
     

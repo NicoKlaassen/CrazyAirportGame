@@ -193,6 +193,16 @@ public class Table {
 		return null;
 	}
 	
+	public VerantwortungsLOSCard getVCardFromCurrentByID(int id) {
+		for(VerantwortungsLOSCard vCard:current.getvCards()) {
+			if(vCard.getId()==id) {
+				return vCard;
+			}
+		}
+		return null;
+	}
+	
+	
 	//Assign exactly one project to every player and directly opens it up
 	public void assignAndStartInitialProjects() {
 		for(Player p:players) {
@@ -269,10 +279,7 @@ public class Table {
 		return result;
 	}
 	
-	/*Should process a drawn V-Card by performing its specified action
-	*Idea
-	*	- using a switch over the Card-
-	*/
+	//Performances VCard with actions that don't need any input by the player
 	public void processStandardVCard(VerantwortungsLOSCard card) {
 		switch(card.getId()) {
 		case (1):
@@ -299,10 +306,31 @@ public class Table {
 			break;
 		case (7):
 			break;
-		
+		case (9):
+		case (10):
+		case (13):
+			break;
+		case (18):
+			raiseScoreOfEveryPlayer(50);
+			break;
+		case (19):
+			current.raiseScore(100);
+			secondLeftNeighborGivesChipToCurrent();
+			break;
+		case (21):
+			secondLeftNeighborGivesSZTToCurrent(50);
+			break;
+		case (22):
+			SZTFromEveryOtherPlayer(30);
+			break;
+		case (24):
+			current.raiseScore(50);
+			secondLeftNeighborGivesChipToCurrent();
+			break;
 		}
 	}
 	
+	//Performances ECard with actions that don't need any input by the player
 	public void processStandardECard(EreginisLOSCard card) {
 		switch(card.getId()) {
 		case 1:
@@ -497,10 +525,12 @@ public class Table {
 		projectsActive.remove(project);
 	}
 
+	//Returns the right neighbor of the current player
 	public Player getRightNeigbour() {
 		return players.get((players.indexOf(current)+1)%players.size());
 	}
 	
+	//Returns the left neighbor of the current player
 	public Player getLeftNeighbor() {
 		if(players.indexOf(current)==0) {
 			return players.get(players.size()-1);
@@ -510,10 +540,12 @@ public class Table {
 		}
 	}
 	
+	//Makes the current player skip the next round
 	public void makePlayerSkipNextRound() {
 		current.setSkipNextRound(true);
 	}
 	
+	//Removes one non-start-chip from an active project and puts it into another
 	public void removeChipFromProjectAndPutItIntoAnother(Subproject fromProject, Subproject toProject) {
 		if(fromProject.chipCanBeRemoved()){
 			Chip removedChip=fromProject.removeLastChip();
@@ -521,20 +553,30 @@ public class Table {
 		}
 	}
 	
-	public void add2ChipsOnExistingProject(Subproject projectA, Subproject projectB) {
+	//Instead of adding one chip (like normal) on one project this methods sets two chips on two projects
+	public void add2ChipsOnExistingProjects(Subproject projectA, Subproject projectB) {
 		current.raiseScore(projectA.setChip(current.removeChip()).getAmountSZT());
 		current.raiseScore(projectB.setChip(current.removeChip()).getAmountSZT());
 	}
 	
+	//sets two chips on one project
+	public void add2ChipsOnTheSameProject(Subproject project) {
+		current.raiseScore(project.setChip(current.removeChip()).getAmountSZT());
+		current.raiseScore(project.setChip(current.removeChip()).getAmountSZT());
+	}
+	
+	//Sets chip on existing project and burns the SZT twice
 	public void setChipOnExistingProjectBurnSZTTwice(Subproject project) {
 		current.raiseScore(project.setChip(current.removeChip()).getAmountSZT()*2);
 	}
 	
+	//removes two chips from active projects and adds it to chip-list of current player
 	public void remove2ChipsFromProjectsAndAddToPlayer(Subproject projectA, Subproject projectB) {
 		current.addChip(projectA.removeLastChip());
 		current.addChip(projectB.removeLastChip());
 	}
 	
+	//raises score of every player by specific amount
 	public void SZTToEveryOtherPlayer(int value) {
 		for(Player p:players) {
 			if(p!=current) {
@@ -543,6 +585,17 @@ public class Table {
 		}
 	}
 	
+	//gives current player specific SZT amount from other players
+	public void SZTFromEveryOtherPlayer(int value) {
+		for(Player p:players) {
+			if(p!=current) {
+				p.lowerScore(value);
+				current.raiseScore(value);
+			}
+		}
+	}
+	
+	//current player gets a chip from its second left neighbor
 	public void secondLeftNeighborGivesChipToCurrent() {
 		if(players.indexOf(current)<2) {
 			current.addChip(players.get(players.size()-players.indexOf(current)-1).removeChip());
@@ -552,7 +605,8 @@ public class Table {
 		}
 	}
 	
-	public void secondLeftNeighborGivesChipToCurrent(int value) {
+	//current player gets specific SZT ampunt from his second left neighbor
+	public void secondLeftNeighborGivesSZTToCurrent(int value) {
 		if(players.indexOf(current)<2) {
 			players.get(players.size()-players.indexOf(current)-1).lowerScore(value);
 			current.raiseScore(value);
@@ -563,6 +617,7 @@ public class Table {
 		}
 	}
 	
+	//left neighbor of current player gets its score raised by a specified value
 	public void leftNeighborRaiseScore(int value) {
 		if(players.indexOf(current)<2) {
 			players.get(players.size()-players.indexOf(current)-1).raiseScore(value);
@@ -572,31 +627,37 @@ public class Table {
 		}
 	}
 	
+	//instead of putting one chip in one project the current player sets two chips in one project
 	public void setTwoChipsInOneProject(Subproject project) {
 		current.raiseScore(project.setChip(current.removeChip()).getAmountSZT());
 		current.raiseScore(project.setChip(current.removeChip()).getAmountSZT());
 	}
 	
+	//raises score of every player including the current one
 	public void raiseScoreOfEveryPlayer(int value) {
 		for(Player p:players) {
 			p.raiseScore(value);
 		}
 	}
 	
+	//current gets specified amount of SZT from current player
 	public void takeSZTFromRightNeighbor(int value) {
 		getRightNeigbour().lowerScore(value);
 		current.raiseScore(value);
 	}
 	
+	//second right neighbor of current player gets his score raised by a specified amount
 	public void raiseScoreSecondRightNeighbor(int value) {
 		players.get((players.indexOf(current)+2)%players.size()).raiseScore(value);
 	}
 	
+	//right neighbor of the current player gets his score raised by specified amount
 	public void giveSZTToRightNeighbor(int value) {
 		current.lowerScore(value);
 		getRightNeigbour().raiseScore(value);
 	}
 	
+	//current player gets 20 million SZT from a player of his choice
 	public void takeAway20SZTFromPlayer(Player player) {
 		player.lowerScore(20);
 		current.raiseScore(20);
