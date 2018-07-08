@@ -146,6 +146,14 @@ public class CrazyAirportGame extends Game{
     		sendGameDataToUser(table.getCurrent().getUser(), "showDiceButton");
 		});
     	
+    	reactionMethods.put("subprojectAnswer", (User user, JsonObject message)->{
+    		Subproject answerProject=table.getActiveProjectByID(message.get("projectID").getAsInt());
+    		table.setTwoChipsInOneProject(answerProject);
+    		sendGameDataToClients("tableStatus");
+    	});
+    	
+    	
+    	
     }
     
     

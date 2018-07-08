@@ -1,4 +1,4 @@
-package games.CrazyAirportGame;
+/*package games.CrazyAirportGame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -197,12 +197,12 @@ public class TableOld {
 		return isBuilt;
 	}
 	
-	/*Finishes project by:
+	Finishes project by:
 	 * 	- Setting last field on chipped
 	 * 	- Putting chip on field
 	 * 	- Reduce score of other players by fieldSZT and up amount of player
 	 * 	- setting built=true and active=false
-	 */
+	 
 	public void finishProject(Subproject project, Player player) {
 		Chip chip=player.useChip();
 		SubprojectField lastField=project.getLastField();
@@ -579,3 +579,4 @@ public class TableOld {
 	}
 
 }
+*/

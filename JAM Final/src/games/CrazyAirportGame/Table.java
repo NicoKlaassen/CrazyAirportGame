@@ -274,11 +274,158 @@ public class Table {
 	*	- using a switch over the Card-
 	*/
 	public void processStandardVCard(VerantwortungsLOSCard card) {
-		//ToDO
+		switch(card.getId()) {
+		case (1):
+			current.raiseScore(100);
+			break;
+		case (2):
+			current.raiseScore(50);
+			getRightNeigbour().raiseScore(100);
+			break;
+		case (3):
+			getLeftNeighbor().raiseScore(50);
+			break;
+		case (4):
+			current.raiseScore(100);
+			break;
+		case (5):
+			current.setSkipNextRound(true);
+			break;
+		case (6):
+			current.raiseScore(70);
+			if(!projectsAvailable.isEmpty()) {
+				openUpProject(drawProject());
+			}
+			break;
+		case (7):
+			break;
+		
+		}
 	}
 	
 	public void processStandardECard(EreginisLOSCard card) {
-		//ToDO
+		switch(card.getId()) {
+		case 1:
+			current.raiseScore(20);
+			break;
+		case 2:
+			current.raiseScore(10);
+			getLeftNeighbor().raiseScore(20);
+			break;
+		case 4:
+			raiseScoreOfEveryPlayer(10);
+			break;
+		case 5:
+			current.raiseScore(10);
+			break;
+		case 6:
+			break;
+		case 7:
+			current.raiseScore(30);
+			break;
+		case 8:
+			break;
+		case 9:
+			current.raiseScore(20);
+			break;
+		case 11:
+			getLeftNeighbor().raiseScore(10);
+			getRightNeigbour().raiseScore(10);
+			break;
+		case (12):
+		case (13):
+		case (14):
+			current.raiseScore(10);
+			break;
+		case (15):
+		case (16):
+		case (17):
+			break;
+		case (18):
+			current.raiseScore(30);
+			break;
+		case (19):
+			current.raiseScore(20);
+			break;
+		case (20):
+			current.raiseScore(50);
+			break;
+		case (21):
+			getRightNeigbour().lowerScore(50);
+			current.raiseScore(50);
+			break;
+		case (22):
+			current.raiseScore(20);
+			break;
+		case (23):
+			break;
+		case (25):
+			current.raiseScore(20);
+			break;
+		case (26):
+		case (27):
+		case (28):
+		case (29):
+		case (30):
+		case (31):
+			current.raiseScore(10);
+		case (32):
+			current.raiseScore(30);
+		case (33):
+			current.raiseScore(20);
+		case (34):
+			current.raiseScore(20);
+			getRightNeigbour().raiseScore(10);
+		case (35):
+			current.raiseScore(20);
+		case (36):{
+			if(!projectsAvailable.isEmpty()) {
+				openUpProject(drawProject());				
+			}
+			else current.raiseScore(30);
+			}
+			break;
+		case (37):
+			current.raiseScore(20);
+			break;
+		case (38):
+			current.raiseScore(10);
+			break;
+		case (39):
+			current.raiseScore(10);
+			raiseScoreSecondRightNeighbor(10);
+			break;
+		case (40):
+			current.raiseScore(20);
+			break;
+		case (41):
+			current.raiseScore(10);
+			break;
+		case (43):
+			current.lowerScore(20);
+			getRightNeigbour().raiseScore(20);
+			break;
+		case (44):
+		case (45):
+			current.raiseScore(20);
+			break;
+		case (46):
+			raiseScoreOfEveryPlayer(10);
+			break;
+		case (48):
+			current.raiseScore(20);
+		case (50):
+			break;
+		case (52):
+			current.raiseScore(20);
+			break;
+		case (54):
+			current.raiseScore(50);
+			break;
+		case (55):
+			current.raiseScore(10);
+			break;
+		}
 	}
 	
 	/*Sets chip on a field and reacts to the type of the field and adds SZT to players score no matter what
@@ -441,7 +588,7 @@ public class Table {
 		current.raiseScore(value);
 	}
 	
-	public void raiseScoreSecondRightPlayer(int value) {
+	public void raiseScoreSecondRightNeighbor(int value) {
 		players.get((players.indexOf(current)+2)%players.size()).raiseScore(value);
 	}
 	
