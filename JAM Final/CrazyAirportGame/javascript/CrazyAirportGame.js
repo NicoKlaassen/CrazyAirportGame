@@ -10,6 +10,7 @@ function roll() {
     console.log("wuerfel rollen");
     if(document.getElementById("projects").style.display=='none'){
         document.getElementById("projects").style.display='block';
+        document.getElementById("projects").style.width='376px';
         document.getElementById("diceText").style.display='block';
     }
     else{
