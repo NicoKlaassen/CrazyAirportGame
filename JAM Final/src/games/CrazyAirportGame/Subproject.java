@@ -2,6 +2,9 @@ package games.CrazyAirportGame;
 
 import java.util.ArrayList;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 public class Subproject {
 
 	private String name;
@@ -45,6 +48,10 @@ public class Subproject {
 		return this.fields.get(fields.size()-1);
 	}
 	
+	public int getFreeFieldsLeft() {
+		return fields.size()-nextFree;
+	}
+	
 	public ArrayList<SubprojectField> getFields() {
 		return fields;
 	}
@@ -79,6 +86,17 @@ public class Subproject {
 
 	public String getName() {
 		return name;
+	}
+
+	public JsonObject toJson() {
+		JsonObject result=new JsonObject();
+		JsonArray array=new JsonArray();
+		for(SubprojectField field:this.fields) {
+			array.add(field.toJson());
+		}
+		result.addProperty("id", this.id);
+		result.add("fields", array);
+		return result;
 	}
 
 /*	public ArrayList<SubprojectField> getFields() {

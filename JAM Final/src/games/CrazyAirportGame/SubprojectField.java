@@ -1,5 +1,8 @@
 package games.CrazyAirportGame;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 public class SubprojectField {
 	
 	private final int amountSZT;
@@ -35,6 +38,18 @@ public class SubprojectField {
 
 	public void setChip(Chip chip) {
 		this.chip = chip;
+	}
+
+	public JsonObject toJson() {
+		JsonObject result=new JsonObject();
+		Chip chip=this.getChip();
+		if(chip!=null) {
+			result.addProperty("Chip", chip.getCurrentOwner().getColor());
+		}
+		else {
+			result.addProperty("Chip", "none");
+		}
+		return result;
 	}
 
 	

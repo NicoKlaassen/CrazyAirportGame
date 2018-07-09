@@ -2,6 +2,9 @@ package games.CrazyAirportGame;
 
 import java.util.ArrayList;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import userManagement.User;
 
 public class Player implements Comparable<Player> {
@@ -14,13 +17,16 @@ public class Player implements Comparable<Player> {
 	private boolean hasVCard11;
 	private boolean hasVCard23;
 	private User user;
+	private String color;
 
-	public Player(User user){
+
+	public Player(User user, String color){
 		score=0;
 		this.skipNextRound=false;
 		this.hasVCard11=false;
 		this.hasVCard23=false;
 		this.user=user;
+		this.color=color;
 	}
 	
 	public boolean isChipStealable() {
@@ -97,6 +103,18 @@ public class Player implements Comparable<Player> {
 
 	public ArrayList<Chip> getChips() {
 		return chips;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public JsonObject toJson() {
+		JsonObject player=new JsonObject();
+		player.addProperty("name", this.getUser().getName());
+		player.addProperty("score", this.getScore());
+		player.addProperty("color", this.getColor());
+		return player;
 	}
 
 /*	@Override

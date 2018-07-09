@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 public class Table {
 
 	private ArrayList<Subproject> projectsAvailable;
@@ -663,9 +666,42 @@ public class Table {
 		current.raiseScore(20);
 	}
 	
+	public JsonObject toJson() {
+		JsonObject result=new JsonObject();
+		JsonArray active=new JsonArray();
+		JsonArray available=new JsonArray();
+		JsonArray finished=new JsonArray();
+		JsonArray players=new JsonArray();
+		for(Subproject project:projectsAvailable) {
+			available.add(project.toJson());
+		}
+		for(Subproject project:projectsActive) {
+			active.add(project.toJson());
+		}
+		for(Subproject project:projectsFinished) {
+			finished.add(project.toJson());
+		}
+		result.add("active", active);
+		result.add("available", available);
+		result.add("finished", finished);
+		for(Player p:this.players) {
+			players.add(p.toJson());
+		}
+		result.add("players", players);
+		return result;
+	}
 	
+	public ArrayList<Subproject> getActiveProjectsMoreThenOneFreeField(){
+		ArrayList<Subproject> projects=new ArrayList<Subproject>();
+		for(Subproject project:projectsActive) {
+			if(project.getFreeFieldsLeft()>=2) {
+				projects.add(project);
+			}
+		}
+		return projects;
+	}
 	
-	
+
 	
 	
 	

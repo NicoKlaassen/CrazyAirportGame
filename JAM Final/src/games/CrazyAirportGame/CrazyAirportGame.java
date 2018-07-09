@@ -12,6 +12,7 @@ import java.util.Random;
 import java.util.function.BiConsumer;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -22,6 +23,7 @@ public class CrazyAirportGame extends Game{
     private static final String HTML = "CrazyAirportGame/CrazyAirportGame.html";
     private static final String LadenFehlgeschlagen = "<h2>Laden fehlgeschlagen</h2>";
     private static final int MaxPlayers = 5;
+    private static final int MinPlayers =3;
     Table table=new Table();
     HashMap<String, BiConsumer<User, JsonObject>> reactionMethods = new HashMap<>();
     Gson gsonFormatter = new Gson();
@@ -64,11 +66,13 @@ public class CrazyAirportGame extends Game{
     				VerantwortungsLOSCard vCard=table.drawVCard();
         			messageToSend=Integer.toString(vCard.getId());
         			sendGameDataToClients("showVCard");
+        			handleVCardCommunication(vCard.getId());
     				break;
     			case 49:
     				VerantwortungsLOSCard vCard2=table.drawVCard();
         			messageToSend=Integer.toString(vCard2.getId());
         			sendGameDataToClients("showVCard");
+        			handleVCardCommunication(vCard2.getId());
     				break;
     			case 51:
     				sendGameDataToUser(table.getCurrent().getUser(), "choosePlayerToStealFrom");
@@ -77,6 +81,7 @@ public class CrazyAirportGame extends Game{
     				VerantwortungsLOSCard vCard3=table.drawVCard();
         			messageToSend=Integer.toString(vCard3.getId());
         			sendGameDataToClients("showVCard");
+        			handleVCardCommunication(vCard3.getId());
     				break;
     			default:
     				table.processStandardECard(eCard);
@@ -86,9 +91,11 @@ public class CrazyAirportGame extends Game{
     		}
     		else {
     			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+    			
     		}
     	});
     	
+    	//In allen Methoden tableStatus
     	reactionMethods.put("chosenProject", (User user, JsonObject message)->{
     		int chosenProject=message.get("projectID").getAsInt();
     		if(table.setChipOnProject(table.getAvailableProjectByID(chosenProject))) {
@@ -129,11 +136,13 @@ public class CrazyAirportGame extends Game{
     				break;
     			default:
     				table.processStandardVCard(vCard);
+    				table.endTurn();
     			}
     		}
+    		else {
     		sendGameDataToClients("tableStatus");
 			table.endTurn();
-    	});
+    		}});
     	
     	reactionMethods.put("specialCardAnswer11", (User user, JsonObject message)->{
     		boolean answer=message.get("answer").getAsBoolean();
@@ -197,7 +206,7 @@ public class CrazyAirportGame extends Game{
     		Subproject fromProject=table.getActiveProjectByID(message.get("fromProjectID").getAsInt());
     		Subproject toProject=table.getActiveProjectByID(message.get("toProjectID").getAsInt());
     		table.removeChipFromProjectAndPutItIntoAnother(fromProject, toProject);
-    		sendGameDataToClients("showDiceButton");
+    		sendGameDataToUser(table.getCurrent().getUser(), "showDiceButton");
     	});
     	
     	reactionMethods.put("add2ChipsOnExistingProjects", (User user, JsonObject message)-> {
@@ -249,74 +258,45 @@ public class CrazyAirportGame extends Game{
     			sendGameDataToClients("tableStatus");
         		table.endTurn();
     		}
-    		else if(!answer){
+    		else {
     			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
     		}
     	});
-    	
-    	reactionMethods.put("processVCard", (User user, JsonObject message)-> {
-    		int id=message.get("VCardID").getAsInt();
-    		switch(id) {
-			case 8:
-				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsTwiceBurn");
-				break;
-			case 12:
-				table.getCurrent().raiseScore(50);
-				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelection");
-				break;
-			case 15:
-				table.getCurrent().raiseScore(100);
-				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");
-				break;
-			case 16:
-				table.getCurrent().raiseScore(100);
-				if(table.getCurrent().getChips().size()>=2) {
-					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsPlaceTwoChips");
-				}
-				else if(table.getCurrent().getChips().size()==1) {
-					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
-				}
-				break;
-			case 17:
-				if(table.getCurrent().getChips().size()>=2) {
-					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsPlaceTwoChips");
-				}
-				else if(table.getCurrent().getChips().size()==1) {
-					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
-				}
-				break;
-			case 20:
-				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsExtraDice");
-				break;
-			default:
-				table.processStandardVCard(table.getVCardFromCurrentByID(id));
-			}
-		sendGameDataToClients("tableStatus");
-		table.endTurn();
-    	});
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    	
+    	
+     //TODO
+    @Override
+	public String getGameData(String eventName, User user) {
+		switch(eventName) {
+		case ("diceResult"):
+			JsonObject result=new JsonObject();
+			result.addProperty("result", messageToSend);
+			return result.toString();
+		case ("showECard"):
+			JsonObject eCard=new JsonObject();
+			eCard.addProperty("eCardID", messageToSend);
+			return eCard.toString();
+		case ("showVCard"):
+			JsonObject vCard=new JsonObject();
+			vCard.addProperty("vCardID", messageToSend);
+			return vCard.toString();
+		case ("tableStatus"):
+			return table.toJson().toString();
+		case ("askForProjectToSetTwoChips"):
+			JsonArray projects=new JsonArray();
+			for(Subproject project:table.getActiveProjectsMoreThenOneFreeField()) {
+				projects.add(project.toJson());
+			}
+			return projects.toString();
+		case ("burn20ORPlaceChip"):
+			return "";//no additional information needed for client
+		case ("showAvailableProjects"):
+
+		
+		}
+		return null;
+	}
     
     
     
@@ -352,6 +332,46 @@ public class CrazyAirportGame extends Game{
     	messageToSend = message;
         sendGameDataToClients("sendMessage");
     }
+    
+    private void handleVCardCommunication(int id) {
+    	switch(id) {
+		case 8:
+			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsTwiceBurn");
+			break;
+		case 12:
+			table.getCurrent().raiseScore(50);
+			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelection");
+			break;
+		case 15:
+			table.getCurrent().raiseScore(100);
+			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");
+			break;
+		case 16:
+			table.getCurrent().raiseScore(100);
+			if(table.getCurrent().getChips().size()>=2) {
+				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsPlaceTwoChips");
+			}
+			else if(table.getCurrent().getChips().size()==1) {
+				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+			}
+			break;
+		case 17:
+			if(table.getCurrent().getChips().size()>=2) {
+				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsPlaceTwoChips");
+			}
+			else if(table.getCurrent().getChips().size()==1) {
+				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+			}
+			break;
+		case 20:
+			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsExtraDice");
+			break;
+		default:
+			table.processStandardVCard(table.getVCardFromCurrentByID(id));
+		}
+	sendGameDataToClients("tableStatus");
+	table.endTurn();
+	}
 
     @Override
     public String getSite() {
@@ -387,6 +407,10 @@ public class CrazyAirportGame extends Game{
 	public int getMaxPlayerAmount() {
 		return MaxPlayers;
 	}
+	
+	public int getMinPlayerAmount() {
+		return MinPlayers;
+	}
 
 	@Override
 	public int getCurrentPlayerAmount() {
@@ -415,12 +439,6 @@ public class CrazyAirportGame extends Game{
 
 	@Override
 	public ArrayList<User> getSpectatorList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getGameData(String eventName, User user) {
 		// TODO Auto-generated method stub
 		return null;
 	}
