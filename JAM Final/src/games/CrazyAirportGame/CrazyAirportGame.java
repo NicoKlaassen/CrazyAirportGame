@@ -264,7 +264,10 @@ public class CrazyAirportGame extends Game{
     		}
     	});
     }
-    	
+    
+    public void startTurn() {
+		//tableStatus an alle showDiceButton an aktuellen Spieler
+	}
     	
      //TODO
     @Override
@@ -293,7 +296,49 @@ public class CrazyAirportGame extends Game{
 		case ("burn20ORPlaceChip"):
 			return "";//no additional information needed for client
 		case ("showAvailableProjects"):
-			return "";
+			JsonArray projects1= new JsonArray();
+			for(Subproject project:table.getActiveProjects()) {
+				projects1.add(project.toJson());
+			}
+			return projects1.toString();
+		case ("aksForInAndOutProject"):
+			//Hoooow
+		case ("choosePlayerToStealFrom"):
+			JsonArray players=new JsonArray();
+			for(Player p:table.getPlayers()) {
+				players.add(p.toJson());
+			}
+			return players.toString();
+		case ("showAvailableProjectsTwiceBurn"):
+			JsonArray projects2= new JsonArray();
+			for(Subproject project:table.getActiveProjects()) {
+				projects2.add(project.toJson());
+			}
+			return projects2.toString();
+		case ("showAvailableProjectTwoSelection"):
+			JsonArray projects3= new JsonArray();
+			for(Subproject project:table.getActiveProjects()) {
+				projects3.add(project.toJson());
+			}
+			return projects3.toString();
+		case ("showAvailableProjectTwoSelectionTakeChips"):
+			JsonArray projects4= new JsonArray();
+			for(Subproject project:table.getActiveProjects()) {
+				projects4.add(project.toJson());
+			}
+		return projects4.toString();
+		case ("showAvailableProjectsPlaceTwoChips"):
+			JsonArray projects5= new JsonArray();
+			for(Subproject project:table.getActiveProjects()) {
+				projects5.add(project.toJson());
+			}
+		return projects5.toString();
+		case ("showAvailableProjectsExtraDice"):
+			JsonArray projects6= new JsonArray();
+			for(Subproject project:table.getActiveProjects()) {
+				projects6.add(project.toJson());
+			}
+			return projects6.toString();
 		}
 		return null;
     }
@@ -314,31 +359,7 @@ public class CrazyAirportGame extends Game{
 		}
 		return null;
 	}
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     private void sendMessage(String message){
     	messageToSend = message;
         sendGameDataToClients("sendMessage");

@@ -67,7 +67,7 @@ public class Table {
 				new SubprojectField(10, true, false),
 				new SubprojectField(20, false, false),
 				new SubprojectField(40, false, true)));
-		projectsAvailable.add(new Subproject("Landebahn Süd",fieldsSouthStreet,2));
+		projectsAvailable.add(new Subproject("Landebahn Sï¿½d",fieldsSouthStreet,2));
 		ArrayList<SubprojectField> fieldsTerminalA=new ArrayList<SubprojectField>(Arrays.asList(
 				new SubprojectField(20, false, false),
 				new SubprojectField(20, false, false),
@@ -213,11 +213,6 @@ public class Table {
 			SubprojectField result=sp.setChip(p.removeChip());
 			p.raiseScore(result.getAmountSZT());
 		}
-	}
-	
-	
-	public void startTurn() {
-		//ToDO
 	}
 	
 	public void endTurn() {
@@ -699,6 +694,22 @@ public class Table {
 			}
 		}
 		return projects;
+	}
+	
+	public ArrayList<Subproject> getActiveProjects(){
+		ArrayList<Subproject> projects=new ArrayList<Subproject>();
+		for(Subproject project:projectsActive) {
+				projects.add(project);
+		}
+		return projects;
+	}
+	
+	public ArrayList<Player> getPlayers(){
+		ArrayList<Player> players=new ArrayList<Player>();
+		for(Player p:players) {
+			players.add(p);
+		}
+		return players;
 	}
 	
 
