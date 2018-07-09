@@ -63,7 +63,7 @@ body {
 	opacity:0.2;
 	position:absolute; 	
 	height:1000px;
-	width:790px;
+	width:1200px;
 	left:18%;
 	top:100px;
 	z-index:1;
@@ -72,7 +72,7 @@ body {
 	opacity:1;
 	position:absolute; 
 	min-height:50%;	
-	width:790px;
+	width:1200px;
 	color:#FFFFFF; 
 	padding-left:10px;
 	padding-right:-10px;

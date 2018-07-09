@@ -17,6 +17,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class CrazyAirportGame extends Game{
+
 	
 	private static final String JS = "CrazyAirportGame/js/dummy.js";
     private static final String CSS = "CrazyAirportGame/css/CrazyAirportGame.css";
@@ -292,8 +293,24 @@ public class CrazyAirportGame extends Game{
 		case ("burn20ORPlaceChip"):
 			return "";//no additional information needed for client
 		case ("showAvailableProjects"):
-
-		
+			return "";
+		}
+		return null;
+    }
+    
+	private int html = 2;
+	
+	@Override
+	public String getSite() {
+		try {
+			if(html==1) {
+				return FileHelper.getFile("CrazyAirportGame/lobby.html");
+			}
+			if(html==2) {
+				return FileHelper.getFile("CrazyAirportGame/spiel.html");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -322,15 +339,14 @@ public class CrazyAirportGame extends Game{
     
     
     
+    private void sendMessage(String message){
+    	messageToSend = message;
+        sendGameDataToClients("sendMessage");
+    }
     
     private void sendMessage(User user, String message) {
         messageToSend = message;
         sendGameDataToUser(user, "sendMessage");
-    }
-
-    private void sendMessage(String message){
-    	messageToSend = message;
-        sendGameDataToClients("sendMessage");
     }
     
     private void handleVCardCommunication(int id) {
@@ -373,35 +389,22 @@ public class CrazyAirportGame extends Game{
 	table.endTurn();
 	}
 
-    @Override
-    public String getSite() {
-        try {
-            return FileHelper.getFile(HTML);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return LadenFehlgeschlagen;
-        }
-    }
+	@Override
+	public String getCSS() {
+		try {
+			return global.FileHelper.getFile("CrazyAirportGame/css/CrazyAirportGame.css");
+		} catch (IOException e) {
+			System.err
+					.println("Loading of file CrazyAirportGame/css/CrazyAirportGame.css failed");
+		}
+		return null;
+	}
 
-    @Override
-    public String getCSS() {
-        try {
-            return FileHelper.getFile(CSS);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+	@Override
+	public String getJavaScript() {
+		return "<script src=\"javascript/CrazyAirportGame.js\"></script>";
+	}
 
-    @Override
-    public String getJavaScript() {
-        try {
-            return FileHelper.getFile(JS);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
 	@Override
 	public int getMaxPlayerAmount() {
