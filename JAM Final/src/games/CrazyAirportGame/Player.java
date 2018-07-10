@@ -12,7 +12,7 @@ public class Player implements Comparable<Player> {
 	private int score;
 	private ArrayList<Chip> chips = new ArrayList<Chip>();
 	private ArrayList<VerantwortungsLOSCard> vCards = new ArrayList<VerantwortungsLOSCard>();
-	private ArrayList<EreginisLOSCard> eCards = new ArrayList<EreginisLOSCard>();
+	private ArrayList<ErgebnisLOSCard> eCards = new ArrayList<ErgebnisLOSCard>();
 	private boolean skipNextRound;
 	private boolean hasVCard11;
 	private boolean hasVCard23;
@@ -65,7 +65,7 @@ public class Player implements Comparable<Player> {
 		this.vCards.add(vCard);
 	}
 
-	public void addeCard(EreginisLOSCard eCard) {
+	public void addeCard(ErgebnisLOSCard eCard) {
 		this.eCards.add(eCard);
 	}
 

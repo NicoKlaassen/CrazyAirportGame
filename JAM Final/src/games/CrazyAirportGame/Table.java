@@ -13,7 +13,7 @@ public class Table {
 	private ArrayList<Subproject> projectsActive;
 	private ArrayList<Subproject> projectsFinished;
 	private ArrayList<Player> players;
-	private ArrayList<EreginisLOSCard> eCards;
+	private ArrayList<ErgebnisLOSCard> eCards;
 	private ArrayList<VerantwortungsLOSCard> vCards;
 	private Player current;
 	
@@ -22,7 +22,7 @@ public class Table {
 		this.projectsAvailable=new ArrayList<Subproject>();
 		this.projectsFinished=new ArrayList<Subproject>();
 		this.players=new ArrayList<Player>();
-		this.eCards=new ArrayList<EreginisLOSCard>();
+		this.eCards=new ArrayList<ErgebnisLOSCard>();
 		this.vCards=new ArrayList<VerantwortungsLOSCard>();
 		this.current=null;
 		this.initSubprojects();
@@ -128,7 +128,7 @@ public class Table {
 	//Fills deck of EreignisLOS-Cards by setting ID's
 	public void fillEreignisLOSArray() {
 		for(int i=1; i<=55; i++) {
-			EreginisLOSCard c= new EreginisLOSCard(i);
+			ErgebnisLOSCard c= new ErgebnisLOSCard(i);
 			eCards.add(c);
 		}
 	}
@@ -259,8 +259,8 @@ public class Table {
 	
 	//Added Player as parameter to assign Card to players deck
 	// To add: Process E-Card
-	public EreginisLOSCard drawECard() {
-		EreginisLOSCard result=eCards.get(0);
+	public ErgebnisLOSCard drawECard() {
+		ErgebnisLOSCard result=eCards.get(0);
 		eCards.remove(result);
 		current.addeCard(result);
 		return result;
@@ -329,7 +329,7 @@ public class Table {
 	}
 	
 	//Performances ECard with actions that don't need any input by the player
-	public void processStandardECard(EreginisLOSCard card) {
+	public void processStandardECard(ErgebnisLOSCard card) {
 		switch(card.getId()) {
 		case 1:
 			current.raiseScore(20);

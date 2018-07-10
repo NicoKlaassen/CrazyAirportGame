@@ -46,7 +46,7 @@ public class CrazyAirportGame extends Game{
        		messageToSend=Boolean.toString(result);
     		sendGameDataToClients("diceResult");
     		if(result) {
-    			EreginisLOSCard eCard=table.drawECard();
+    			ErgebnisLOSCard eCard=table.drawECard();
     			messageToSend=Integer.toString(eCard.getId());
     			sendGameDataToClients("showECard");
     			switch(eCard.getId()) {
@@ -266,109 +266,10 @@ public class CrazyAirportGame extends Game{
     }
     
     public void startTurn() {
-		//tableStatus an alle showDiceButton an aktuellen Spieler
+    	sendGameDataToClients("tableStatus");
+    	sendGameDataToUser(table.getCurrent().getUser(), "showDiceButton");
 	}
-    	
-     //TODO
-    @Override
-	public String getGameData(String eventName, User user) {
-		switch(eventName) {
-		case ("diceResult"):
-			JsonObject result=new JsonObject();
-			result.addProperty("result", messageToSend);
-			return result.toString();
-		case ("showECard"):
-			JsonObject eCard=new JsonObject();
-			eCard.addProperty("eCardID", messageToSend);
-			return eCard.toString();
-		case ("showVCard"):
-			JsonObject vCard=new JsonObject();
-			vCard.addProperty("vCardID", messageToSend);
-			return vCard.toString();
-		case ("tableStatus"):
-			return table.toJson().toString();
-		case ("askForProjectToSetTwoChips"):
-			JsonArray projects=new JsonArray();
-			for(Subproject project:table.getActiveProjectsMoreThenOneFreeField()) {
-				projects.add(project.toJson());
-			}
-			return projects.toString();
-		case ("burn20ORPlaceChip"):
-			return "";//no additional information needed for client
-		case ("showAvailableProjects"):
-			JsonArray projects1= new JsonArray();
-			for(Subproject project:table.getActiveProjects()) {
-				projects1.add(project.toJson());
-			}
-			return projects1.toString();
-		case ("aksForInAndOutProject"):
-			//Hoooow
-		case ("choosePlayerToStealFrom"):
-			JsonArray players=new JsonArray();
-			for(Player p:table.getPlayers()) {
-				players.add(p.toJson());
-			}
-			return players.toString();
-		case ("showAvailableProjectsTwiceBurn"):
-			JsonArray projects2= new JsonArray();
-			for(Subproject project:table.getActiveProjects()) {
-				projects2.add(project.toJson());
-			}
-			return projects2.toString();
-		case ("showAvailableProjectTwoSelection"):
-			JsonArray projects3= new JsonArray();
-			for(Subproject project:table.getActiveProjects()) {
-				projects3.add(project.toJson());
-			}
-			return projects3.toString();
-		case ("showAvailableProjectTwoSelectionTakeChips"):
-			JsonArray projects4= new JsonArray();
-			for(Subproject project:table.getActiveProjects()) {
-				projects4.add(project.toJson());
-			}
-		return projects4.toString();
-		case ("showAvailableProjectsPlaceTwoChips"):
-			JsonArray projects5= new JsonArray();
-			for(Subproject project:table.getActiveProjects()) {
-				projects5.add(project.toJson());
-			}
-		return projects5.toString();
-		case ("showAvailableProjectsExtraDice"):
-			JsonArray projects6= new JsonArray();
-			for(Subproject project:table.getActiveProjects()) {
-				projects6.add(project.toJson());
-			}
-			return projects6.toString();
-		}
-		return null;
-    }
     
-	private int html = 2;
-	
-	@Override
-	public String getSite() {
-		try {
-			if(html==1) {
-				return FileHelper.getFile("CrazyAirportGame/lobby.html");
-			}
-			if(html==2) {
-				return FileHelper.getFile("CrazyAirportGame/spiel.html");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-    private void sendMessage(String message){
-    	messageToSend = message;
-        sendGameDataToClients("sendMessage");
-    }
-    
-    private void sendMessage(User user, String message) {
-        messageToSend = message;
-        sendGameDataToUser(user, "sendMessage");
-    }
     
     private void handleVCardCommunication(int id) {
     	switch(id) {
@@ -409,6 +310,167 @@ public class CrazyAirportGame extends Game{
 	sendGameDataToClients("tableStatus");
 	table.endTurn();
 	}
+
+    	
+     //TODO
+    @Override
+	public String getGameData(String eventName, User user) {
+		switch(eventName) {
+		//sends the dice result as an boolean to the client (if true show EreignisLOS-Dice else show Place-Chip-Dice
+		case ("diceResult"):
+			JsonObject result=new JsonObject();
+			result.addProperty("result", messageToSend);
+			return result.toString();
+		//Sends the drawn E-Card ID- you need to load the right picture of the E-Card (Suggestion: Use a name convention and concatenate the id to the rest of the name like: "EreignlisLOS_"+id+".jpg")
+		case ("showECard"):
+			JsonObject eCard=new JsonObject();
+			eCard.addProperty("eCardID", messageToSend);
+			return eCard.toString();
+		//Sends the drawn V-Card ID- you need to load the right picture of the V-Card (Suggestion: Use a name convention and concatenate the id to the rest of the name like: "VerantwortungsLOS_"+id+".jpg")
+		case ("showVCard"):
+			JsonObject vCard=new JsonObject();
+			vCard.addProperty("vCardID", messageToSend);
+			return vCard.toString();
+		/*Gives back the current table status which means the whole status of projects and players by giving back a JsonObject filled with arrays
+		 * 
+		 * First there are three arrays filled with projects. Each project is represented in one of those three arrays (you can identify it via the name or the id)
+		 * 
+		 * 	Array 1:
+		 * 		- Array filled with the available (means not started or finished) projects. One Element of this array consists out of the following:
+		 * 			> String name, SubprojectField[] fields, int nextFree, int id
+		 * 	Array 2:
+		 * 		- Array filled with the active (means started but not finished yet) projects. One Element of this array consists out of the following:
+		 * 			> String name
+		 *			> ArrayList<SubporjectFields> fields
+		 *			> int nextFree
+		 *			> int id
+		 *	Array 3:
+		 *		- Array filled with the finished projects. One Element of this array consists out of the following:
+		 *			> String name
+		 *			> ArrayList<SubporjectFields> fields
+		 *			> int nextFree
+		 *			> int id
+		 * 	Array 4:
+		 * 		- Array filled with all the players. One element of the array consists out of the following:
+		 * 			> int score
+		 * 			> ArrayList<Chip> chips
+		 * 				- Chip consists out of
+		 * 					> Player realOwner
+		 * 					> Player currentOwner
+		 * 			> ArrayList<VerantwortungsLOSCard> vCards (only ID)
+		 * 			> ArrayList<ErgebnisLOSCard> eCards	(only ID)
+		 * 			> boolean skipNextRound
+		 * 			> boolean hasVCard11
+		 * 			> boolean hasVCard23
+		 * 			> User user
+		 * 			> String color
+		 */	
+		case ("tableStatus"):
+			return table.toJson().toString();
+		//Sends the available projects with more than one free field
+		case ("askForProjectToSetTwoChips"):
+			JsonArray projects=new JsonArray();
+			for(Subproject project:table.getActiveProjectsMoreThenOneFreeField()) {
+				projects.add(project.toJson());
+			}
+			return projects.toString();
+		//You have to ask the player whether he wants to place a chip or burn 20 million SZT
+		case ("burn20ORPlaceChip"):
+			return "";//no additional information needed for client
+		//Sends the available projects and expects one project as answer
+		case ("showAvailableProjects"):
+			JsonArray projects1= new JsonArray();
+			for(Subproject project:table.getActiveProjects()) {
+				projects1.add(project.toJson());
+			}
+			return projects1.toString();
+		//Sends the available projects. Player needs to select two, for removing chip from and adding chip into
+		case ("aksForInAndOutProject"):
+			JsonArray projects7= new JsonArray();
+			for(Subproject project:table.getActiveProjects()) {
+				projects7.add(project.toJson());
+			}
+			return projects7.toString();
+		//Sends all players. Player should select one player to steal from
+		case ("choosePlayerToStealFrom"):
+			JsonArray players=new JsonArray();
+			for(Player p:table.getPlayers()) {
+				players.add(p.toJson());
+			}
+			return players.toString();
+		//Sends the available projects. Player needs to select to, for removing chip from and adding chip into	
+		case ("showAvailableProjectsTwiceBurn"):
+			JsonArray projects2= new JsonArray();
+			for(Subproject project:table.getActiveProjects()) {
+				projects2.add(project.toJson());
+			}
+			return projects2.toString();
+		//Sends the available projects. Player needs to select two (can be the same)
+		case ("showAvailableProjectTwoSelection"):
+			JsonArray projects3= new JsonArray();
+			for(Subproject project:table.getActiveProjects()) {
+				projects3.add(project.toJson());
+			}
+			return projects3.toString();
+		//Sends the available projects. Player needs to select two (can be the same)
+		case ("showAvailableProjectTwoSelectionTakeChips"):
+			JsonArray projects4= new JsonArray();
+			for(Subproject project:table.getActiveProjects()) {
+				projects4.add(project.toJson());
+			}
+			return projects4.toString();
+		//Sends the available projects. Player needs to select two (can be the same)
+		case ("showAvailableProjectsPlaceTwoChips"):
+			JsonArray projects5= new JsonArray();
+			for(Subproject project:table.getActiveProjects()) {
+				projects5.add(project.toJson());
+			}
+		return projects5.toString();
+		//Sends the available projects and expects one selection. After placing the chip on the project the player gets an extra Turn by dicing again
+		case ("showAvailableProjectsExtraDice"):
+			JsonArray projects6= new JsonArray();
+			for(Subproject project:table.getActiveProjects()) {
+				projects6.add(project.toJson());
+			}
+			return projects6.toString();
+		//You have to ask the player whether he wants to use his special card or not (if he has the card)
+		case ("showCard11Choice"):
+			return "";
+		//You have to ask the player whether he wants to use his special card or not (if he has the card)
+		case ("showCard23Choice"):
+			return "";
+		case ("useSpecialCard23"):
+		case ("showDiceButton"):
+		}
+		return null;
+    }
+    
+	private int html = 2;
+	
+	@Override
+	public String getSite() {
+		try {
+			if(html==1) {
+				return FileHelper.getFile("CrazyAirportGame/lobby.html");
+			}
+			if(html==2) {
+				return FileHelper.getFile("CrazyAirportGame/spiel.html");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+    private void sendMessage(String message){
+    	messageToSend = message;
+        sendGameDataToClients("sendMessage");
+    }
+    
+    private void sendMessage(User user, String message) {
+        messageToSend = message;
+        sendGameDataToUser(user, "sendMessage");
+    }
 
 	@Override
 	public String getCSS() {
