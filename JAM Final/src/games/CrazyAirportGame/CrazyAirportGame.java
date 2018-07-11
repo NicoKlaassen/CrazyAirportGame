@@ -267,7 +267,12 @@ public class CrazyAirportGame extends Game{
     
     public void startTurn() {
     	sendGameDataToClients("tableStatus");
+    	if(table.getCurrent().isHasVCard11()) {
+			sendGameDataToUser(table.getCurrent().getUser(), "useSpecialCard11");
+    	}
+    	else {
     	sendGameDataToUser(table.getCurrent().getUser(), "showDiceButton");
+    	}
 	}
     
     
@@ -433,13 +438,26 @@ public class CrazyAirportGame extends Game{
 				projects6.add(project.toJson());
 			}
 			return projects6.toString();
-		//You have to ask the player whether he wants to use his special card or not (if he has the card)
-		case ("showCard11Choice"):
+		//You need to ask the player whether he wants to use his card 11 or not and send a boolean to server
+		case ("useSpecialCard11"):
 			return "";
-		//You have to ask the player whether he wants to use his special card or not (if he has the card)
-		case ("showCard23Choice"):
-			return "";
+		//You need to ask the player whether he wants to use his card 23 or not and send a boolean to server
 		case ("useSpecialCard23"):
+			return "";
+		//Sends the list of available projects and expects TWO selections (in and out project)
+		case ("showCard11Choice"):
+			JsonArray projects8= new JsonArray();
+			for(Subproject project:table.getActiveProjects()) {
+				projects8.add(project.toJson());
+			}
+			return projects8.toString();
+		//Sends the list of players. Player needs to select one player to steal a chip from
+		case ("showCard23Choice"):
+			JsonArray players1=new JsonArray();
+			for(Player p:table.getPlayers()) {
+				players1.add(p.toJson());
+			}
+			return players1.toString();
 		case ("showDiceButton"):
 		}
 		return null;
