@@ -458,7 +458,9 @@ public class CrazyAirportGame extends Game{
 				players1.add(p.toJson());
 			}
 			return players1.toString();
+		//Make dice button clickable
 		case ("showDiceButton"):
+			return "";
 		}
 		return null;
     }
@@ -543,8 +545,7 @@ public class CrazyAirportGame extends Game{
 
 	@Override
 	public ArrayList<User> getSpectatorList() {
-		// TODO Auto-generated method stub
-		return null;
+		return spectators;
 	}
 
 	@Override
@@ -560,13 +561,14 @@ public class CrazyAirportGame extends Game{
 
 	@Override
 	public void addSpectator(User user) {
-		// TODO Auto-generated method stub
-		
+		spectators.add(user);
 	}
+	
+	
 
 	@Override
 	public boolean isJoinable() {
-		return players.size()<5;
+		return this.gState == GameState.SETUP && players.size() < getMaxPlayerAmount();
 	}
 
 	@Override

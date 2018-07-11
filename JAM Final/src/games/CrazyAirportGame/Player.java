@@ -9,15 +9,15 @@ import userManagement.User;
 
 public class Player implements Comparable<Player> {
 
-	private int score;
-	private ArrayList<Chip> chips = new ArrayList<Chip>();
-	private ArrayList<VerantwortungsLOSCard> vCards = new ArrayList<VerantwortungsLOSCard>();
-	private ArrayList<ErgebnisLOSCard> eCards = new ArrayList<ErgebnisLOSCard>();
-	private boolean skipNextRound;
-	private boolean hasVCard11;
-	private boolean hasVCard23;
-	private User user;
-	private String color;
+	protected int score;
+	protected ArrayList<Chip> chips = new ArrayList<Chip>();
+	protected ArrayList<VerantwortungsLOSCard> vCards = new ArrayList<VerantwortungsLOSCard>();
+	protected ArrayList<ErgebnisLOSCard> eCards = new ArrayList<ErgebnisLOSCard>();
+	protected boolean skipNextRound;
+	protected boolean hasVCard11;
+	protected boolean hasVCard23;
+	protected User user;
+	protected String color;
 
 
 	public Player(User user, String color){
@@ -95,6 +95,11 @@ public class Player implements Comparable<Player> {
 	
 	public ArrayList<VerantwortungsLOSCard> getvCards() {
 		return vCards;
+	}
+	
+
+	public ArrayList<ErgebnisLOSCard> geteCards() {
+		return eCards;
 	}
 
 	public User getUser() {
