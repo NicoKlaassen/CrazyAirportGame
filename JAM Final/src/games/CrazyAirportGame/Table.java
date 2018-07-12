@@ -712,6 +712,14 @@ public class Table {
 		}
 		return players;
 	}
+    
+    public Player getPlayerByUser(userManagement.User user) {
+	for (Player player : players) {
+	    if(player.getUser().equals(user))
+		return player;
+	}
+		return null;
+    }
 	
 
 	
