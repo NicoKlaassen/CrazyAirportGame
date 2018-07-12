@@ -2,8 +2,19 @@
 	display: none;
 }
 
-#lobby{
-	display: block;
+#lobbyTable:first-child td {
+    border-top: none;
+}
+
+#lobbyTable {
+    width: 100%;
+}
+
+#lobbyTable td {
+    border-top: 1px solid #ebebeb;
+    padding: 5px 0px 5px 30px;
+    background-repeat: no-repeat;
+    background-position: left;
 }
 
 #los{
