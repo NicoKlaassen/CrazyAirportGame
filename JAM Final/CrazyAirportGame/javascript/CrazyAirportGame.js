@@ -48,30 +48,33 @@ function startGame(){
 	console.log("startGame");
 	sendDataToServer('startGame');
 }
-//KI entfernen
-function removeAI(){
-	console.log("Bot wurde entfernt");
-}
-//KI hinzufuegen
+//add new AI
 function addAI() {
-	console.log("addAI");
-	sendDataToServer('addAI');
+    console.log("addAI");
+    $("#lobbyTable").append('<tr><td class="playerColumn">Computer</td><td class="roleColumn">Spieler</td></tr>');
+    sendDataToServer('addAI');
 }
-//Lobby Tabelle erstellen
-addListener('USERJOINED',function (event) {
+
+//prints the table of the players
+addListener('showPlayer', function(event) {
+    console.log("Listener showPlayer");
     var stringFromServer = event.data;
-    // username*4
-    var temp=stringFromServer.split(",");
-    // alert(stringFromServer);
-    var table='<tr><th class="tg-s6z2">Name</th><th class="tg-baqh">Rolle</th></tr>';
-    for(var i=0; i<temp.length;i++){
-        spieler[i]=temp[i];
-        table+=('<tr><th class="tg-baqh">'+temp[i]+'</th><th class="tg-baqh">Spieler</th></tr>');
-    }
-    $("#lobbyTable").html(table);
-    if(temp.length==5){
-    	document.getElementById("addAIButton").setAttribute('onclick','');
-    }
+    // console.log(event.data);
+    var obj = JSON.parse(stringFromServer);
+
+    $("#lobbyTable tr").remove();
+
+    for (var i = 0; i < obj.length; i++) {
+        if (obj[i].current) {
+            var row = '<tr id="active">'
+        } else var row = '<tr>';
+
+        $("#lobbyTable").append(
+            row+ (obj[i].isHuman ? '<td class="playerColumn">' : '<td class="computerColumn">' )+obj[i].name+'</td></tr>'
+        );
+    };
+
 });
+
 
 

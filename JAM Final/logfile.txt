@@ -3,3 +3,5 @@
 [2018-07-12 15:21:06.689] [IP: /141.99.208.102] [LOGIN] Logging in user "asd" succeeded
 [2018-07-12 15:58:06.378] [IP: /141.99.208.102] [LOGIN] Logging in user "asd" succeeded
 [2018-07-12 16:42:36.291] [IP: /141.99.208.102] [LOGIN] Logging in user "asd" succeeded
+[2018-07-12 20:20:03.589] [IP: /192.168.163.1] [REGISTER] Registering user "asd" succeeded
+[2018-07-12 20:20:08.703] [IP: /192.168.163.1] [LOGIN] Logging in user "asd" succeeded
