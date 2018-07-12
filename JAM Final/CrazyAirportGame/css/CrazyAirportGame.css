@@ -21,8 +21,8 @@
 
 #chipBlau1{
     position: absolute;
-    top: 139px;
-    left: 426px;
+    top: 800px;
+    left: 800px;
     z-index: 1;
     height: 35px;
     width: 35px;
@@ -30,8 +30,8 @@
 
 #chipGelb1{
     position: absolute;
-    top: 149px;
-    left: 387px;
+    top: 0px;
+    left: 0px;
     z-index: 1;
     height: 35px;
     width: 35px;

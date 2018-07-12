@@ -72,3 +72,6 @@
 [2018-07-12 10:38:19.285] [IP: /10.7.118.98] [LOGIN] Logging in user "mschmidt" succeeded
 =======
 >>>>>>> origin/Martin
+[2018-07-12 10:43:13.051] [IP: /10.7.118.98] [LOGIN] Logging in user "mschmidt" succeeded
+[2018-07-12 13:55:23.014] [IP: /10.7.118.98] [LOGIN] Logging in user "mschmidt" succeeded
+[2018-07-12 14:51:55.265] [IP: /10.7.118.98] [LOGIN] Logging in user "mschmidt" succeeded
