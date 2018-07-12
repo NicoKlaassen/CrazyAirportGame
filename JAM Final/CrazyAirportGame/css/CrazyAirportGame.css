@@ -1,0 +1,84 @@
+#game{
+	display: none;
+}
+
+#lobby{
+	display: block;
+}
+
+#los{
+    display: none;
+}
+
+#dice{
+    float: left;
+}
+
+#diceText{
+    padding-left: 25px;
+}
+
+#projects{
+    float: left;
+    width: 376px;
+}
+
+#exit{
+    float: right;
+}
+
+#player{
+    color: #03A9F4;
+}
+
+#chipBlau1{
+    position: absolute;
+    top: 139px;
+    left: 426px;
+    z-index: 1;
+    height: 35px;
+    width: 35px;
+}
+
+#chipGelb1{
+    position: absolute;
+    top: 149px;
+    left: 387px;
+    z-index: 1;
+    height: 35px;
+    width: 35px;
+}
+
+#chipRot1{
+    position: absolute;
+    top: 161px;
+    left: 344px;
+    z-index: 1;
+    height: 35px;
+    width: 35px;
+}
+
+#iconBlau{
+    height: 15px;
+    width: 15px;
+}
+
+#iconRot{
+    height: 15px;
+    width: 15px;
+}
+
+#iconGruen{
+    height: 15px;
+    width: 15px;
+}
+
+#iconGelb{
+    height: 15px;
+    width: 15px;
+}
+
+#iconLila{
+    height: 15px;
+    width: 15px;
+}
