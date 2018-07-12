@@ -142,6 +142,7 @@ public class Table {
 		}
 	}
 	
+	//Initializes everything needed to start a game
 	public void startGame() {
 		initChips();
 		assignAndStartInitialProjects();

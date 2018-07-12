@@ -33,12 +33,22 @@ public class CrazyAirportGame extends Game{
     //Just needed for lobby
     private ArrayList<User> players = new ArrayList<>();
     private ArrayList<User> spectators = new ArrayList<>();
+    private int aiCount=0;
     //Lobby end
     
     public CrazyAirportGame() {
     	
+    	reactionMethods.put("startGame", (User user, JsonObject message)->{
+    		if(gState==GameState.SETUP && user.equals(getGameCreator())) {
+    			sendMessage("Das Spiel wurde gestartet!");
+    			
+    		}
+    	});
+    	
     	reactionMethods.put("addAI", (User user, JsonObject message)->{
-    		//ToDo
+    		if (gState == GameState.SETUP && user.equals(getGameCreator())) {
+    			aiCount++;
+    		}
     	});
     	
     	reactionMethods.put("rollDice", (User user, JsonObject message)->{
