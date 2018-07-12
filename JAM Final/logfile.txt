@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [2013-09-11 15:32:01.256] [IP: /192.168.2.108] [REGISTER] Registering user "1" succeeded
 [2013-09-11 15:32:05.327] [IP: /192.168.2.108] [LOGIN] Logging in user "1" succeeded
 [2013-09-11 15:34:37.553] [IP: /192.168.2.125] [REGISTER] Registering user "2" succeeded
@@ -69,3 +70,5 @@
 [2018-07-06 15:19:03.184] [IP: /192.168.163.1] [LOGIN] Logging in user "asd" succeeded
 [2018-07-12 10:38:07.264] [IP: /10.7.118.98] [REGISTER] Registering user "mschmidt" succeeded
 [2018-07-12 10:38:19.285] [IP: /10.7.118.98] [LOGIN] Logging in user "mschmidt" succeeded
+=======
+>>>>>>> origin/Martin

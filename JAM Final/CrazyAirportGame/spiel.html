@@ -15,53 +15,105 @@
 	<div class="row">
 	<div class="col-md-8">
 		<img src="images/spielbrett.png" alt="Spielbrett" height="800" width="800">
+		<img src="images/chipBlau.png" alt="Blauer Chip" id="chipBlau1">
+		<img src="images/chipGelb.png" alt="Gelber Chip" id="chipGelb1">
+		<img src="images/chipRot.png" alt="Roter Chip" id="chipRot1">
 	</div>
 	<div class="col-md-4">
-		<h3>Spieler X ist am Zug</h3>
+		<h3 style="color: #03A9F4">Nico<span style="color : #FFFFFF"> ist am Zug</span></h3>
 		  <table class="table table-sm">
 			<thead>
 			  <tr>
-				<th>Nr.</th>
+				<th></th>
 				<th>Name</th>
-				<th>Steuerzahlertaler in Mio.</th>
+				<th>Steuerzahlertaler</th>
 				<th>Chips</th>
 			  </tr>
 			</thead>
 			<tbody>
 			  <tr>
-				<td>1</td>
-				<td>Nico</td>
-				<td>20</td>
+				<td><img src="images/chipBlau.png" alt="Icon Blau" id="iconBlau"></td>
+				<td style="color: #03A9F4">Nico</td>
+				<td>200 Mio.</td>
 				<td>7</td>
 			  </tr>
 			  <tr>
-				<td>2</td>
-				<td>Emre</td>
-				<td>20</td>
+				<td><img src="images/chipGelb.png" alt="Icon Gelb" id="iconGelb"></td>
+				<td style="color: #FFEB3B">Emre</td>
+				<td>200 Mio.</td>
 				<td>7</td>
 			  </tr>
 			  <tr>
-				<td>3</td>
-				<td>Marius</td>
-				<td>20</td>
+				<td><img src="images/chipGruen.png" alt="Icon Gruen" id="iconGruen"></td>
+				<td style="color: #4CAF50">Marius</td>
+				<td>200 Mio.</td>
 				<td>7</td>
 			  </tr>
 			  <tr>
-				<td>4</td>
-				<td>Furkan</td>
-				<td>20</td>
+				<td><img src="images/chipRot.png" alt="Icon Rot" id="iconRot"></td>
+				<td style="color: #D32F2F">Furkan</td>
+				<td>200 Mio.</td>
 				<td>7</td>
 			  </tr>
 			  <tr>
-				<td>5</td>
-				<td>Martin</td>
-				<td>20</td>
+				<td><img src="images/chipLila.png" alt="Icon Lila" id="iconLila"></td>
+				<td style="color: #7C4DFF">Martin</td>
+				<td>200 Mio.</td>
 				<td>7</td>
 			  </tr>
 			</tbody>
-		  </table>
-		  <button type="button" class="btn btn-success" onclick="init();" >Würfeln</button>
-		  <button type="button" class="btn btn-danger">Spiel verlassen</button>
+			</table>
+			
+			<p id="dice">
+				<button type="button" id="wuerfelBut" class="btn btn-success" onclick="roll()" >Würfeln</button>
+				<h3 id="diceText">Ergebnis: 3</h3>
+			</p>
+			
+			<p>
+				<table class="table table-sm" id="projects">
+				<thead>
+					<tr>
+					<th>Teilabschnitt</th>
+					<th>     </th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+					<td style="color:#ADBBAA">Landebahn Nord</td>
+					<td><button type="button" class="btn btn-primary btn-sm" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#F2AA56">Landebahn Süd</td>
+					<td><button type="button" class="btn btn-primary btn-sm" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#92684F">Vorfeld</td>
+					<td><button type="button" class="btn btn-primary btn-sm" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#BE82B5">Hauptterminal</td>
+					<td><button type="button" class="btn btn-primary btn-sm" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#6487C1">Terminal A</td>
+					<td><button type="button" class="btn btn-primary btn-sm" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#DECB62">Terminal B</td>
+					<td style="color:#FF0800">Nicht begonnen</td>
+					</tr>
+					<tr>
+					<td style="color:#EA9988">Feuerwache</td>
+					<td style="color:#FF0800">Nicht begonnen</td>
+					</tr>
+					<tr>
+					<td style="color:#A8D9E7">Parkplatz</td>
+					<td style="color:#31FF00">Abgeschlossen</td>
+					</tr>
+				</tbody>
+				</table>
+			</p>
+		  <button type="button" id="exit" class="btn btn-danger">Spiel verlassen</button>
 	</div>
 	</div>
 
