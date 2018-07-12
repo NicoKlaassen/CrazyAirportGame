@@ -1,0 +1,5 @@
+[2018-07-12 15:20:46.77] [IP: /141.99.208.102] [LOGIN] Logging in user "asd" succeeded
+[2018-07-12 15:20:54.45] [IP: /141.99.208.102] [LOGOUT] Logging out user "asd" succeeded; Session length: < 1  Minutes
+[2018-07-12 15:21:06.689] [IP: /141.99.208.102] [LOGIN] Logging in user "asd" succeeded
+[2018-07-12 15:58:06.378] [IP: /141.99.208.102] [LOGIN] Logging in user "asd" succeeded
+[2018-07-12 16:42:36.291] [IP: /141.99.208.102] [LOGIN] Logging in user "asd" succeeded
