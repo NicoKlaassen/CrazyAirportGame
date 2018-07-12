@@ -78,6 +78,6 @@ addListener('showPlayer', function(event) {
 
 function byeBye() {
 	console.log("Spiel verlassen");
-	sendDataToServer('QUIT');
+	sendDataToServer('quit');
 }
 
