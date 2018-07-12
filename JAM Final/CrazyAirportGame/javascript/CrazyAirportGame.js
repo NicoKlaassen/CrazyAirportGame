@@ -3,6 +3,7 @@
 //Testfunktion um Spiel verlassen zu blockieren
 function init() {
     console.log("loeschen der kopfzeile");
+    document.getElementById("content").style.top="100px";
     var elem = document.getElementById('menu');
     elem.parentNode.removeChild(elem);
 }
