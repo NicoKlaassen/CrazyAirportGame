@@ -6,6 +6,10 @@
 	display: block;
 }
 
+#los{
+    display: none;
+}
+
 #dice{
     float: left;
 }

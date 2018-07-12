@@ -19,6 +19,28 @@ function roll() {
         document.getElementById("diceText").style.display='none';
     }
 }
+//Einblenden der Ergebnislose
+function showECard(cardNumber) {
+    var link = "images/ergebnislose/BER_Ergebnislos_VS_06_";
+    link += cardNumber;
+    link += ".jpg";
+    document.getElementById("los").src=link;
+    document.getElementById("los").style.display="block";
+    setTimeout(hideCard, 3000);
+}
+//Einblenden der Verantwortungslose
+function showVCard(cardNumber) {
+    var link = "images/verantwortungslose/BER_Verantwortungslos_VS_06_";
+    link += cardNumber;
+    link += ".jpg";
+    document.getElementById("los").src=link;
+    document.getElementById("los").style.display="block";
+    setTimeout(hideCard, 3000);
+}
+function hideCard() {
+    document.getElementById("los").style.display="none";
+}
+
 //Wechsel Lobby in Spiel
 function startGame(){
 	document.getElementById("game").style.display='block';
