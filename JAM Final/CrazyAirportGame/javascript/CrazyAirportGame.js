@@ -22,17 +22,40 @@ function init() {
     elem.parentNode.removeChild(elem);
 }
 //wuerfeln
-function roll() {
+function roll(number) {
     console.log("wuerfel rollen");
+    /*
+    switch(number){
+		case 1 : document.getElementById("wuerfel").src="images/wuerfel/1.jpg"; break;
+		case 2 : document.getElementById("wuerfel").src="images/wuerfel/2.jpg"; break;
+		case 3 : document.getElementById("wuerfel").src="images/wuerfel/3.jpg"; break;
+		case 4 : document.getElementById("wuerfel").src="images/wuerfel/4.jpg"; break;
+		case 5 : document.getElementById("wuerfel").src="images/wuerfel/5.jpg"; break;
+		case 6 : document.getElementById("wuerfel").src="images/wuerfel/6.jpg"; break;
+    }	
+    */
+    switch(number){
+    	case 1 : document.getElementById("wuerfel").src="images/wuerfel/ergebnisLosWuerfel.jpg"; break;
+    	case 2 : document.getElementById("wuerfel").src="images/wuerfel/setzeChipWuerfel.jpg"; break;
+    }
     if(document.getElementById("projects").style.display=='none'){
-        document.getElementById("projects").style.display='block';
-        document.getElementById("projects").style.width='376px';
-        document.getElementById("diceText").style.display='block';
+        document.getElementById("wuerfel").style.display='block';
+        document.getElementById("wuerfel").style.height="250px";
+    	document.getElementById("wuerfel").style.width="250px";
+    	setTimeout(smallerDice, 3000);
     }
     else{
         document.getElementById("projects").style.display='none';
-        document.getElementById("diceText").style.display='none';
+        document.getElementById("wuerfel").style.display='none';
+        document.getElementById("exit").style.display='none';
     }
+}
+// Nach 3 Sekunden wird der Wuerfel kleiner gemacht
+function smallerDice(){
+	document.getElementById("wuerfel").style.height="40px";
+	document.getElementById("wuerfel").style.width="40px";
+	document.getElementById("projects").style.display='block';
+	document.getElementById("exit").style.display='block';
 }
 //Einblenden der Ergebnislose
 function showECard(cardNumber) {

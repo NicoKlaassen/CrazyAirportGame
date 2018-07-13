@@ -17,21 +17,19 @@
     background-position: left;
 }
 
+#wuerfel{
+	height: 40px;
+	width: 40px;
+	float: right;
+}
+
 #los{
     display: none;
 }
 
-#dice{
-    float: left;
-}
-
-#dicetext{
-    padding-left: 25px;
-}
-
 #projects{
     float: left;
-    width: 376px;
+    width: 100%;
 }
 
 #exit{
@@ -89,7 +87,7 @@
     width: 15px;
 }
 
-#iconlila{
+#iconLila{
     height: 15px;
     width: 15px;
 }
