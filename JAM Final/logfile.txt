@@ -145,3 +145,12 @@
 [2018-07-13 12:04:33.573] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
 [2018-07-13 12:10:57.536] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
 [2018-07-13 12:13:13.142] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 12:22:03.672] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 12:32:57.292] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 12:35:25.279] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 12:39:10.883] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 12:40:06.13] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 12:42:41.148] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 13:34:45.815] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" failed
+[2018-07-13 13:34:55.004] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 13:38:58.568] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded

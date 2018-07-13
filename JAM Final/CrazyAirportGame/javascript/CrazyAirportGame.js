@@ -1,5 +1,15 @@
-window.onload = init;
 
+
+//keine verfickten Umlaute in diese verhurten Kommentare - danke
+
+//Testfunktion um Spiel verlassen zu blockieren
+//function init() {
+//	sendDataToServer('sawf');
+//    console.log("loeschen der kopfzeile");
+//    document.getElementById("content").style.top="100px";
+//    var elem = document.getElementById('menu');
+//    elem.parentNode.removeChild(elem);
+//}
 
 addListener('USERJOINED',function (event) {
 	console.log("ausfuehren");
@@ -11,16 +21,6 @@ addListener('sendMessage', function(event){
 	console.log(event.data);
 });
 
-//keine verfickten Umlaute in diese verhurten Kommentare - danke
-
-//Testfunktion um Spiel verlassen zu blockieren
-function init() {
-	sendDataToServer('sawf');
-    console.log("loeschen der kopfzeile");
-    document.getElementById("content").style.top="100px";
-    var elem = document.getElementById('menu');
-    elem.parentNode.removeChild(elem);
-}
 //wuerfeln
 function roll() {
     console.log("wuerfel rollen");
