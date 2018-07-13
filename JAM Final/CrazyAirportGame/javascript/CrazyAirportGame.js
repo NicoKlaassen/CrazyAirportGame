@@ -1,7 +1,21 @@
+window.onload = init;
+
+
+addListener('USERJOINED',function (event) {
+	console.log("ausfuehren");
+	console.log(event.data);
+});
+
+addListener('sendMessage', function(event){
+	console.log("event sendMessage");
+	console.log(event.data);
+});
+
 //keine verfickten Umlaute in diese verhurten Kommentare - danke
 
 //Testfunktion um Spiel verlassen zu blockieren
 function init() {
+	sendDataToServer('sawf');
     console.log("loeschen der kopfzeile");
     var elem = document.getElementById('menu');
     elem.parentNode.removeChild(elem);
@@ -75,6 +89,8 @@ addListener('showPlayer', function(event) {
     };
 
 });
+
+
 
 
 

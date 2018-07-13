@@ -94,3 +94,54 @@
 [2018-07-12 20:20:03.589] [IP: /192.168.163.1] [REGISTER] Registering user "asd" succeeded
 [2018-07-12 20:20:08.703] [IP: /192.168.163.1] [LOGIN] Logging in user "asd" succeeded
 >>>>>>> 34b26e6773be45d629869ad1ccdf1c91f0a9c6ab
+[2018-07-12 22:52:12.827] [IP: /192.168.178.88] [LOGIN] Logging in user "mschmidt" failed
+[2018-07-12 22:52:52.68] [IP: /192.168.178.88] [LOGIN] Logging in user "mschmidt" failed
+[2018-07-12 22:53:04.063] [IP: /192.168.178.88] [LOGIN] Logging in user "mschmidt" failed
+[2018-07-12 22:55:08.891] [IP: /192.168.178.88] [REGISTER] Registering user "marius" succeeded
+[2018-07-12 22:55:13.91] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-12 23:05:40.71] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-12 23:40:33.561] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-12 23:53:44.555] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-12 23:54:21.195] [IP: /192.168.178.88] [LOGIN] Logging in user "mschmidt" failed
+[2018-07-12 23:54:29.247] [IP: /192.168.178.88] [REGISTER] Registering user "pascal" succeeded
+[2018-07-12 23:54:36.728] [IP: /192.168.178.88] [LOGIN] Logging in user "pascal" succeeded
+[2018-07-12 23:55:48.244] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 00:12:36.292] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 00:13:39.997] [IP: /192.168.178.88] [REGISTER] Registering user "passi" succeeded
+[2018-07-13 00:13:45.02] [IP: /192.168.178.88] [LOGIN] Logging in user "passi" succeeded
+[2018-07-13 00:14:30.07] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 00:17:11.784] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 00:18:14.582] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 00:22:38.543] [IP: /192.168.178.88] [LOGIN] Logging in user "passi" succeeded
+[2018-07-13 00:31:12.339] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 00:34:22.324] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 00:44:27.509] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 00:47:38.992] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 00:52:35.396] [IP: /192.168.178.88] [LOGOUT] Logging out user "marius" succeeded; Session length: 4  Minutes
+[2018-07-13 00:52:41.828] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 00:54:34.743] [IP: /192.168.178.88] [LOGOUT] Logging out user "marius" succeeded; Session length: 1  Minutes
+[2018-07-13 00:54:43.077] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 01:00:08.108] [IP: /192.168.178.88] [LOGOUT] Logging out user "marius" succeeded; Session length: 5  Minutes
+[2018-07-13 01:00:10.223] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 01:00:47.88] [IP: /192.168.178.88] [LOGIN] Logging in user "passi" succeeded
+[2018-07-13 01:09:13.554] [IP: /192.168.178.88] [REGISTER] Registering user "mari" succeeded
+[2018-07-13 01:09:20.679] [IP: /192.168.178.88] [LOGIN] Logging in user "mari" succeeded
+[2018-07-13 01:10:30.322] [IP: /192.168.178.88] [LOGIN] Logging in user "mari" succeeded
+[2018-07-13 01:10:54.046] [IP: /192.168.178.88] [LOGOUT] Logging out user "mari" succeeded; Session length: < 1  Minutes
+[2018-07-13 01:11:19.394] [IP: /192.168.178.88] [LOGIN] Logging in user "mari" succeeded
+[2018-07-13 01:13:10.546] [IP: /192.168.178.88] [LOGIN] Logging in user "mari" succeeded
+[2018-07-13 02:05:58.366] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 11:04:11.949] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 11:13:28.025] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 11:14:40.985] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 11:18:29.794] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 11:28:55.933] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 11:30:03.076] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 11:32:18.263] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 11:37:27.731] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 11:47:30.622] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 11:50:12.142] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 12:00:47.509] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 12:04:33.573] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 12:10:57.536] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded
+[2018-07-13 12:13:13.142] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" succeeded

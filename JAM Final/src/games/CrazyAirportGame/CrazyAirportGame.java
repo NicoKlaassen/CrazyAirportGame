@@ -13,6 +13,7 @@ import java.util.function.BiConsumer;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -335,13 +336,13 @@ public class CrazyAirportGame extends Game{
 		//sends the dice result as an boolean to the client (if true show EreignisLOS-Dice else show Place-Chip-Dice
 		case ("diceResult"):
 			JsonObject result=new JsonObject();
-		result.addProperty("result", messageToSend);
-		return result.toString();
+			result.addProperty("result", messageToSend);
+			return result.toString();
 		//Sends the drawn E-Card ID- you need to load the right picture of the E-Card (Suggestion: Use a name convention and concatenate the id to the rest of the name like: "EreignlisLOS_"+id+".jpg")
 		case ("showECard"):
 			JsonObject eCard=new JsonObject();
-		eCard.addProperty("eCardID", messageToSend);
-		return eCard.toString();
+			eCard.addProperty("eCardID", messageToSend);
+			return eCard.toString();
 		//Sends the drawn V-Card ID- you need to load the right picture of the V-Card (Suggestion: Use a name convention and concatenate the id to the rest of the name like: "VerantwortungsLOS_"+id+".jpg")
 		case ("showVCard"):
 			JsonObject vCard=new JsonObject();
@@ -472,6 +473,15 @@ public class CrazyAirportGame extends Game{
 		//Make dice button clickable
 		case ("showDiceButton"):
 			return "";
+		case("USERJOINED"):
+			JsonArray users=new JsonArray();
+			for(User u:this.players) {
+				JsonObject user1=new JsonObject();
+				user1.addProperty("name", u.getName()); 
+				users.add(user1);
+			}
+			System.out.println(users.toString());
+			return users.toString();
 		}
 		return null;
 	}
@@ -562,6 +572,7 @@ public class CrazyAirportGame extends Game{
 	@Override
 	public void addUser(User user) {
 		players.add(user);
+		sendGameDataToClients("USERJOINED");
 		sendMessage("Spieler " + user.getName() + " ist beigetreten.");
 	}
 
