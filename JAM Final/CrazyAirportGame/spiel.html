@@ -1,9 +1,11 @@
 <!doctype html>
 <html lang="de">
   <head>
-  
+  	
+
  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
  	<script type="text/javascript" src="javascript/CrazyAirportGame.js"></script>
+ 	<script>init();</script>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,9 +14,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" href="CrazyAirportGame.css">
     <title>UnberechenBER</title>
-  </head>
-  <body>
-	
+  	</head>
+  	<body>
 	<div id="lobby">
 	<div class="container">
 	<h1>Lobby #1</h1>
@@ -22,7 +23,6 @@
 	<p>Das Spiel ist mit 2 bis 5 Spielern bzw. Bots spielbar.</p>       
 	<p>
 	<button id="addAIButton" type="button" class="btn btn-primary" onclick="addAI()">Bot hinzufügen</button>
-	<button type="button" class="btn btn-primary" onclick="removeAI()">Bot löschen</button></p>
 	  <table class="table" id="lobbyTable">
 		<thead>
 		  <tr>
@@ -32,7 +32,7 @@
 		</thead>
 	  </table>
 	  <button type="button" class="btn btn-success" onclick="startGame()">Spiel starten</button>
-	  <button type="button" class="btn btn-danger">Lobby verlassen</button>
+	  <button type="button" class="btn btn-danger" onclick="byeBye()">Lobby verlassen</button>
 	</div>
 	</div>
 	
@@ -201,7 +201,7 @@
 				</tbody>
 				</table>
 			</p>
-		  <button type="button" id="exit" class="btn btn-danger" onclick="init()">Spiel verlassen</button>
+		  <button type="button" id="exit" class="btn btn-danger" onclick="byeBye()">Spiel verlassen</button>
 	</div>
 	</div>
 	</div>

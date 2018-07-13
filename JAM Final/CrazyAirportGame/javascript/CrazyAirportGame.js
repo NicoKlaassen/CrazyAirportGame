@@ -17,6 +17,7 @@ addListener('sendMessage', function(event){
 function init() {
 	sendDataToServer('sawf');
     console.log("loeschen der kopfzeile");
+    document.getElementById("content").style.top="100px";
     var elem = document.getElementById('menu');
     elem.parentNode.removeChild(elem);
 }
@@ -90,7 +91,11 @@ addListener('showPlayer', function(event) {
 
 });
 
-
+//leave lobby
+function byeBye() {
+	console.log("Spiel verlassen");
+	sendDataToServer('quit');
+}
 
 
 
