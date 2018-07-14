@@ -2,6 +2,7 @@ package games.CrazyAirportGame;
 
 import java.util.ArrayList;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -113,12 +114,25 @@ public class Player implements Comparable<Player> {
 	public String getColor() {
 		return color;
 	}
+	
+	public JsonArray chipsToJson() {
+		JsonArray chips=new JsonArray();
+		for(Chip c:this.chips) {
+			chips.add(c.toJson());
+		}
+		return chips;
+	}
 
 	public JsonObject toJson() {
 		JsonObject player=new JsonObject();
+		JsonArray chips=new JsonArray();
 		player.addProperty("name", this.getUser().getName());
 		player.addProperty("score", this.getScore());
 		player.addProperty("color", this.getColor());
+		for(Chip c:this.chips) {
+			chips.add(c.toJson());
+		}
+		player.add("chips", chips);
 		return player;
 	}
 

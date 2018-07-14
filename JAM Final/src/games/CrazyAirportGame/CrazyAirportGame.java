@@ -7,7 +7,9 @@ import userManagement.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.function.BiConsumer;
 
@@ -34,6 +36,7 @@ public class CrazyAirportGame extends Game{
 	//Just needed for lobby
 	private ArrayList<User> players = new ArrayList<>();
 	private ArrayList<User> spectators = new ArrayList<>();
+	private List<String> colors = Arrays.asList("blue", "yellow", "green", "red", "purple");
 	private int aiCount=0;
 	//Lobby end
 
@@ -43,6 +46,13 @@ public class CrazyAirportGame extends Game{
 			if(gState==GameState.SETUP && user.equals(getGameCreator())) {
 				sendMessage("Das Spiel wurde gestartet!");
 				gState=GameState.RUNNING;
+				int i=0;
+				for(User u:players) {
+					table.addPlayer(new Player(u, colors.get(i)));
+					i++;
+					sendGameDataToUser(u, "startGame");
+				}
+				table.startGame();
 				startTurn();
 			}
 		});
@@ -277,6 +287,7 @@ public class CrazyAirportGame extends Game{
 		});
 	}
 
+	//TODO card24
 	public void startTurn() {
 		sendGameDataToClients("tableStatus");
 		if(table.getCurrent().isHasVCard11()) {
@@ -383,6 +394,7 @@ public class CrazyAirportGame extends Game{
 		 * 			> String color
 		 */	
 		case ("tableStatus"):
+			System.out.println(table.toJson().toString());
 			return table.toJson().toString();
 		//Sends the available projects with more than one free field
 		case ("askForProjectToSetTwoChips"):
@@ -466,22 +478,24 @@ public class CrazyAirportGame extends Game{
 		//Sends the list of players. Player needs to select one player to steal a chip from
 		case ("showCard23Choice"):
 			JsonArray players1=new JsonArray();
-		for(Player p:table.getPlayers()) {
-			players1.add(p.toJson());
-		}
-		return players1.toString();
+			for(Player p:table.getPlayers()) {
+				players1.add(p.toJson());
+			}
+			return players1.toString();
 		//Make dice button clickable
 		case ("showDiceButton"):
 			return "";
 		case("USERJOINED"):
+			JsonObject object=new JsonObject();
 			JsonArray users=new JsonArray();
 			for(User u:this.players) {
 				JsonObject user1=new JsonObject();
 				user1.addProperty("name", u.getName()); 
 				users.add(user1);
 			}
-			System.out.println(users.toString());
-			return users.toString();
+			object.add("users", users);
+			System.out.println(object.toString());
+			return object.toString();
 		}
 		return null;
 	}
@@ -572,10 +586,12 @@ public class CrazyAirportGame extends Game{
 	@Override
 	public void addUser(User user) {
 		players.add(user);
+		
 		sendGameDataToClients("USERJOINED");
+		System.out.println("called");
 		sendMessage("Spieler " + user.getName() + " ist beigetreten.");
 	}
-
+	
 	@Override
 	public void addSpectator(User user) {
 		spectators.add(user);

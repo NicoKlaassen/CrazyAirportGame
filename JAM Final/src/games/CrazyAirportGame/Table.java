@@ -138,7 +138,7 @@ public class Table {
 		for(Player p:players) {
 			for(int i=0; i<7; i++) {
 				p.addChip(new Chip(p));
-			}
+			}			
 		}
 	}
 	
@@ -684,6 +684,7 @@ public class Table {
 			players.add(p.toJson());
 		}
 		result.add("players", players);
+		result.add("currentPlayer", current.toJson());
 		return result;
 	}
 	
