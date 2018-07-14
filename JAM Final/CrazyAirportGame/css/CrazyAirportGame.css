@@ -101,6 +101,9 @@
 	position: absolute;
 	z-index: 1;
 	background: white;
+	border-color: black;
+	border-width: 2px;
+	border-style: solid;
 }
 
 .cred{
@@ -132,261 +135,261 @@
 }
 
 #feuw1{
-	top: 525px; 
-	left:134px;
+	top: 528px; 
+	left:136px;
 }
 #feuw2{
-	top: 549px; 
-	left:166px;
+	top: 553px; 
+	left:169px;
 }
 #feuw3{
-	top: 576px; 
-	left:199px;
+	top: 578px; 
+	left:201px;
 }
 #feuw4{
-	top: 601px; 
-	left:231px;
+	top: 603px; 
+	left:233px;
 }
 #feuw5{
-	top: 568px; 
-	left:254px;
+	top: 571px; 
+	left:257px;
 }
 #feuw6{
-	top: 535px; 
-	left:278px;
+	top: 538px; 
+	left:281px;
 }
 #feuw7{
-	top: 505px; 
-	left:250px;
+	top: 509px; 
+	left:252px;
 }
 #feuw8{
-	top: 482px; 
-	left:217px;
+	top: 484px; 
+	left:220px;
 }
 #feuw9{
-	top: 456px; 
-	left:181px;
+	top: 459px; 
+	left:188px;
 }
-
 #landn1{
-	top: 139px; 
-	left:426px;
+	top: 141px; 
+	left:429px;
 }
 #landn2{
-	top: 150px; 
-	left:387px;
+	top: 153px; 
+	left:389px;
 }
 #landn3{
-	top: 161px; 
-	left:344px;
+	top: 164px; 
+	left:350px;
 }
 #landn4{
-	top: 171px; 
-	left:308px;
+	top: 175px; 
+	left:311px;
 }
 #landn5{
-	top: 182px; 
-	left:269px;
+	top: 185px; 
+	left:272px;
 }
 #landn6{
-	top: 194px; 
-	left:230px;
+	top: 196px; 
+	left:232px;
 }
 #landn7{
-	top: 204px; 
-	left:190px;
+	top: 207px; 
+	left:193px;
 }
 #landn8{
-	top: 215px; 
-	left:151px;
+	top: 218px; 
+	left:154px;
 }
 #landn9{
-	top: 225px; 
-	left:112px;
+	top: 229px; 
+	left:115px;
 }
 #lands1{
 	top: 393px; 
-	left:747px;
+	left:749px;
 }
 #lands2{
-	top: 421px; 
-	left:718px;
-}
-#lands3{
-	top: 449px; 
-	left:689px;
-}
-#lands4{
-	top: 478px; 
-	left:660px;
-}
-#lands5{
-	top: 506px; 
-	left:630px;
-}
-#lands6{
-	top: 532px; 
-	left:600px;
-}
-#lands7{
-	top: 570px; 
-	left:581px;
-}
-#lands8{
-	top: 608px; 
-	left:562px;
-}
-#lands9{
-	top: 643px; 
-	left:542px;
-}
-#terma1{
-	top: 203px; 
-	left:507px;
-}
-#terma2{
-	top: 216px; 
-	left:467px;
-}
-#terma3{
-	top: 226px; 
-	left:428px;
-}
-#terma4{
-	top: 187px; 
-	left:413px;
-}
-#terma5{
-	top: 178px; 
-	left:453px;
-}
-#terma6{
-	top: 169px; 
-	left:492px;
-}
-#termb1{
-	top: 278px; 
-	left:746px;
-}
-#termb2{
-	top: 300px; 
-	left:710px;
-}
-#termb3{
-	top: 321px; 
-	left:677px;
-}
-#termb4{
-	top: 346px; 
-	left:644px;
-}
-#termb5{
-	top: 312px; 
-	left:616px;
-}
-#termb6{
-	top: 290px; 
-	left:652px;
-}
-#termb7{
-	top: 268px; 
-	left:685px;
-}
-#termb8{
-	top: 246px; 
+	top: 424px; 
 	left:720px;
 }
+#lands3{
+	top: 452px; 
+	left:690px;
+}
+#lands4{
+	top: 480px; 
+	left:661px;
+}
+#lands5{
+	top: 508px; 
+	left:631px;
+}
+#lands6{
+	top: 536px; 
+	left:602px;
+}
+#lands7{
+	top: 573px; 
+	left:583px;
+}
+#lands8{
+	top: 609px;
+	left:566px;
+}
+#lands9{
+	top: 645px; 
+	left:546px;
+}
+#terma1{
+	top: 206px; 
+	left:509px;
+}
+#terma2{
+	top: 218px; 
+	left:470px;
+}
+#terma3{
+	top: 230px; 
+	left:431px;
+}
+#terma4{
+	top: 192px; 
+	left:415px;
+}
+#terma5{
+	top: 183px; 
+	left:455px;
+}
+#terma6{
+	top: 175px; 
+	left:494px;
+}
+#termb1{
+	top: 281px; 
+	left:748px;
+}
+#termb2{
+	top: 303px; 
+	left:713px;
+}
+#termb3{
+	top: 325px;
+	left:680px;
+ }
+#termb4{
+	top: 347px; 
+	left:645px;
+}
+#termb5{
+	top: 315px; 
+	left:620px;
+}
+#termb6{
+	top: 293px; 
+	left:654px;
+}
+#termb7{
+	top: 270px; 
+	left:688px;
+}
+#termb8{
+	top: 248px; 
+	left:722px;
+}
 #maint1{
-	top: 323px; 
-	left:313px;
+	top: 327px; 
+	left:315px;
 }
 #maint2{
-	top: 342px; 
-	left:352px;
+	top: 343px; 
+	left:353px;
 }
 #maint3{
-	top: 365px; 
-	left:382px;
+	top: 367px; 
+	left:385px;
 }
 #maint4{
-	top: 388px;
-	left:417px;
+	top: 391px; 
+	left:419px;
 }
 #maint5{
-	top: 413px; 
-	left:448px;
+	top: 417px; 
+	left:451px;
 }
 #maint6{
-	top: 439px; 
-	left:479px;
+	top: 441px; 
+	left:483px;
 }
 #maint7{
-	top: 403px; 
+	top: 407px; 
 	left:504px;
 }
 #maint8{
-	top: 363px; 
-	left:504px;
+	top: 367px; 
+	left:506px;
 }
 #maint9{
-	top: 345px; 
-	left:469px;
+	top: 348px; 
+	left:470px;
 }
 #park1{
-	top: 214px; 
-	left:693px;
+	top: 217px; 
+	left:695px;
 }
 #park2{
-	top: 234px; 
-	left:653px;
+	top: 237px; 
+	left:657px;
 }
 #park3{
-	top: 254px; 
-	left:613px;
+	top: 258px; 
+	left:616px;
 }
 #park4{
-	top: 277px; 
-	left:572px;
+	top: 280px; 
+	left:575px;
 }
 #park5{
-	top: 266px; 
-	left:526px;
+	top: 268px; 
+	left:530px;
 }
 #park6{
-	top: 235px; 
-	left:569px;
+	top: 239px; 
+	left:570px;
 }
 #park7{
-	top: 213px; 
+	top: 217px; 
 	left:614px;
 }
 #park8{
-	top: 193px; 
-	left:658px;
+	top: 196px; 
+	left:659px;
 }
 #pfield1{
-	top: 329px; 
-	left:220px;
+	top: 331px; 
+	left:222px;
 }
 #pfield2{
-	top: 362px; 
-	left:244px;
+	top: 366px; 
+	left:247px;
 }
 #pfield3{
-	top: 399px; 
-	left:275px;
+	top: 400px; 
+	left:278px;
 }
 #pfield4{
-	top: 443px; 
-	left:259px;
+	top: 447px; 
+	left:261px;
 }
 #pfield5{
 	top: 408px; 
-	left:228px;
+	left:230px;
 }
 #pfield6{
-	top: 369px; 
-	left:197px;
+	top: 371px; 
+	left:198px;
 }
+
 
 

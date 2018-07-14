@@ -67,7 +67,7 @@ public class Table {
 				new SubprojectField(10, true, false),
 				new SubprojectField(20, false, false),
 				new SubprojectField(40, false, true)));
-		projectsAvailable.add(new Subproject("Landebahn S�d",fieldsSouthStreet,2));
+		projectsAvailable.add(new Subproject("Landebahn Sued",fieldsSouthStreet,2));
 		ArrayList<SubprojectField> fieldsTerminalA=new ArrayList<SubprojectField>(Arrays.asList(
 				new SubprojectField(20, false, false),
 				new SubprojectField(20, false, false),

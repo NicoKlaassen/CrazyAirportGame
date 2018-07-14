@@ -130,41 +130,59 @@
 				<thead>
 					<tr>
 					<th>Teilabschnitt</th>
-					<th>     </th>
+					<th>Status</th>
+					<th>Chip entfernen</th>
+					<th>Chip setzen</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-					<td style="color:#ADBBAA">Landebahn Nord</td>
-					<td><button type="button" class="btn btn-primary btn-sm" onclick="showECard(23)" >Chip setzen</button></td>
-					</tr>
-					<tr>
-					<td style="color:#F2AA56">Landebahn Süd</td>
-					<td><button type="button" class="btn btn-primary btn-sm" onclick="showVCard(11)" >Chip setzen</button></td>
-					</tr>
-					<tr>
-					<td style="color:#92684F">Vorfeld</td>
-					<td><button type="button" class="btn btn-primary btn-sm" >Chip setzen</button></td>
-					</tr>
-					<tr>
-					<td style="color:#BE82B5">Hauptterminal</td>
-					<td><button type="button" class="btn btn-primary btn-sm" >Chip setzen</button></td>
-					</tr>
-					<tr>
-					<td style="color:#6487C1">Terminal A</td>
-					<td><button type="button" class="btn btn-primary btn-sm" >Chip setzen</button></td>
-					</tr>
-					<tr>
-					<td style="color:#DECB62">Terminal B</td>
-					<td style="color:#FF0800">Nicht begonnen</td>
-					</tr>
-					<tr>
+					<td style="color:#FF0800" id="feuwStatus">Nicht begonnen</td>
 					<td style="color:#EA9988">Feuerwache</td>
-					<td style="color:#FF0800">Nicht begonnen</td>
+					<td><button type="button" id="feuwEntf" class="btn btn-primary btn-sm" disabled onclick="showECard(23)" >Chip entfernen</button></td>
+					<td><button type="button" id="feuwSetz" class="btn btn-primary btn-sm" disabled onclick="setChipOnFeuw()" >Chip setzen</button></td>
 					</tr>
 					<tr>
+					<td style="color:#FFFFFF" id="landnStatus">Abgeschlossen</td>
+					<td style="color:#ADBBAA">Landebahn Nord</td>
+					<td><button type="button" id="landnEntf" class="btn btn-primary btn-sm" disabled onclick="showECard(23)" >Chip entfernen</button></td>
+					<td><button type="button" id="landnSetz" class="btn btn-primary btn-sm" disabled onclick="setChipOnLandn()" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#FFFFFF" id="landsStatus">Abgeschlossen</td>
+					<td style="color:#F2AA56">Landebahn Süd</td>
+					<td><button type="button" id="landsEntf" class="btn btn-primary btn-sm" disabled onclick="showECard(23)" >Chip entfernen</button></td>
+					<td><button type="button" id="landsSetz" class="btn btn-primary btn-sm" disabled onclick="setChipOnLands()" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#FFFFFF" id="termaStatus">Abgeschlossen</td>
+					<td style="color:#6487C1">Terminal A</td>
+					<td><button type="button" id="termaEntf" class="btn btn-primary btn-sm" disabled onclick="showECard(23)" >Chip entfernen</button></td>
+					<td><button type="button" id="termaSetz" class="btn btn-primary btn-sm" disabled onclick="setChipOnTermA()" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#FFFFFF" id="termbStatus">Abgeschlossen</td>
+					<td style="color:#DECB62">Terminal B</td>
+					<td><button type="button" id="termbEntf" class="btn btn-primary btn-sm" disabled onclick="showECard(23)" >Chip entfernen</button></td>
+					<td><button type="button" id="termbSetz" class="btn btn-primary btn-sm" disabled onclick="setChipOnTermB()" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#FFFFFF" id="maintStatus">Abgeschlossen</td>
+					<td style="color:#BE82B5">Hauptterminal</td>
+					<td><button type="button" id="maintEntf" class="btn btn-primary btn-sm" disabled onclick="showECard(23)" >Chip entfernen</button></td>
+					<td><button type="button" id="maintSetz" class="btn btn-primary btn-sm" disabled onclick="setChipOnMainT()" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#FFFFFF" id="parkStatus">Abgeschlossen</td>
 					<td style="color:#A8D9E7">Parkplatz</td>
-					<td style="color:#31FF00">Abgeschlossen</td>
+					<td><button type="button" id="parkEntf" class="btn btn-primary btn-sm" disabled onclick="showECard(23)" >Chip entfernen</button></td>
+					<td><button type="button" id="parkSetz" class="btn btn-primary btn-sm" disabled onclick="setChipOnPark()" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#31FF00" id="vorfStatus">Aktiv</td>
+					<td style="color:#92684F">Vorfeld</td>
+					<td><button type="button" id="vorfEntf" class="btn btn-primary btn-sm" disabled onclick="showECard(23)" >Chip entfernen</button></td>
+					<td><button type="button" id="vorftSetz" class="btn btn-primary btn-sm" disabled onclick="setChipOnVorfeld()" >Chip setzen</button></td>
 					</tr>
 				</tbody>
 				</table>

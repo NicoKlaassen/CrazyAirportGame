@@ -58,6 +58,382 @@ addListener('tableStatus',function (event) {
 			}
 		}
 	}
+	for(var a in json.active){
+		if(json.active[a].id==0){
+			for(var b in json.active[a].fields){
+				if(json.active[a].fields[b].Chip=="blue"){
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cblue');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="yellow"){
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cyellow');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="green"){
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cgreen');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="red"){
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cred');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="purple"){
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cpurple');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+			}
+		}
+		if(json.active[a].id==1){
+			for(var b in json.active[a].fields){
+				if(json.active[a].fields[b].Chip=="blue"){
+					document.getElementById("landn"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cblue');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="yellow"){
+					document.getElementById("landn"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cyellow');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="green"){
+					document.getElementById("landn"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cgreen');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="red"){
+					document.getElementById("landn"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cred');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="purple"){
+					document.getElementById("landn"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cpurple');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+			}
+		}
+		if(json.active[a].id==2){
+			for(var b in json.active[a].fields){
+				if(json.active[a].fields[b].Chip=="blue"){
+					document.getElementById("lands"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cblue');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="yellow"){
+					document.getElementById("lands"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cyellow');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="green"){
+					document.getElementById("lands"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cgreen');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="red"){
+					document.getElementById("lands"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cred');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="purple"){
+					document.getElementById("lands"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cpurple');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+			}
+		}
+		if(json.active[a].id==3){
+			for(var b in json.active[a].fields){
+				if(json.active[a].fields[b].Chip=="blue"){
+					document.getElementById("terma"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cblue');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="yellow"){
+					document.getElementById("terma"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cyellow');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="green"){
+					document.getElementById("terma"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cgreen');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="red"){
+					document.getElementById("terma"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cred');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="purple"){
+					document.getElementById("terma"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cpurple');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+			}
+		}
+		if(json.active[a].id==4){
+			for(var b in json.active[a].fields){
+				if(json.active[a].fields[b].Chip=="blue"){
+					document.getElementById("termb"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cblue');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="yellow"){
+					document.getElementById("termb"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cyellow');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="green"){
+					document.getElementById("termb"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cgreen');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="red"){
+					document.getElementById("termb"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cred');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="purple"){
+					document.getElementById("termb"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cpurple');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+			}
+		}
+		if(json.active[a].id==5){
+			for(var b in json.active[a].fields){
+				if(json.active[a].fields[b].Chip=="blue"){
+					document.getElementById("maint"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cblue');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="yellow"){
+					document.getElementById("maint"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cyellow');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="green"){
+					document.getElementById("maint"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cgreen');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="red"){
+					document.getElementById("maint"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cred');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="purple"){
+					document.getElementById("maint"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cpurple');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+			}
+		}
+		if(json.active[a].id==6){
+			for(var b in json.active[a].fields){
+				if(json.active[a].fields[b].Chip=="blue"){
+					document.getElementById("park"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cblue');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="yellow"){
+					document.getElementById("park"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cyellow');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="green"){
+					document.getElementById("park"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cgreen');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="red"){
+					document.getElementById("park"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cred');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="purple"){
+					document.getElementById("park"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cpurple');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+			}
+		}
+		if(json.active[a].id==7){
+			for(var b in json.active[a].fields){
+				if(json.active[a].fields[b].Chip=="blue"){
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cblue');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="yellow"){
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cyellow');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="green"){
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cgreen');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="red"){
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cred');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="purple"){
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cpurple');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+			}
+		}
+	}
+	for(var c in json.active){
+		if(json.active[c].id==0){
+			document.getElementById('feuwStatus').style="color:#31FF00";
+			document.getElementById('feuwStatus').innerHTML="Aktiv";
+		}
+		if(json.active[c].id==1){
+			document.getElementById('landnStatus').style="color:#31FF00";
+			document.getElementById('landnStatus').innerHTML="Aktiv";
+		}
+		if(json.active[c].id==2){
+			document.getElementById('landsStatus').style="color:#31FF00";
+			document.getElementById('landsStatus').innerHTML="Aktiv";
+		}
+		if(json.active[c].id==3){
+			document.getElementById('termaStatus').style="color:#31FF00";
+			document.getElementById('termaStatus').innerHTML="Aktiv";
+		}
+		if(json.active[c].id==4){
+			document.getElementById('termbStatus').style="color:#31FF00";
+			document.getElementById('termbStatus').innerHTML="Aktiv";
+		}
+		if(json.active[c].id==5){
+			document.getElementById('maintStatus').style="color:#31FF00";
+			document.getElementById('maintStatus').innerHTML="Aktiv";
+		}
+		if(json.active[c].id==6){
+			document.getElementById('parkStatus').style="color:#31FF00";
+			document.getElementById('parkStatus').innerHTML="Aktiv";
+		}
+		if(json.active[c].id==7){
+			document.getElementById('vorfStatus').style="color:#31FF00";
+			document.getElementById('vorfStatus').innerHTML="Aktiv";
+		}
+	}
+	for(var c in json.available){
+		if(json.available[c].id==0){
+			document.getElementById('feuwStatus').style="color:#FF0800";
+			document.getElementById('feuwStatus').innerHTML="Inaktiv";
+		}
+		if(json.available[c].id==1){
+			document.getElementById('landnStatus').style="color:#FF0800";
+			document.getElementById('landnStatus').innerHTML="Inaktiv";
+		}
+		if(json.available[c].id==2){
+			document.getElementById('landsStatus').style="color:#FF0800";
+			document.getElementById('landsStatus').innerHTML="Inaktiv";
+		}
+		if(json.available[c].id==3){
+			document.getElementById('termaStatus').style="color:#FF0800";
+			document.getElementById('termaStatus').innerHTML="Inaktiv";
+		}
+		if(json.available[c].id==4){
+			document.getElementById('termbStatus').style="color:#FF0800";
+			document.getElementById('termbStatus').innerHTML="Inaktiv";
+		}
+		if(json.available[c].id==5){
+			document.getElementById('maintStatus').style="color:#FF0800";
+			document.getElementById('maintStatus').innerHTML="Inaktiv";
+		}
+		if(json.available[c].id==6){
+			document.getElementById('parkStatus').style="color:#FF0800";
+			document.getElementById('parkStatus').innerHTML="Inaktiv";
+		}
+		if(json.available[c].id==7){
+			document.getElementById('vorfStatus').style="color:#FF0800";
+			document.getElementById('vorfStatus').innerHTML="Inaktiv";
+		}
+	}
+	for(var c in json.finished){
+		if(json.finished[c].id==0){
+			document.getElementById('feuwStatus').style="color:#FFFFFF";
+			document.getElementById('feuwStatus').innerHTML="Abgeschlossen";
+		}
+		if(json.finished[c].id==1){
+			document.getElementById('landnStatus').style="color:#FFFFFF";
+			document.getElementById('landnStatus').innerHTML="Abgeschlossen";
+		}
+		if(json.finished[c].id==2){
+			document.getElementById('landsStatus').style="color:#FFFFFF";
+			document.getElementById('landsStatus').innerHTML="Abgeschlossen";
+		}
+		if(json.finished[c].id==3){
+			document.getElementById('termaStatus').style="color:#FFFFFF";
+			document.getElementById('termaStatus').innerHTML="Abgeschlossen";
+		}
+		if(json.finished[c].id==4){
+			document.getElementById('termbStatus').style="color:#FFFFFF";
+			document.getElementById('termbStatus').innerHTML="Abgeschlossen";
+		}
+		if(json.finished[c].id==5){
+			document.getElementById('maintStatus').style="color:#FFFFFF";
+			document.getElementById('maintStatus').innerHTML="Abgeschlossen";
+		}
+		if(json.finished[c].id==6){
+			document.getElementById('parkStatus').style="color:#FFFFFF";
+			document.getElementById('parkStatus').innerHTML="Abgeschlossen";
+		}
+		if(json.finished[c].id==7){
+			document.getElementById('vorfStatus').style="color:#FFFFFF";
+			document.getElementById('vorfStatus').innerHTML="Abgeschlossen";
+		}
+	}
+});
+
+addListener('showAvailableProjects', function(event){
+	console.log("projects");
+	var obj = event.data;
+	var json = JSON.parse(obj);
+	for(var i in json.availableProjects){
+		if(json.availableProjects[i].id==0){
+			console.log("projects0");
+			document.getElementById("feuwSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==1){
+			console.log("projects1");
+			document.getElementById("landnSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==2){
+			console.log("projects2");
+			document.getElementById("landsSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==3){
+			console.log("projects3");
+			document.getElementById("termaSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==4){
+			console.log("projects4");
+			document.getElementById("termbSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==5){
+			console.log("projects5");
+			document.getElementById("maintSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==6){
+			console.log("projects6");
+			document.getElementById("parkSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==7){
+			console.log("projects7");
+			document.getElementById("vorftSetz").removeAttribute("disabled");
+		}
+	}
 });
 
 addListener('diceResult',function (event) {
@@ -69,8 +445,7 @@ addListener('diceResult',function (event) {
 	}
 	else{
 		document.getElementById('diceText').innerHTML="Ergebnis: Chip setzen";
-		}
-	 
+	}
 });
 
 addListener('showECard',function (event) {
@@ -91,28 +466,64 @@ addListener('startGame',function (event) {
 	console.log("startGame");
 });
 
-
+// executes the command, works with data in json object
+function executeOnServer(keyword, json) {
+	json = json.replace(/{/g, "%7B");
+	json = json.replace(/}/g, "%7D");
+	sendDataToServer(keyword + " " + json);
+}
 
 addListener('sendMessage', function(event){
 	console.log("event sendMessage");
 	console.log(event.data);
 });
 
+function setChipOnFeuw(){
+	console.log("chosen Project feuw");
+	executeOnServer("chosenProject", '{"projectID":+0}');
+}
+
+function setChipOnLandn(){
+	console.log("chosen Project landn");
+	executeOnServer("chosenProject", '{"projectID":1}');
+}
+
+function setChipOnLands(){
+	console.log("chosen Project lands");
+	executeOnServer("chosenProject", '{"projectID":2}');
+}
+
+function setChipOnTermA(){
+	console.log("chosen Project termA");
+	executeOnServer("chosenProject", '{"projectID":3}');
+}
+
+function setChipOnTermB(){
+	console.log("chosen Project termB");
+	executeOnServer("chosenProject", '{"projectID":4}');
+}
+
+function setChipOnMainT(){
+	console.log("chosen Project maint");
+	executeOnServer("chosenProject", '{"projectID":5}');
+}
+
+function setChipOnPark(){
+	console.log("chosen Project park");
+	executeOnServer("chosenProject", '{"projectID":6}');
+}
+
+function setChipOnVorfeld(){
+	console.log("chosen Project vfeld");
+	executeOnServer("chosenProject", '{"projectID":7}');
+}
+
+
 //wuerfeln
 function roll() {
-    console.log("wuerfel rollen");
-  //  if(document.getElementById("projects").style.display=='none'){
-     //   document.getElementById("projects").style.display='block';
-       // document.getElementById("projects").style.width='376px';
-        //document.getElementById("diceText").style.display='block';
-    //}
-    //else{
-      //  document.getElementById("projects").style.display='none';
-        //document.getElementById("diceText").style.display='none';
-    //}
-    
     sendDataToServer('rollDice');
 }
+
 //Einblenden der Ergebnislose
 function showECard(cardNumber) {
     var link = "images/ergebnislose/BER_Ergebnislos_VS_06_";

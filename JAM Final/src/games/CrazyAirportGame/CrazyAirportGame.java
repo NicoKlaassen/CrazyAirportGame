@@ -121,6 +121,7 @@ public class CrazyAirportGame extends Game{
 		//In allen Methoden tableStatus
 		reactionMethods.put("chosenProject", (User user, JsonObject message)->{
 			int chosenProject=message.get("projectID").getAsInt();
+			System.out.println("test");
 			if(table.setChipOnProject(table.getAvailableProjectByID(chosenProject))) {
 				VerantwortungsLOSCard vCard=table.drawVCard();
 				messageToSend=Integer.toString(vCard.getId());
@@ -408,11 +409,15 @@ public class CrazyAirportGame extends Game{
 			return "";//no additional information needed for client
 		//Sends the available projects and expects one project as answer
 		case ("showAvailableProjects"):
+			JsonObject availableProjects = new JsonObject();
 			JsonArray projects1= new JsonArray();
 			for(Subproject project:table.getActiveProjects()) {
 				projects1.add(project.toJson());
 			}
-		return projects1.toString();
+			System.out.println(projects1.toString());
+			availableProjects.add("availableProjects", projects1);
+		System.out.println(availableProjects.toString());
+		return availableProjects.toString();
 		//Sends the available projects. Player needs to select two, for removing chip from and adding chip into
 		case ("aksForInAndOutProject"):
 			JsonArray projects7= new JsonArray();
