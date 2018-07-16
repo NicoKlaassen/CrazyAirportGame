@@ -22,6 +22,8 @@ public class AI extends Player {
 		this.eCards=toCopy.geteCards();
 	}
     
-	
+	public int chooseRandom(int cap) {
+		return (int)(Math.random() * cap);
+	}
     
 }

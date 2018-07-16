@@ -56,9 +56,9 @@ public class Subproject {
 		return fields;
 	}
 
-/*	public SubprojectField getNextFreeField() {
-		return fields.get(nextFree);
-	}*/
+	public int getIdNextFreeField() {
+		return fields.indexOf(nextFree);
+	}
 	
 	public boolean isNextFreeFieldLast() {
 		return nextFree==fields.size()-1;
