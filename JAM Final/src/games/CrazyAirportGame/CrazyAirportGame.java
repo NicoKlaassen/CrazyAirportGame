@@ -36,7 +36,9 @@ public class CrazyAirportGame extends Game{
 	//Just needed for lobby
 	private ArrayList<User> players = new ArrayList<>();
 	private ArrayList<User> spectators = new ArrayList<>();
+	private ArrayList<AI> bots = new ArrayList<>();
 	private List<String> colors = Arrays.asList("blue", "yellow", "green", "red", "purple");
+	private List<String> botNames = Arrays.asList("Bot #1", "Bot #2", "Bot #3", "Bot #4");
 	private int aiCount=0;
 	//Lobby end
 
@@ -52,6 +54,11 @@ public class CrazyAirportGame extends Game{
 					i++;
 					sendGameDataToUser(u, "startGame");
 				}
+				for(int x=0; x<aiCount; x++) {
+				    AI bot = new AI(new User(botNames.get(x),"PW"), colors.get(i));
+					table.addPlayer(bot);
+					i++;
+				}
 				table.startGame();
 				startTurn();
 			}
@@ -59,9 +66,18 @@ public class CrazyAirportGame extends Game{
 
 		reactionMethods.put("addAI", (User user, JsonObject message)->{
 			if (gState == GameState.SETUP && user.equals(getGameCreator())) {
+				//User bot = new User("Bot","PW");
+				//bot.setGameInstanceId(gameInstanceId);
+				//addUser(bot);
 				aiCount++;
-				addUser(new User("Name","PW"));
-				//sendGameDataToClients("USERJOINED");
+				sendGameDataToClients("USERJOINED");
+			}
+		});
+		
+		reactionMethods.put("removeAI", (User user, JsonObject message)->{
+			if (gState == GameState.SETUP && user.equals(getGameCreator())) {
+				aiCount--;
+				sendGameDataToClients("USERJOINED");
 			}
 		});
 		
@@ -320,7 +336,7 @@ public class CrazyAirportGame extends Game{
 	//TODO card24
 	public void startTurn() {
 		if(table.getCurrent() instanceof AI) {
-			//processAIMove();
+			processAIMove();
 		}
 		else {
 			sendGameDataToClients("tableStatus");
@@ -601,9 +617,16 @@ public class CrazyAirportGame extends Game{
 			for(User u:this.players) {
 				JsonObject user1=new JsonObject();
 				user1.addProperty("name", u.getName()); 
+				user1.addProperty("role", "Spieler"); 
 				users.add(user1);
 			}
 			object.add("users", users);
+			for(int x=0; x<aiCount; x++) {
+			    JsonObject bot=new JsonObject();
+			    bot.addProperty("name", botNames.get(x)); 
+			    bot.addProperty("role", "Bot"); 
+			    users.add(bot);
+			}
 			System.out.println(object.toString());
 			return object.toString();
 		}
