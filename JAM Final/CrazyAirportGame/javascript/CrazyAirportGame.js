@@ -16,6 +16,11 @@ var removeChipProject='';
 var outActiveProjects='';
 var inActiveProjects='';
 
+function load(){
+	console.log("Loading done");
+	sendDataToServer("lobbyJoin");
+}
+
 addListener('USERJOINED',function (event) {
 	$("#lobbyTable").html("<thead><tr><th>Name</th><th>Rolle</th></tr></thead>");
 	var obj = event.data;
@@ -1000,7 +1005,7 @@ function startGame(){
 //add new AI
 function addAI() {
     console.log("addAI");
-    $("#lobbyTable").append('<tr><td class="playerColumn">Computer</td><td class="roleColumn">Spieler</td></tr>');
+    //$("#lobbyTable").append('<tr><td class="playerColumn">Computer</td><td class="roleColumn">Spieler</td></tr>');
     sendDataToServer('addAI');
 }
 

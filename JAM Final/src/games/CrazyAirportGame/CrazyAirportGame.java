@@ -60,7 +60,13 @@ public class CrazyAirportGame extends Game{
 		reactionMethods.put("addAI", (User user, JsonObject message)->{
 			if (gState == GameState.SETUP && user.equals(getGameCreator())) {
 				aiCount++;
+				addUser(new User("Name","PW"));
+				//sendGameDataToClients("USERJOINED");
 			}
+		});
+		
+		reactionMethods.put("lobbyJoin",  (User user, JsonObject message)->{
+			sendGameDataToClients("USERJOINED");
 		});
 
 		reactionMethods.put("rollDice", (User user, JsonObject message)->{
