@@ -7,12 +7,15 @@ import userManagement.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.function.BiConsumer;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -33,6 +36,7 @@ public class CrazyAirportGame extends Game{
 	//Just needed for lobby
 	private ArrayList<User> players = new ArrayList<>();
 	private ArrayList<User> spectators = new ArrayList<>();
+	private List<String> colors = Arrays.asList("blue", "yellow", "green", "red", "purple");
 	private int aiCount=0;
 	//Lobby end
 
@@ -42,6 +46,13 @@ public class CrazyAirportGame extends Game{
 			if(gState==GameState.SETUP && user.equals(getGameCreator())) {
 				sendMessage("Das Spiel wurde gestartet!");
 				gState=GameState.RUNNING;
+				int i=0;
+				for(User u:players) {
+					table.addPlayer(new Player(u, colors.get(i)));
+					i++;
+					sendGameDataToUser(u, "startGame");
+				}
+				table.startGame();
 				startTurn();
 			}
 		});
@@ -57,13 +68,14 @@ public class CrazyAirportGame extends Game{
 			messageToSend=Boolean.toString(result);
 			sendGameDataToClients("diceResult");
 			if(result) {
-				ErgebnisLOSCard eCard=table.drawECard();
+				ErgebnisLOSCard eCard=table.getECardByID(42);
 				messageToSend=Integer.toString(eCard.getId());
 				sendGameDataToClients("showECard");
 				switch(eCard.getId()) {
 				case 3:
 					sendGameDataToUser(table.getCurrent().getUser(), "askForProjectToSetTwoChips");
 					break;
+				//maybe we should skip this shit... :-D
 				case 10:
 					sendGameDataToUser(table.getLeftNeighbor().getUser(), "burn20ORPlaceChip");
 					break;
@@ -71,8 +83,15 @@ public class CrazyAirportGame extends Game{
 					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
 					break;
 				case 42:
-					sendGameDataToUser(table.getCurrent().getUser(), "aksForInAndOutProject");
-					break;
+					if(table.projectWithMoreThanOneChippedFieldAvailable()) {
+						sendGameDataToUser(table.getCurrent().getUser(), "aksForInAndOutProject");
+						break;
+					}
+					else {
+						table.endTurn();
+						startTurn();
+						break;
+					}
 				case 47:
 					table.getCurrent().raiseScore(20);
 					VerantwortungsLOSCard vCard=table.drawVCard();
@@ -97,8 +116,8 @@ public class CrazyAirportGame extends Game{
 					break;
 				default:
 					table.processStandardECard(eCard);
-					sendGameDataToClients("tableStatus");
 					table.endTurn();
+					startTurn();
 				}
 			}
 			else {
@@ -110,7 +129,10 @@ public class CrazyAirportGame extends Game{
 		//In allen Methoden tableStatus
 		reactionMethods.put("chosenProject", (User user, JsonObject message)->{
 			int chosenProject=message.get("projectID").getAsInt();
-			if(table.setChipOnProject(table.getAvailableProjectByID(chosenProject))) {
+			System.out.println("test");
+			if(table.setChipOnProject(table.getActiveProjectByID(chosenProject))) {
+				table.endTurn();
+				startTurn();
 				VerantwortungsLOSCard vCard=table.drawVCard();
 				messageToSend=Integer.toString(vCard.getId());
 				sendGameDataToClients("showVCard");
@@ -149,11 +171,13 @@ public class CrazyAirportGame extends Game{
 				default:
 					table.processStandardVCard(vCard);
 					table.endTurn();
+					startTurn();
 				}
 			}
 			else {
 				sendGameDataToClients("tableStatus");
 				table.endTurn();
+				startTurn();
 			}});
 
 		reactionMethods.put("specialCardAnswer11", (User user, JsonObject message)->{
@@ -204,14 +228,18 @@ public class CrazyAirportGame extends Game{
 			table.setTwoChipsInOneProject(answerProject);
 			sendGameDataToClients("tableStatus");
 			table.endTurn();
+			startTurn();
 		});
 
 		reactionMethods.put("removeChipFromProjectAndPutItIntoAnotherAnswer",(User user, JsonObject message)->{
 			Subproject fromProject=table.getActiveProjectByID(message.get("fromProjectID").getAsInt());
 			Subproject toProject=table.getActiveProjectByID(message.get("toProjectID").getAsInt());
+			System.out.println("FromProject"+fromProject.getId());
+			System.out.println("ToProject"+toProject.getId());
 			table.removeChipFromProjectAndPutItIntoAnother(fromProject, toProject);
 			sendGameDataToClients("tableStatus");
 			table.endTurn();
+			startTurn();
 		});
 
 		reactionMethods.put("removeChipFromProjectAndPutItIntoAnotherAnswerExtraDice",(User user, JsonObject message)->{
@@ -219,6 +247,7 @@ public class CrazyAirportGame extends Game{
 			Subproject toProject=table.getActiveProjectByID(message.get("toProjectID").getAsInt());
 			table.removeChipFromProjectAndPutItIntoAnother(fromProject, toProject);
 			sendGameDataToUser(table.getCurrent().getUser(), "showDiceButton");
+			startTurn();
 		});
 
 		reactionMethods.put("add2ChipsOnExistingProjects", (User user, JsonObject message)-> {
@@ -232,6 +261,7 @@ public class CrazyAirportGame extends Game{
 			}
 			sendGameDataToClients("tableStatus");
 			table.endTurn();
+			startTurn();
 		});
 
 		reactionMethods.put("chipOnFieldBurnSZTTwice", (User user, JsonObject message)-> {
@@ -239,6 +269,7 @@ public class CrazyAirportGame extends Game{
 			table.setChipOnExistingProjectBurnSZTTwice(answerProject);
 			sendGameDataToClients("tableStatus");
 			table.endTurn();
+			startTurn();
 		});
 
 		reactionMethods.put("remove2ChipsFromProjectsAndAddToPlayer", (User user, JsonObject message)-> {
@@ -247,6 +278,7 @@ public class CrazyAirportGame extends Game{
 			table.remove2ChipsFromProjectsAndAddToPlayer(answerProject1, answerProject2);
 			sendGameDataToClients("tableStatus");
 			table.endTurn();
+			startTurn();
 		});
 
 		reactionMethods.put("twoChipsInOneProject", (User user, JsonObject message)-> {
@@ -254,6 +286,7 @@ public class CrazyAirportGame extends Game{
 			table.setTwoChipsInOneProject(answerProject);
 			sendGameDataToClients("tableStatus");
 			table.endTurn();
+			startTurn();
 		});
 
 		reactionMethods.put("takeAway20SZTFromPlayer", (User user, JsonObject message)-> {
@@ -261,6 +294,7 @@ public class CrazyAirportGame extends Game{
 			table.takeAway20SZTFromPlayer(player);
 			sendGameDataToClients("tableStatus");
 			table.endTurn();
+			startTurn();
 		});
 
 		reactionMethods.put("burnOrPlace", (User user, JsonObject message)-> {
@@ -269,6 +303,7 @@ public class CrazyAirportGame extends Game{
 				table.getCurrent().raiseScore(20);
 				sendGameDataToClients("tableStatus");
 				table.endTurn();
+				startTurn();
 			}
 			else {
 				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
@@ -276,13 +311,79 @@ public class CrazyAirportGame extends Game{
 		});
 	}
 
+	//TODO card24
 	public void startTurn() {
-		sendGameDataToClients("tableStatus");
-		if(table.getCurrent().isHasVCard11()) {
-			sendGameDataToUser(table.getCurrent().getUser(), "useSpecialCard11");
+		if(table.getCurrent() instanceof AI) {
+			//processAIMove();
 		}
 		else {
-			sendGameDataToUser(table.getCurrent().getUser(), "showDiceButton");
+			sendGameDataToClients("tableStatus");
+			sendGameDataToUser(table.getCurrent().getUser(), "rollDice");
+			if(table.getCurrent().isHasVCard11()) {
+				sendGameDataToUser(table.getCurrent().getUser(), "useSpecialCard11");
+			}
+			else {
+				sendGameDataToUser(table.getCurrent().getUser(), "showDiceButton");
+			}
+		}	
+	}
+	
+	
+	//TODO 
+	public void processAIMove() {
+		boolean diceResult=table.rollTheDice();
+		if(diceResult) {
+			ErgebnisLOSCard eCard=table.drawECard();
+			messageToSend=Integer.toString(eCard.getId());
+			sendGameDataToClients("showECard");
+			switch(eCard.getId()) {
+			case 3:
+				table.setTwoChipsInOneProject(table.getActiveProjects().get((((AI)table.getCurrent()).chooseRandom(table.getActiveProjects().size()))));
+				sendGameDataToClients("tableStatus");
+				table.endTurn();
+				startTurn();
+				break;
+			case 10:
+				sendGameDataToUser(table.getLeftNeighbor().getUser(), "burn20ORPlaceChip");
+				break;
+			case 24:
+				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+				break;
+			case 42:
+				sendGameDataToUser(table.getCurrent().getUser(), "aksForInAndOutProject");
+				break;
+			case 47:
+				table.getCurrent().raiseScore(20);
+				VerantwortungsLOSCard vCard=table.drawVCard();
+				messageToSend=Integer.toString(vCard.getId());
+				sendGameDataToClients("showVCard");
+				handleVCardCommunication(vCard.getId());
+				break;
+			case 49:
+				VerantwortungsLOSCard vCard2=table.drawVCard();
+				messageToSend=Integer.toString(vCard2.getId());
+				sendGameDataToClients("showVCard");
+				handleVCardCommunication(vCard2.getId());
+				break;
+			case 51:
+				sendGameDataToUser(table.getCurrent().getUser(), "choosePlayerToStealFrom");
+				break;
+			case 53:
+				VerantwortungsLOSCard vCard3=table.drawVCard();
+				messageToSend=Integer.toString(vCard3.getId());
+				sendGameDataToClients("showVCard");
+				handleVCardCommunication(vCard3.getId());
+				break;
+			default:
+				table.processStandardECard(eCard);
+				sendGameDataToClients("tableStatus");
+				table.endTurn();
+				startTurn();
+			}
+		}
+		else {
+			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+
 		}
 	}
 
@@ -335,13 +436,13 @@ public class CrazyAirportGame extends Game{
 		//sends the dice result as an boolean to the client (if true show EreignisLOS-Dice else show Place-Chip-Dice
 		case ("diceResult"):
 			JsonObject result=new JsonObject();
-		result.addProperty("result", messageToSend);
-		return result.toString();
+			result.addProperty("result", messageToSend);
+			return result.toString();
 		//Sends the drawn E-Card ID- you need to load the right picture of the E-Card (Suggestion: Use a name convention and concatenate the id to the rest of the name like: "EreignlisLOS_"+id+".jpg")
 		case ("showECard"):
 			JsonObject eCard=new JsonObject();
-		eCard.addProperty("eCardID", messageToSend);
-		return eCard.toString();
+			eCard.addProperty("eCardID", messageToSend);
+			return eCard.toString();
 		//Sends the drawn V-Card ID- you need to load the right picture of the V-Card (Suggestion: Use a name convention and concatenate the id to the rest of the name like: "VerantwortungsLOS_"+id+".jpg")
 		case ("showVCard"):
 			JsonObject vCard=new JsonObject();
@@ -382,31 +483,47 @@ public class CrazyAirportGame extends Game{
 		 * 			> String color
 		 */	
 		case ("tableStatus"):
+			System.out.println(table.toJson().toString());
 			return table.toJson().toString();
 		//Sends the available projects with more than one free field
 		case ("askForProjectToSetTwoChips"):
-			JsonArray projects=new JsonArray();
-			for(Subproject project:table.getActiveProjectsMoreThenOneFreeField()) {
-				projects.add(project.toJson());
+			JsonObject availableProjects1 = new JsonObject();
+			JsonArray projects2= new JsonArray();
+			for(Subproject project:table.getActiveProjects()) {
+				projects2.add(project.toJson());
 			}
-			return projects.toString();
+			availableProjects1.add("availableProjects", projects2);
+			return availableProjects1.toString();
 		//You have to ask the player whether he wants to place a chip or burn 20 million SZT
 		case ("burn20ORPlaceChip"):
 			return "";//no additional information needed for client
 		//Sends the available projects and expects one project as answer
 		case ("showAvailableProjects"):
+			JsonObject availableProjects = new JsonObject();
 			JsonArray projects1= new JsonArray();
 			for(Subproject project:table.getActiveProjects()) {
 				projects1.add(project.toJson());
 			}
-		return projects1.toString();
+			availableProjects.add("availableProjects", projects1);
+			return availableProjects.toString();
 		//Sends the available projects. Player needs to select two, for removing chip from and adding chip into
 		case ("aksForInAndOutProject"):
-			JsonArray projects7= new JsonArray();
+			JsonObject availableProjects2 = new JsonObject();
+			JsonArray outProjects= new JsonArray();
+			JsonArray inProjects= new JsonArray();
 			for(Subproject project:table.getActiveProjects()) {
-				projects7.add(project.toJson());
+				if(project.chipCanBeRemoved()) {
+					outProjects.add(project.toJson());
+				}
 			}
-		return projects7.toString();
+			for(Subproject project:table.getActiveProjects()) {
+				inProjects.add(project.toJson());
+			}
+			
+			availableProjects2.add("outProjects", outProjects);
+			availableProjects2.add("inProjects", inProjects);
+			System.out.println(availableProjects2.toString());
+			return availableProjects2.toString();
 		//Sends all players. Player should select one player to steal from
 		case ("choosePlayerToStealFrom"):
 			JsonArray players=new JsonArray();
@@ -416,11 +533,11 @@ public class CrazyAirportGame extends Game{
 		return players.toString();
 		//Sends the available projects. Player needs to select to, for removing chip from and adding chip into	
 		case ("showAvailableProjectsTwiceBurn"):
-			JsonArray projects2= new JsonArray();
+			JsonArray projects8= new JsonArray();
 			for(Subproject project:table.getActiveProjects()) {
-				projects2.add(project.toJson());
+				projects8.add(project.toJson());
 			}
-		return projects2.toString();
+			return projects8.toString();
 		//Sends the available projects. Player needs to select two (can be the same)
 		case ("showAvailableProjectTwoSelection"):
 			JsonArray projects3= new JsonArray();
@@ -457,21 +574,32 @@ public class CrazyAirportGame extends Game{
 			return "";
 		//Sends the list of available projects and expects TWO selections (in and out project)
 		case ("showCard11Choice"):
-			JsonArray projects8= new JsonArray();
+			JsonArray projects9= new JsonArray();
 		for(Subproject project:table.getActiveProjects()) {
-			projects8.add(project.toJson());
+			projects9.add(project.toJson());
 		}
-		return projects8.toString();
+		return projects9.toString();
 		//Sends the list of players. Player needs to select one player to steal a chip from
 		case ("showCard23Choice"):
 			JsonArray players1=new JsonArray();
-		for(Player p:table.getPlayers()) {
-			players1.add(p.toJson());
-		}
-		return players1.toString();
+			for(Player p:table.getPlayers()) {
+				players1.add(p.toJson());
+			}
+			return players1.toString();
 		//Make dice button clickable
 		case ("showDiceButton"):
 			return "";
+		case("USERJOINED"):
+			JsonObject object=new JsonObject();
+			JsonArray users=new JsonArray();
+			for(User u:this.players) {
+				JsonObject user1=new JsonObject();
+				user1.addProperty("name", u.getName()); 
+				users.add(user1);
+			}
+			object.add("users", users);
+			System.out.println(object.toString());
+			return object.toString();
 		}
 		return null;
 	}
@@ -539,14 +667,12 @@ public class CrazyAirportGame extends Game{
 		// Splits by white Space for now, this is needed as there will be more
 		// information than just the commands in some requests.
 		String[] parts = s.split(" ");
-
+		System.out.println(parts.length);
 		if (reactionMethods.containsKey(parts[0])) {
 			BiConsumer<User, JsonObject> method = reactionMethods.get(parts[0]);
 			JsonObject data = (parts.length > 1) ? jParser.parse(s.substring(parts[0].length())).getAsJsonObject() : null;
 			method.accept(user, data);
 		} else sendMessage(user, "Es wurde ein unbekannter Befehl gesendet.");
-
-
 	}
 
 	@Override
@@ -562,9 +688,12 @@ public class CrazyAirportGame extends Game{
 	@Override
 	public void addUser(User user) {
 		players.add(user);
+		
+		sendGameDataToClients("USERJOINED");
+		System.out.println("called");
 		sendMessage("Spieler " + user.getName() + " ist beigetreten.");
 	}
-
+	
 	@Override
 	public void addSpectator(User user) {
 		spectators.add(user);

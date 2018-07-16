@@ -1,71 +1,127 @@
 <!doctype html>
 <html lang="de">
   <head>
+  
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ 	<script type="text/javascript" src="javascript/CrazyAirportGame.js"></script>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+	<link rel="stylesheet" href="CrazyAirportGame.css">
     <title>UnberechenBER</title>
   </head>
   <body>
-
+	
+	<div id="lobby">
+	<div class="container">
+	<h1>Lobby #1</h1>
+	<h2>Spielerübersicht</h2>
+	<p>Das Spiel ist mit 2 bis 5 Spielern bzw. Bots spielbar.</p>       
+	<p>
+	<button id="addAIButton" type="button" class="btn btn-primary" onclick="addAI()">Bot hinzufügen</button>
+	<button type="button" class="btn btn-primary" onclick="removeAI()">Bot löschen</button></p>
+	  <table class="table" id="lobbyTable">
+		<thead>
+		  <tr>
+			<th>Name</th>
+			<th>Rolle</th>
+		  </tr>
+		</thead>
+	  </table>
+	  <button type="button" class="btn btn-success" onclick="startGame()">Spiel starten</button>
+	  <button type="button" class="btn btn-danger">Lobby verlassen</button>
+	</div>
+	</div>
+	
+	<div id="game">
+		<img src="images/ergebnislose/BER_Ergebnislos_VS_06_1.jpg" alt="Los" id="los">
 	<div class="row">
 	<div class="col-md-8">
 		<img src="images/spielbrett.png" alt="Spielbrett" height="800" width="800">
-		<img src="images/chipBlau.png" alt="Blauer Chip" id="chipBlau1">
-		<img src="images/chipGelb.png" alt="Gelber Chip" id="chipGelb1">
-		<img src="images/chipRot.png" alt="Roter Chip" id="chipRot1">
+		<div class="chip chidden" id="feuw1"></div>
+		<div class="chip chidden" id="feuw2"></div>
+		<div class="chip chidden" id="feuw3"></div>
+		<div class="chip chidden" id="feuw4"></div>
+		<div class="chip chidden" id="feuw5"></div>
+		<div class="chip chidden" id="feuw6"></div>
+		<div class="chip chidden" id="feuw7"></div>
+		<div class="chip chidden" id="feuw8"></div>
+		<div class="chip chidden" id="feuw9"></div>
+		<div class="chip chidden" id="landn1"></div>
+		<div class="chip chidden" id="landn2"></div>
+		<div class="chip chidden" id="landn3"></div>
+		<div class="chip chidden" id="landn4"></div>
+		<div class="chip chidden" id="landn5"></div>
+		<div class="chip chidden" id="landn6"></div>
+		<div class="chip chidden" id="landn7"></div>
+		<div class="chip chidden" id="landn8"></div>
+		<div class="chip chidden" id="landn9"></div>
+		<div class="chip chidden" id="lands1"></div>
+		<div class="chip chidden" id="lands2"></div>
+		<div class="chip chidden" id="lands3"></div>
+		<div class="chip chidden" id="lands4"></div>
+		<div class="chip chidden" id="lands5"></div>
+		<div class="chip chidden" id="lands6"></div>
+		<div class="chip chidden" id="lands7"></div>
+		<div class="chip chidden" id="lands8"></div>
+		<div class="chip chidden" id="lands9"></div>
+		<div class="chip chidden" id="terma1"></div>
+		<div class="chip chidden" id="terma2"></div>
+		<div class="chip chidden" id="terma3"></div>
+		<div class="chip chidden" id="terma4"></div>
+		<div class="chip chidden" id="terma5"></div>
+		<div class="chip chidden" id="terma6"></div>
+		<div class="chip chidden" id="termb1"></div>
+		<div class="chip chidden" id="termb2"></div>
+		<div class="chip chidden" id="termb3"></div>
+		<div class="chip chidden" id="termb4"></div>
+		<div class="chip chidden" id="termb5"></div>
+		<div class="chip chidden" id="termb6"></div>
+		<div class="chip chidden" id="termb7"></div>
+		<div class="chip chidden" id="termb8"></div>
+		<div class="chip chidden" id="maint1"></div>
+		<div class="chip chidden" id="maint2"></div>
+		<div class="chip chidden" id="maint3"></div>
+		<div class="chip chidden" id="maint4"></div>
+		<div class="chip chidden" id="maint5"></div>
+		<div class="chip chidden" id="maint6"></div>
+		<div class="chip chidden" id="maint7"></div>
+		<div class="chip chidden" id="maint8"></div>
+		<div class="chip chidden" id="maint9"></div>
+		<div class="chip chidden" id="park1"></div>
+		<div class="chip chidden" id="park2"></div>
+		<div class="chip chidden" id="park3"></div>
+		<div class="chip chidden" id="park4"></div>
+		<div class="chip chidden" id="park5"></div>
+		<div class="chip chidden" id="park6"></div>
+		<div class="chip chidden" id="park7"></div>
+		<div class="chip chidden" id="park8"></div>
+		<div class="chip chidden" id="pfield1"></div>
+		<div class="chip chidden" id="pfield2"></div>
+		<div class="chip chidden" id="pfield3"></div>
+		<div class="chip chidden" id="pfield4"></div>
+		<div class="chip chidden" id="pfield5"></div>
+		<div class="chip chidden" id="pfield6"></div>
+		
 	</div>
 	<div class="col-md-4">
-		<h3 style="color: #03A9F4">Nico<span style="color : #FFFFFF"> ist am Zug</span></h3>
-		  <table class="table table-sm">
+		<h3 id="amZug">Nico<span style="color : #FFFFFF"> ist am Zug</span></h3>
+		  <table class="table table-sm" id="playerTable">
 			<thead>
 			  <tr>
-				<th></th>
+				<th>Chip</th>
 				<th>Name</th>
 				<th>Steuerzahlertaler</th>
 				<th>Chips</th>
 			  </tr>
 			</thead>
-			<tbody>
-			  <tr>
-				<td><img src="images/chipBlau.png" alt="Icon Blau" id="iconBlau"></td>
-				<td style="color: #03A9F4">Nico</td>
-				<td>200 Mio.</td>
-				<td>7</td>
-			  </tr>
-			  <tr>
-				<td><img src="images/chipGelb.png" alt="Icon Gelb" id="iconGelb"></td>
-				<td style="color: #FFEB3B">Emre</td>
-				<td>200 Mio.</td>
-				<td>7</td>
-			  </tr>
-			  <tr>
-				<td><img src="images/chipGruen.png" alt="Icon Gruen" id="iconGruen"></td>
-				<td style="color: #4CAF50">Marius</td>
-				<td>200 Mio.</td>
-				<td>7</td>
-			  </tr>
-			  <tr>
-				<td><img src="images/chipRot.png" alt="Icon Rot" id="iconRot"></td>
-				<td style="color: #D32F2F">Furkan</td>
-				<td>200 Mio.</td>
-				<td>7</td>
-			  </tr>
-			  <tr>
-				<td><img src="images/chipLila.png" alt="Icon Lila" id="iconLila"></td>
-				<td style="color: #7C4DFF">Martin</td>
-				<td>200 Mio.</td>
-				<td>7</td>
-			  </tr>
-			</tbody>
 			</table>
 			
 			<p id="dice">
-				<button type="button" id="wuerfelBut" class="btn btn-success" onclick="roll()" >Würfeln</button>
+				<button type="button" id="wuerfelBut" class="btn btn-success" disabled onclick="roll()" >Würfeln</button>
 				<h3 id="diceText">Ergebnis: 3</h3>
 			</p>
 			
@@ -74,49 +130,67 @@
 				<thead>
 					<tr>
 					<th>Teilabschnitt</th>
-					<th>     </th>
+					<th>Status</th>
+					<th>Chip entfernen</th>
+					<th>Chip setzen</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-					<td style="color:#ADBBAA">Landebahn Nord</td>
-					<td><button type="button" class="btn btn-primary btn-sm" >Chip setzen</button></td>
-					</tr>
-					<tr>
-					<td style="color:#F2AA56">Landebahn Süd</td>
-					<td><button type="button" class="btn btn-primary btn-sm" >Chip setzen</button></td>
-					</tr>
-					<tr>
-					<td style="color:#92684F">Vorfeld</td>
-					<td><button type="button" class="btn btn-primary btn-sm" >Chip setzen</button></td>
-					</tr>
-					<tr>
-					<td style="color:#BE82B5">Hauptterminal</td>
-					<td><button type="button" class="btn btn-primary btn-sm" >Chip setzen</button></td>
-					</tr>
-					<tr>
-					<td style="color:#6487C1">Terminal A</td>
-					<td><button type="button" class="btn btn-primary btn-sm" >Chip setzen</button></td>
-					</tr>
-					<tr>
-					<td style="color:#DECB62">Terminal B</td>
-					<td style="color:#FF0800">Nicht begonnen</td>
-					</tr>
-					<tr>
+					<td style="color:#FF0800" id="feuwStatus">Nicht begonnen</td>
 					<td style="color:#EA9988">Feuerwache</td>
-					<td style="color:#FF0800">Nicht begonnen</td>
+					<td><button type="button" id="feuwEntf" class="btn btn-primary btn-sm" disabled onclick="removeChipFeuw()" >Chip entfernen</button></td>
+					<td><button type="button" id="feuwSetz" class="btn btn-primary btn-sm" disabled onclick="setChipOnFeuw()" >Chip setzen</button></td>
 					</tr>
 					<tr>
+					<td style="color:#FFFFFF" id="landnStatus">Abgeschlossen</td>
+					<td style="color:#ADBBAA">Landebahn Nord</td>
+					<td><button type="button" id="landnEntf" class="btn btn-primary btn-sm" disabled onclick="removeChipLandn()" >Chip entfernen</button></td>
+					<td><button type="button" id="landnSetz" class="btn btn-primary btn-sm" disabled onclick="setChipOnLandn()" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#FFFFFF" id="landsStatus">Abgeschlossen</td>
+					<td style="color:#F2AA56">Landebahn Süd</td>
+					<td><button type="button" id="landsEntf" class="btn btn-primary btn-sm" disabled onclick="removeChipLands()" >Chip entfernen</button></td>
+					<td><button type="button" id="landsSetz" class="btn btn-primary btn-sm" disabled onclick="setChipOnLands()" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#FFFFFF" id="termaStatus">Abgeschlossen</td>
+					<td style="color:#6487C1">Terminal A</td>
+					<td><button type="button" id="termaEntf" class="btn btn-primary btn-sm" disabled onclick="removeChipTermA()" >Chip entfernen</button></td>
+					<td><button type="button" id="termaSetz" class="btn btn-primary btn-sm" disabled onclick="setChipOnTermA()" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#FFFFFF" id="termbStatus">Abgeschlossen</td>
+					<td style="color:#DECB62">Terminal B</td>
+					<td><button type="button" id="termbEntf" class="btn btn-primary btn-sm" disabled onclick="removeChipTermb()" >Chip entfernen</button></td>
+					<td><button type="button" id="termbSetz" class="btn btn-primary btn-sm" disabled onclick="setChipOnTermB()" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#FFFFFF" id="maintStatus">Abgeschlossen</td>
+					<td style="color:#BE82B5">Hauptterminal</td>
+					<td><button type="button" id="maintEntf" class="btn btn-primary btn-sm" disabled onclick="removeChipMainT()" >Chip entfernen</button></td>
+					<td><button type="button" id="maintSetz" class="btn btn-primary btn-sm" disabled onclick="setChipOnMainT()" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#FFFFFF" id="parkStatus">Abgeschlossen</td>
 					<td style="color:#A8D9E7">Parkplatz</td>
-					<td style="color:#31FF00">Abgeschlossen</td>
+					<td><button type="button" id="parkEntf" class="btn btn-primary btn-sm" disabled onclick="removeChipPark()" >Chip entfernen</button></td>
+					<td><button type="button" id="parkSetz" class="btn btn-primary btn-sm" disabled onclick="setChipOnPark()" >Chip setzen</button></td>
+					</tr>
+					<tr>
+					<td style="color:#31FF00" id="vorfStatus">Aktiv</td>
+					<td style="color:#92684F">Vorfeld</td>
+					<td><button type="button" id="vorfEntf" class="btn btn-primary btn-sm" disabled onclick="removeChipVorfeld()" >Chip entfernen</button></td>
+					<td><button type="button" id="vorfSetz" class="btn btn-primary btn-sm" disabled onclick="setChipOnVorfeld()" >Chip setzen</button></td>
 					</tr>
 				</tbody>
 				</table>
 			</p>
-		  <button type="button" id="exit" class="btn btn-danger">Spiel verlassen</button>
+		  <button type="button" id="exit" class="btn btn-danger" onclick="init()">Spiel verlassen</button>
 	</div>
 	</div>
-
+	</div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

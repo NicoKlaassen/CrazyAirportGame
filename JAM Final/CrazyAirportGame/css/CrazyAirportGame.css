@@ -1,8 +1,31 @@
+#game{
+	display: none;
+}
+
+#lobbytable:first-child td {
+    border-top: none;
+}
+
+#lobbytable {
+    width: 100%;
+}
+
+#lobbytable td {
+    border-top: 1px solid #ebebeb;
+    padding: 5px 0px 5px 30px;
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+#los{
+    display: none;
+}
+
 #dice{
     float: left;
 }
 
-#diceText{
+#dicetext{
     padding-left: 25px;
 }
 
@@ -66,7 +89,307 @@
     width: 15px;
 }
 
-#iconLila{
+#iconlila{
     height: 15px;
     width: 15px;
 }
+
+.chip{
+	border-radius: 50%;
+	height: 30px;
+	width: 30px;
+	position: absolute;
+	z-index: 1;
+	background: white;
+	border-color: black;
+	border-width: 2px;
+	border-style: solid;
+}
+
+.cred{
+	background: red !important;
+}
+
+.cyellow{
+	background: yellow !important;
+}
+
+.cgreen{
+	background: green !important;
+}
+
+.cpurple{
+	background: purple !important;
+}
+
+.cblue{
+	background: blue !important;
+}
+
+.chidden{
+	visibility:hidden;
+}
+
+.cvisible{
+	visibility:visible;
+}
+
+#feuw1{
+	top: 528px; 
+	left:136px;
+}
+#feuw2{
+	top: 553px; 
+	left:169px;
+}
+#feuw3{
+	top: 578px; 
+	left:201px;
+}
+#feuw4{
+	top: 603px; 
+	left:233px;
+}
+#feuw5{
+	top: 571px; 
+	left:257px;
+}
+#feuw6{
+	top: 538px; 
+	left:281px;
+}
+#feuw7{
+	top: 509px; 
+	left:252px;
+}
+#feuw8{
+	top: 484px; 
+	left:220px;
+}
+#feuw9{
+	top: 459px; 
+	left:188px;
+}
+#landn1{
+	top: 141px; 
+	left:429px;
+}
+#landn2{
+	top: 153px; 
+	left:389px;
+}
+#landn3{
+	top: 164px; 
+	left:350px;
+}
+#landn4{
+	top: 175px; 
+	left:311px;
+}
+#landn5{
+	top: 185px; 
+	left:272px;
+}
+#landn6{
+	top: 196px; 
+	left:232px;
+}
+#landn7{
+	top: 207px; 
+	left:193px;
+}
+#landn8{
+	top: 218px; 
+	left:154px;
+}
+#landn9{
+	top: 229px; 
+	left:115px;
+}
+#lands1{
+	top: 393px; 
+	left:749px;
+}
+#lands2{
+	top: 424px; 
+	left:720px;
+}
+#lands3{
+	top: 452px; 
+	left:690px;
+}
+#lands4{
+	top: 480px; 
+	left:661px;
+}
+#lands5{
+	top: 508px; 
+	left:631px;
+}
+#lands6{
+	top: 536px; 
+	left:602px;
+}
+#lands7{
+	top: 573px; 
+	left:583px;
+}
+#lands8{
+	top: 609px;
+	left:566px;
+}
+#lands9{
+	top: 645px; 
+	left:546px;
+}
+#terma1{
+	top: 206px; 
+	left:509px;
+}
+#terma2{
+	top: 218px; 
+	left:470px;
+}
+#terma3{
+	top: 230px; 
+	left:431px;
+}
+#terma4{
+	top: 192px; 
+	left:415px;
+}
+#terma5{
+	top: 183px; 
+	left:455px;
+}
+#terma6{
+	top: 175px; 
+	left:494px;
+}
+#termb1{
+	top: 281px; 
+	left:748px;
+}
+#termb2{
+	top: 303px; 
+	left:713px;
+}
+#termb3{
+	top: 325px;
+	left:680px;
+ }
+#termb4{
+	top: 347px; 
+	left:645px;
+}
+#termb5{
+	top: 315px; 
+	left:620px;
+}
+#termb6{
+	top: 293px; 
+	left:654px;
+}
+#termb7{
+	top: 270px; 
+	left:688px;
+}
+#termb8{
+	top: 248px; 
+	left:722px;
+}
+#maint1{
+	top: 327px; 
+	left:315px;
+}
+#maint2{
+	top: 343px; 
+	left:353px;
+}
+#maint3{
+	top: 367px; 
+	left:385px;
+}
+#maint4{
+	top: 391px; 
+	left:419px;
+}
+#maint5{
+	top: 417px; 
+	left:451px;
+}
+#maint6{
+	top: 441px; 
+	left:483px;
+}
+#maint7{
+	top: 407px; 
+	left:504px;
+}
+#maint8{
+	top: 367px; 
+	left:506px;
+}
+#maint9{
+	top: 348px; 
+	left:470px;
+}
+#park1{
+	top: 217px; 
+	left:695px;
+}
+#park2{
+	top: 237px; 
+	left:657px;
+}
+#park3{
+	top: 258px; 
+	left:616px;
+}
+#park4{
+	top: 280px; 
+	left:575px;
+}
+#park5{
+	top: 268px; 
+	left:530px;
+}
+#park6{
+	top: 239px; 
+	left:570px;
+}
+#park7{
+	top: 217px; 
+	left:614px;
+}
+#park8{
+	top: 196px; 
+	left:659px;
+}
+#pfield1{
+	top: 331px; 
+	left:222px;
+}
+#pfield2{
+	top: 366px; 
+	left:247px;
+}
+#pfield3{
+	top: 400px; 
+	left:278px;
+}
+#pfield4{
+	top: 447px; 
+	left:261px;
+}
+#pfield5{
+	top: 408px; 
+	left:230px;
+}
+#pfield6{
+	top: 371px; 
+	left:198px;
+}
+
+
+

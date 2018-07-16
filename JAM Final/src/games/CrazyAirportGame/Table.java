@@ -67,7 +67,7 @@ public class Table {
 				new SubprojectField(10, true, false),
 				new SubprojectField(20, false, false),
 				new SubprojectField(40, false, true)));
-		projectsAvailable.add(new Subproject("Landebahn S�d",fieldsSouthStreet,2));
+		projectsAvailable.add(new Subproject("Landebahn Sued",fieldsSouthStreet,2));
 		ArrayList<SubprojectField> fieldsTerminalA=new ArrayList<SubprojectField>(Arrays.asList(
 				new SubprojectField(20, false, false),
 				new SubprojectField(20, false, false),
@@ -133,12 +133,32 @@ public class Table {
 		}
 	}
 	
+	public ErgebnisLOSCard getECardByID(int id) {
+		ErgebnisLOSCard result=null;
+		for (ErgebnisLOSCard e:eCards) {
+			if(e.getId()==id) {
+				result=e;
+			}
+		}
+		return result;
+	}
+	
+	public boolean projectWithMoreThanOneChippedFieldAvailable() {
+		boolean result=false;
+		for(Subproject p:projectsActive) {
+			if(p.getFields().get(1).isChipped()) {
+				result=true;
+			}
+		}
+		return result;
+	}
+	
 	//Gives every player 7 chips
 	public void initChips() {
 		for(Player p:players) {
 			for(int i=0; i<7; i++) {
 				p.addChip(new Chip(p));
-			}
+			}			
 		}
 	}
 	
@@ -396,15 +416,20 @@ public class Table {
 		case (30):
 		case (31):
 			current.raiseScore(10);
+			break;
 		case (32):
 			current.raiseScore(30);
+			break;
 		case (33):
 			current.raiseScore(20);
+			break;
 		case (34):
 			current.raiseScore(20);
 			getRightNeigbour().raiseScore(10);
+			break;
 		case (35):
 			current.raiseScore(20);
+			break;
 		case (36):{
 			if(!projectsAvailable.isEmpty()) {
 				openUpProject(drawProject());				
@@ -441,6 +466,7 @@ public class Table {
 			break;
 		case (48):
 			current.raiseScore(20);
+			break;
 		case (50):
 			break;
 		case (52):
@@ -684,6 +710,7 @@ public class Table {
 			players.add(p.toJson());
 		}
 		result.add("players", players);
+		result.add("currentPlayer", current.toJson());
 		return result;
 	}
 	

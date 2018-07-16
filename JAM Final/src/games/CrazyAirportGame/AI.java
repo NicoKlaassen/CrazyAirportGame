@@ -4,6 +4,8 @@ import userManagement.User;
 
 public class AI extends Player {
 
+	
+	
 	public AI(User user, String color) {
 		super(user, color);
 	}
@@ -20,6 +22,8 @@ public class AI extends Player {
 		this.eCards=toCopy.geteCards();
 	}
     
-	
+	public int chooseRandom(int cap) {
+		return (int)(Math.random() * cap);
+	}
     
 }

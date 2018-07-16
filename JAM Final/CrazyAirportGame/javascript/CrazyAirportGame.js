@@ -1,20 +1,1043 @@
 
 
-function init() {
-    console.log("loeschen der kopfzeile");
-    var elem = document.getElementById('menu');
-    elem.parentNode.removeChild(elem);
+//keine verfickten Umlaute in diese verhurten Kommentare - danke
+
+//Testfunktion um Spiel verlassen zu blockieren
+//function init() {
+//	sendDataToServer('sawf');
+//    console.log("loeschen der kopfzeile");
+//    document.getElementById("content").style.top="100px";
+//    var elem = document.getElementById('menu');
+//    elem.parentNode.removeChild(elem);
+//}
+
+var onClickDecide='';
+var removeChipProject='';
+var outActiveProjects='';
+var inActiveProjects='';
+
+addListener('USERJOINED',function (event) {
+	$("#lobbyTable").html("<thead><tr><th>Name</th><th>Rolle</th></tr></thead>");
+	var obj = event.data;
+	var json = JSON.parse(obj);
+	for(var i in json.users){
+		$("#lobbyTable").append('<tr><td class="playerColumn">'+json.users[i].name+'</td><td class="roleColumn">Spieler</td></tr>');
+	}
+	 
+});
+
+addListener('tableStatus',function (event) {
+	$("#playerTable").html("<thead><tr><th>Chip</th><th>Name</th><th>Steuerzahlertaler</th><th>Chips</th></tr></thead>");
+	var obj = event.data;
+	var json = JSON.parse(obj);
+	console.log(json);
+	for(var i in json.players){
+		if(i==0){
+			$("#playerTable").append('<tr><td class="chipColumn"><img src="images/chipBlau.png" alt="Icon Blau" id="iconBlau"></td><td style="color: #03A9F4">'+json.players[i].name+'</td><td>'+json.players[i].score+'</td><td>'+json.players[i].chips.length+'</td></tr>')
+			if(json.players[i].name==json.currentPlayer.name){
+				$("#amZug").html('<span style="color : #03A9F4">'+json.players[i].name+'</span><span style="color : #FFFFFF"> ist am Zug</span>');
+			}
+		}
+		if(i==1){
+			$("#playerTable").append('<tr><td class="chipColumn"><img src="images/chipGelb.png" alt="Icon Gelb" id="iconGelb"></td><td style="color: #FFEB3B">'+json.players[i].name+'</td><td>'+json.players[i].score+'</td><td>'+json.players[i].chips.length+'</td></tr>')
+			if(json.players[i].name==json.currentPlayer.name){
+				$("#amZug").html('<span style="color : #FFEB3B">'+json.players[i].name+'</span><span style="color : #FFFFFF"> ist am Zug</span>');
+			}
+		}
+		if(i==2){
+			$("#playerTable").append('<tr><td class="chipColumn"><img src="images/chipGruen.png" alt="Icon Gruen" id="iconGruen"></td><td style="color: #4CAF50">'+json.players[i].name+'</td><td>'+json.players[i].score+'</td><td>'+json.players[i].chips.length+'</td></tr>')
+			if(json.players[i].name==json.currentPlayer.name){
+				$("#amZug").html('<span style="color : #4CAF50">'+json.players[i].name+'</span><span style="color : #FFFFFF"> ist am Zug</span>');
+			}
+		}
+		if(i==3){
+			$("#playerTable").append('<tr><td class="chipColumn"><img src="images/chipRot.png" alt="Icon Rot" id="iconRot"></td><td style="color: #D32F2F">'+json.players[i].name+'</td><td>'+json.players[i].score+'</td><td>'+json.players[i].chips.length+'</td></tr>')
+			if(json.players[i].name==json.currentPlayer.name){
+				$("#amZug").html('<span style="color : #D32F2F">'+json.players[i].name+'</span><span style="color : #FFFFFF"> ist am Zug</span>');
+			}
+		}
+		if(i==4){
+			$("#playerTable").append('<tr><td class="chipColumn"><img src="images/chipLila.png" alt="Icon Lila" id="iconLila"></td><td style="color: #7C4DFF">'+json.players[i].name+'</td><td>'+json.players[i].score+'</td><td>'+json.players[i].chips.length+'</td></tr>')
+			if(json.players[i].name==json.currentPlayer.name){
+				$("#amZug").html('<span style="color : #7C4DFF">'+json.players[i].name+'</span><span style="color : #FFFFFF"> ist am Zug</span>');
+			}
+		}
+	}
+	for(var a in json.active){
+		if(json.active[a].id==0){
+			for(var b in json.active[a].fields){
+				if(json.active[a].fields[b].Chip=="blue"){
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cblue');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="yellow"){
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cyellow');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="green"){
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cgreen');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="red"){
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cred');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="purple"){
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cpurple');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="none"){
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.active[a].id==1){
+			for(var b in json.active[a].fields){
+				if(json.active[a].fields[b].Chip=="blue"){
+					document.getElementById("landn"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cblue');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="yellow"){
+					document.getElementById("landn"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cyellow');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="green"){
+					document.getElementById("landn"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cgreen');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="red"){
+					document.getElementById("landn"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cred');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="purple"){
+					document.getElementById("landn"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cpurple');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="none"){
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("landn"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.active[a].id==2){
+			for(var b in json.active[a].fields){
+				if(json.active[a].fields[b].Chip=="blue"){
+					document.getElementById("lands"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cblue');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="yellow"){
+					document.getElementById("lands"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cyellow');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="green"){
+					document.getElementById("lands"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cgreen');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="red"){
+					document.getElementById("lands"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cred');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="purple"){
+					document.getElementById("lands"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cpurple');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="none"){
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("lands"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.active[a].id==3){
+			for(var b in json.active[a].fields){
+				if(json.active[a].fields[b].Chip=="blue"){
+					document.getElementById("terma"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cblue');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="yellow"){
+					document.getElementById("terma"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cyellow');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="green"){
+					document.getElementById("terma"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cgreen');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="red"){
+					document.getElementById("terma"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cred');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="purple"){
+					document.getElementById("terma"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cpurple');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="none"){
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("terma"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.active[a].id==4){
+			for(var b in json.active[a].fields){
+				if(json.active[a].fields[b].Chip=="blue"){
+					document.getElementById("termb"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cblue');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="yellow"){
+					document.getElementById("termb"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cyellow');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="green"){
+					document.getElementById("termb"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cgreen');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="red"){
+					document.getElementById("termb"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cred');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="purple"){
+					document.getElementById("termb"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cpurple');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="none"){
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("termb"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.active[a].id==5){
+			for(var b in json.active[a].fields){
+				if(json.active[a].fields[b].Chip=="blue"){
+					document.getElementById("maint"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cblue');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="yellow"){
+					document.getElementById("maint"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cyellow');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="green"){
+					document.getElementById("maint"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cgreen');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="red"){
+					document.getElementById("maint"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cred');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="purple"){
+					document.getElementById("maint"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cpurple');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="none"){
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("maint"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.active[a].id==6){
+			for(var b in json.active[a].fields){
+				if(json.active[a].fields[b].Chip=="blue"){
+					document.getElementById("park"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cblue');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="yellow"){
+					document.getElementById("park"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cyellow');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="green"){
+					document.getElementById("park"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cgreen');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="red"){
+					document.getElementById("park"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cred');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="purple"){
+					document.getElementById("park"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cpurple');
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="none"){
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("park"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("park"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.active[a].id==7){
+			for(var b in json.active[a].fields){
+				if(json.active[a].fields[b].Chip=="blue"){
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cblue');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="yellow"){
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cyellow');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="green"){
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cgreen');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="red"){
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cred');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="purple"){
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.remove('chidden');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cpurple');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('cvisible');
+				}
+				if(json.active[a].fields[b].Chip=="none"){
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+	}
+	for(var c in json.active){
+		if(json.active[c].id==0){
+			document.getElementById('feuwStatus').style="color:#31FF00";
+			document.getElementById('feuwStatus').innerHTML="Aktiv";
+		}
+		if(json.active[c].id==1){
+			document.getElementById('landnStatus').style="color:#31FF00";
+			document.getElementById('landnStatus').innerHTML="Aktiv";
+		}
+		if(json.active[c].id==2){
+			document.getElementById('landsStatus').style="color:#31FF00";
+			document.getElementById('landsStatus').innerHTML="Aktiv";
+		}
+		if(json.active[c].id==3){
+			document.getElementById('termaStatus').style="color:#31FF00";
+			document.getElementById('termaStatus').innerHTML="Aktiv";
+		}
+		if(json.active[c].id==4){
+			document.getElementById('termbStatus').style="color:#31FF00";
+			document.getElementById('termbStatus').innerHTML="Aktiv";
+		}
+		if(json.active[c].id==5){
+			document.getElementById('maintStatus').style="color:#31FF00";
+			document.getElementById('maintStatus').innerHTML="Aktiv";
+		}
+		if(json.active[c].id==6){
+			document.getElementById('parkStatus').style="color:#31FF00";
+			document.getElementById('parkStatus').innerHTML="Aktiv";
+		}
+		if(json.active[c].id==7){
+			document.getElementById('vorfStatus').style="color:#31FF00";
+			document.getElementById('vorfStatus').innerHTML="Aktiv";
+		}
+	}
+	for(var c in json.available){
+		if(json.available[c].id==0){
+			document.getElementById('feuwStatus').style="color:#FF0800";
+			document.getElementById('feuwStatus').innerHTML="Inaktiv";
+		}
+		if(json.available[c].id==1){
+			document.getElementById('landnStatus').style="color:#FF0800";
+			document.getElementById('landnStatus').innerHTML="Inaktiv";
+		}
+		if(json.available[c].id==2){
+			document.getElementById('landsStatus').style="color:#FF0800";
+			document.getElementById('landsStatus').innerHTML="Inaktiv";
+		}
+		if(json.available[c].id==3){
+			document.getElementById('termaStatus').style="color:#FF0800";
+			document.getElementById('termaStatus').innerHTML="Inaktiv";
+		}
+		if(json.available[c].id==4){
+			document.getElementById('termbStatus').style="color:#FF0800";
+			document.getElementById('termbStatus').innerHTML="Inaktiv";
+		}
+		if(json.available[c].id==5){
+			document.getElementById('maintStatus').style="color:#FF0800";
+			document.getElementById('maintStatus').innerHTML="Inaktiv";
+		}
+		if(json.available[c].id==6){
+			document.getElementById('parkStatus').style="color:#FF0800";
+			document.getElementById('parkStatus').innerHTML="Inaktiv";
+		}
+		if(json.available[c].id==7){
+			document.getElementById('vorfStatus').style="color:#FF0800";
+			document.getElementById('vorfStatus').innerHTML="Inaktiv";
+		}
+	}
+	for(var c in json.finished){
+		if(json.finished[c].id==0){
+			document.getElementById('feuwStatus').style="color:#FFFFFF";
+			document.getElementById('feuwStatus').innerHTML="Abgeschlossen";
+		}
+		if(json.finished[c].id==1){
+			document.getElementById('landnStatus').style="color:#FFFFFF";
+			document.getElementById('landnStatus').innerHTML="Abgeschlossen";
+		}
+		if(json.finished[c].id==2){
+			document.getElementById('landsStatus').style="color:#FFFFFF";
+			document.getElementById('landsStatus').innerHTML="Abgeschlossen";
+		}
+		if(json.finished[c].id==3){
+			document.getElementById('termaStatus').style="color:#FFFFFF";
+			document.getElementById('termaStatus').innerHTML="Abgeschlossen";
+		}
+		if(json.finished[c].id==4){
+			document.getElementById('termbStatus').style="color:#FFFFFF";
+			document.getElementById('termbStatus').innerHTML="Abgeschlossen";
+		}
+		if(json.finished[c].id==5){
+			document.getElementById('maintStatus').style="color:#FFFFFF";
+			document.getElementById('maintStatus').innerHTML="Abgeschlossen";
+		}
+		if(json.finished[c].id==6){
+			document.getElementById('parkStatus').style="color:#FFFFFF";
+			document.getElementById('parkStatus').innerHTML="Abgeschlossen";
+		}
+		if(json.finished[c].id==7){
+			document.getElementById('vorfStatus').style="color:#FFFFFF";
+			document.getElementById('vorfStatus').innerHTML="Abgeschlossen";
+		}
+	}
+});
+
+addListener('showAvailableProjects', function(event){
+	console.log("projects");
+	var obj = event.data;
+	var json = JSON.parse(obj);
+	for(var i in json.availableProjects){
+		if(json.availableProjects[i].id==0){
+			console.log("projects0");
+			document.getElementById("feuwSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==1){
+			console.log("projects1");
+			document.getElementById("landnSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==2){
+			console.log("projects2");
+			document.getElementById("landsSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==3){
+			console.log("projects3");
+			document.getElementById("termaSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==4){
+			console.log("projects4");
+			document.getElementById("termbSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==5){
+			console.log("projects5");
+			document.getElementById("maintSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==6){
+			console.log("projects6");
+			document.getElementById("parkSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==7){
+			console.log("projects7");
+			document.getElementById("vorfSetz").removeAttribute("disabled");
+		}
+	}
+});
+
+addListener('diceResult',function (event) {
+	var obj = event.data;
+	var json = JSON.parse(obj);
+	console.log(json.result);
+	if(json.result=='true'){
+		document.getElementById('diceText').innerHTML="Ergebnis: E-Karte ziehen";
+	}
+	else{
+		document.getElementById('diceText').innerHTML="Ergebnis: Chip setzen";
+	}
+});
+
+addListener('aksForInAndOutProject',function (event) {
+	onClickDecide=2;
+	var obj = event.data;
+	var json = JSON.parse(obj);
+	outActiveProjects=json;
+	for(var i in outActiveProjects.outProjects){
+		if(outActiveProjects.outProjects[i].id==0){
+			console.log("projects0");
+			document.getElementById("feuwEntf").removeAttribute("disabled");
+		}
+		if(outActiveProjects.outProjects[i].id==1){
+			console.log("projects1");
+			document.getElementById("landnEntf").removeAttribute("disabled");
+		}
+		if(outActiveProjects.outProjects[i].id==2){
+			console.log("projects2");
+			document.getElementById("landsEntf").removeAttribute("disabled");
+		}
+		if(outActiveProjects.outProjects[i].id==3){
+			console.log("projects3");
+			document.getElementById("termaEntf").removeAttribute("disabled");
+		}
+		if(outActiveProjects.outProjects[i].id==4){
+			console.log("projects4");
+			document.getElementById("termbEntf").removeAttribute("disabled");
+		}
+		if(outActiveProjects.outProjects[i].id==5){
+			console.log("projects5");
+			document.getElementById("maintEntf").removeAttribute("disabled");
+		}
+		if(outActiveProjects.outProjects[i].id==6){
+			console.log("projects6");
+			document.getElementById("parkEntf").removeAttribute("disabled");
+		}
+		if(outActiveProjects.outProjects[i].id==7){
+			console.log("projects7");
+			document.getElementById("vorfEntf").removeAttribute("disabled");
+		}
+	}
+});
+
+function removeChipFromFeuwAndPutItIntoAnother(){
+	console.log("zwei");
+	executeOnServer("removeChipFromProjectAndPutItIntoAnotherAnswer", '{"projectID":'+ 0 + '}');
+	enableRemoveChipButtonsChipButtons();
 }
 
+function enableRemoveChipButtons(){
+	document.getElementById("feuwEntf").disabled=true;
+	document.getElementById("landnEntf").disabled=true;
+	document.getElementById("landsEntf").disabled=true;
+	document.getElementById("termaEntf").disabled=true;
+	document.getElementById("termbEntf").disabled=true;
+	document.getElementById("maintEntf").disabled=true;
+	document.getElementById("parkEntf").disabled=true;
+	document.getElementById("vorfEntf").disabled=true;
+}
+
+function removeEnableActiveProjects(){
+	console.log(outActiveProjects.inProjects);
+	console.log(outActiveProjects.inProjects);
+	for(var i in outActiveProjects.inProjects){
+		if(outActiveProjects.inProjects[i].id==0){
+			console.log("projects0");
+			document.getElementById("feuwSetz").removeAttribute("disabled");
+		}
+		if(outActiveProjects.inProjects[i].id==1){
+			console.log("projects1");
+			document.getElementById("landnSetz").removeAttribute("disabled");
+		}
+		if(outActiveProjects.inProjects[i].id==2){
+			console.log("projects2");
+			document.getElementById("landsSetz").removeAttribute("disabled");
+		}
+		if(outActiveProjects.inProjects[i].id==3){
+			console.log("projects3");
+			document.getElementById("termaSetz").removeAttribute("disabled");
+		}
+		if(outActiveProjects.inProjects[i].id==4){
+			console.log("projects4");
+			document.getElementById("termbSetz").removeAttribute("disabled");
+		}
+		if(outActiveProjects.inProjects[i].id==5){
+			console.log("projects5");
+			document.getElementById("maintSetz").removeAttribute("disabled");
+		}
+		if(outActiveProjects.inProjects[i].id==6){
+			console.log("projects6");
+			document.getElementById("parkSetz").removeAttribute("disabled");
+		}
+		if(outActiveProjects.inProjects[i].id==7){
+			console.log("projects7");
+			document.getElementById("vorfSetz").removeAttribute("disabled");
+		}
+	}
+}
+
+
+function removeChipFeuw(){
+	removeChipProject=0;
+	enableRemoveChipButtons();
+	removeEnableActiveProjects();
+}
+
+function removeChipLandn(){
+	removeChipProject=1;
+	enableRemoveChipButtons();
+	removeEnableActiveProjects();
+}
+
+function removeChipLands(){
+	removeChipProject=2;
+	enableRemoveChipButtons();
+	removeEnableActiveProjects();
+}
+
+function removeChipTermA(){
+	removeChipProject=3;
+	enableRemoveChipButtons();
+	removeEnableActiveProjects();
+}
+
+function removeChipTermb(){
+	removeChipProject=4;
+	enableRemoveChipButtons();
+	removeEnableActiveProjects();
+}
+
+function removeChipMainT(){
+	removeChipProject=5;
+	enableRemoveChipButtons();
+	removeEnableActiveProjects();
+}
+
+function removeChipMainT(){
+	removeChipProject=5;
+	enableRemoveChipButtons();
+	removeEnableActiveProjects();
+}
+
+function removeChipPark(){
+	removeChipProject=6;
+	enableRemoveChipButtons();
+	removeEnableActiveProjects();
+}
+
+function removeChipVorfeld(){
+	removeChipProject=7;
+	enableRemoveChipButtons();
+	removeEnableActiveProjects();
+}
+
+addListener('askForProjectToSetTwoChips', function (event) {
+	console.log("ist reingelaufen");
+	onClickDecide=1;
+	var obj = event.data;
+	var json = JSON.parse(obj);
+	for(var i in json.availableProjects){
+		if(json.availableProjects[i].id==0){
+			console.log("projects0");
+			document.getElementById("feuwSetz").removeAttribute("disabled");
+			document.getElementById("feuwSetz").firstChild.data="Zwei Chips setzen";
+		}
+		if(json.availableProjects[i].id==1){
+			console.log("projects1");
+			document.getElementById("landnSetz").removeAttribute("disabled");
+			document.getElementById("landnSetz").firstChild.data="Zwei Chips setzen";
+		}
+		if(json.availableProjects[i].id==2){
+			console.log("projects2");
+			document.getElementById("landsSetz").removeAttribute("disabled");
+			document.getElementById("landsSetz").firstChild.data="Zwei Chips setzen";
+		}
+		if(json.availableProjects[i].id==3){
+			console.log("projects3");
+			document.getElementById("termaSetz").removeAttribute("disabled");
+			document.getElementById("termaSetz").firstChild.data="Zwei Chips setzen";
+		}
+		if(json.availableProjects[i].id==4){
+			console.log("projects4");
+			document.getElementById("termbSetz").removeAttribute("disabled");
+			document.getElementById("termbSetz").firstChild.data="Zwei Chips setzen";
+		}
+		if(json.availableProjects[i].id==5){
+			console.log("projects5");
+			document.getElementById("maintSetz").removeAttribute("disabled");
+			document.getElementById("maintSetz").firstChild.data="Zwei Chips setzen";
+		}
+		if(json.availableProjects[i].id==6){
+			console.log("projects6");
+			document.getElementById("parkSetz").removeAttribute("disabled");
+			document.getElementById("parkSetz").firstChild.data="Zwei Chips setzen";
+		}
+		if(json.availableProjects[i].id==7){
+			console.log("projects7");
+			document.getElementById("vorfSetz").removeAttribute("disabled");
+			document.getElementById("vorfSetz").firstChild.data="Zwei Chips setzen";
+		}
+	}
+});
+
+function setTwoChipsOnFeuw(){
+	console.log("zwei");
+	executeOnServer("subprojectAnswerTwoChipsInOneProject", '{"projectID":'+ 0 + '}');
+	setBackPlaceChipText();
+	enableSetChipButtons();
+}
+
+function setTwoChipsOnLandn(){
+	console.log("zwei");
+	executeOnServer("subprojectAnswerTwoChipsInOneProject", '{"projectID":'+ 1 + '}');
+	setBackPlaceChipText();
+	enableSetChipButtons();
+}
+
+function setTwoChipsOnLands(){
+	console.log("zwei");
+	executeOnServer("subprojectAnswerTwoChipsInOneProject", '{"projectID":'+ 2 + '}');
+	setBackPlaceChipText();
+	enableSetChipButtons();
+}
+
+function setTwoChipsOnTermA(){
+	console.log("zwei");
+	executeOnServer("subprojectAnswerTwoChipsInOneProject", '{"projectID":'+ 3 + '}');
+	setBackPlaceChipText();
+	enableSetChipButtons();
+}
+
+function setTwoChipsOnTermB(){
+	console.log("zwei");
+	executeOnServer("subprojectAnswerTwoChipsInOneProject", '{"projectID":'+ 4 + '}');
+	setBackPlaceChipText();
+	enableSetChipButtons();
+}
+
+function setTwoChipsOnMainT(){
+	console.log("zwei");
+	executeOnServer("subprojectAnswerTwoChipsInOneProject", '{"projectID":'+ 5 + '}');
+	setBackPlaceChipText();
+	enableSetChipButtons();
+}
+
+function setTwoChipsOnPark(){
+	console.log("zwei");
+	executeOnServer("subprojectAnswerTwoChipsInOneProject", '{"projectID":'+ 6 + '}');
+	setBackPlaceChipText();
+	enableSetChipButtons();
+}
+
+function setTwoChipsOnVorfeld(){
+	console.log("zwei");
+	executeOnServer("subprojectAnswerTwoChipsInOneProject", '{"projectID":'+ 7 + '}');
+	setBackPlaceChipText();
+	enableSetChipButtons();
+}
+
+function removedChipOnFeuw(){
+	executeOnServer("removeChipFromProjectAndPutItIntoAnotherAnswer", '{"fromProjectID":'+ removeChipProject + ', "toProjectID":'+ 0 + '}');
+}
+
+function removedChipOnLandn(){
+	executeOnServer("removeChipFromProjectAndPutItIntoAnotherAnswer", '{"fromProjectID":'+ removeChipProject + ', "toProjectID":'+ 1 + '}');
+}
+
+function removedChipOnLands(){
+	executeOnServer("removeChipFromProjectAndPutItIntoAnotherAnswer", '{"fromProjectID":'+ removeChipProject + ', "toProjectID":'+ 2 + '}');
+}
+
+function removedChipOnTerma(){
+	executeOnServer("removeChipFromProjectAndPutItIntoAnotherAnswer", '{"fromProjectID":'+ removeChipProject + ', "toProjectID":'+ 3 + '}');
+}
+
+function removedChipOnTermb(){
+	executeOnServer("removeChipFromProjectAndPutItIntoAnotherAnswer", '{"fromProjectID":'+ removeChipProject + ', "toProjectID":'+ 4 + '}');
+}
+
+function removedChipOnMaint(){
+	executeOnServer("removeChipFromProjectAndPutItIntoAnotherAnswer", '{"fromProjectID":'+ removeChipProject + ', "toProjectID":'+ 5 + '}');
+}
+
+function removedChipOnPark(){
+	executeOnServer("removeChipFromProjectAndPutItIntoAnotherAnswer", '{"fromProjectID":'+ removeChipProject + ', "toProjectID":'+ 6 + '}');
+}
+
+function removedChipOnVorfeld(){
+	executeOnServer("removeChipFromProjectAndPutItIntoAnotherAnswer", '{"fromProjectID":'+ removeChipProject + ', "toProjectID":'+ 7 + '}');
+}
+
+addListener('showECard',function (event) {
+	var obj = event.data;
+	var json = JSON.parse(obj);
+	console.log(json.eCardID);
+	showECard(json.eCardID);
+});
+
+
+addListener('showDiceButton',function (event) {
+	document.getElementById("wuerfelBut").removeAttribute("disabled");
+});
+
+addListener('startGame',function (event) {
+	document.getElementById("game").style.display='block';
+	document.getElementById("lobby").style.display='none';
+	console.log("startGame");
+});
+
+// executes the command, works with data in json object
+function executeOnServer(keyword, json) {
+	json = json.replace(/{/g, "%7B");
+	json = json.replace(/}/g, "%7D");
+	sendDataToServer(keyword + " " + json);
+}
+
+addListener('sendMessage', function(event){
+	console.log("event sendMessage");
+	console.log(event.data);
+});
+
+function setChipOnFeuw(){
+	if(onClickDecide==1){
+		setTwoChipsOnFeuw();
+		onClickDecide=0;
+	}
+	if(onClickDecide==2){
+		removedChipOnFeuw();
+		onClickDecide=0;
+	}
+	else{
+	console.log("chosen Project feuw");
+	executeOnServer("chosenProject", '{"projectID":'+ 0 + '}');
+	enableSetChipButtons();
+	}
+}
+
+function setChipOnLandn(){
+	if(onClickDecide==1){
+		setTwoChipsOnLandn();
+		onClickDecide=0;
+	}
+	if(onClickDecide==2){
+		removedChipOnLandn();
+		onClickDecide=0;
+	}
+	else{
+	console.log("chosen Project landn");
+	executeOnServer("chosenProject", '{"projectID":'+ 1 + '}');
+	enableSetChipButtons();
+	}
+}
+
+function setChipOnLands(){
+	if(onClickDecide==1){
+		setTwoChipsOnLands();
+		onClickDecide=0;
+	}
+	if(onClickDecide==2){
+		removedChipOnLands();
+		onClickDecide=0;
+	}
+	else{
+	console.log("chosen Project lands");
+	executeOnServer("chosenProject", '{"projectID":'+ 2 + '}');
+	enableSetChipButtons();
+	}
+}
+
+function setChipOnTermA(){
+	if(onClickDecide==1){
+		setTwoChipsOnTermA();
+		onClickDecide=0;
+	}
+	if(onClickDecide==2){
+		removedChipOnTerma();
+		onClickDecide=0;
+	}
+	else{
+	console.log("chosen Project termA");
+	executeOnServer("chosenProject", '{"projectID":'+ 3 + '}');
+	enableSetChipButtons();
+	}
+}
+
+function setChipOnTermB(){
+	if(onClickDecide==1){
+		setTwoChipsOnTermB();
+		onClickDecide=0;
+	}
+	if(onClickDecide==2){
+		removedChipOnTermb();
+		onClickDecide=0;
+	}
+	else{
+	console.log("chosen Project termB");
+	executeOnServer("chosenProject", '{"projectID":'+ 4 + '}');
+	enableSetChipButtons();
+	}
+}
+
+function setChipOnMainT(){
+	if(onClickDecide==1){
+		setTwoChipsOnMainT();
+		onClickDecide=0;
+	}
+	if(onClickDecide==2){
+		removedChipOnMaint();
+		onClickDecide=0;
+	}
+	else{
+	console.log("chosen Project maint");
+	executeOnServer("chosenProject", '{"projectID":'+ 5 + '}');
+	enableSetChipButtons();
+	}
+}
+
+function setChipOnPark(){
+	if(onClickDecide==1){
+		setTwoChipsOnPark();
+		onClickDecide=0;
+	}
+	if(onClickDecide==2){
+		removedChipOnPark();
+		onClickDecide=0;
+	}
+	else{
+	console.log("chosen Project park");
+	executeOnServer("chosenProject", '{"projectID":'+ 6 + '}');
+	enableSetChipButtons();
+	}
+}
+
+function setChipOnVorfeld(){
+	if(onClickDecide==1){
+		setTwoChipsOnVorfeld();
+		onClickDecide=0;
+	}
+	if(onClickDecide==2){
+		removedChipOnVorfeld();
+		onClickDecide=0;
+	}
+	else{
+	console.log("chosen Project vfeld");
+	executeOnServer("chosenProject", '{"projectID":'+ 7 + '}');
+	enableSetChipButtons();
+	}
+}
+
+function enableSetChipButtons(){
+	document.getElementById("feuwSetz").disabled=true;
+	document.getElementById("landnSetz").disabled=true;
+	document.getElementById("landsSetz").disabled=true;
+	document.getElementById("termaSetz").disabled=true;
+	document.getElementById("termbSetz").disabled=true;
+	document.getElementById("maintSetz").disabled=true;
+	document.getElementById("parkSetz").disabled=true;
+	document.getElementById("vorfSetz").disabled=true;
+}
+
+function setBackPlaceChipText(){
+	document.getElementById("feuwSetz").firstChild.data="Chip setzen";
+	document.getElementById("landnSetz").firstChild.data="Chip setzen";
+	document.getElementById("landsSetz").firstChild.data="Chip setzen";
+	document.getElementById("termaSetz").firstChild.data="Chip setzen";
+	document.getElementById("termbSetz").firstChild.data="Chip setzen";
+	document.getElementById("maintSetz").firstChild.data="Chip setzen";
+	document.getElementById("parkSetz").firstChild.data="Chip setzen";
+	document.getElementById("vorfSetz").firstChild.data="Chip setzen";
+}
+
+//wuerfeln
 function roll() {
-    console.log("wuerfel rollen");
-    if(document.getElementById("projects").style.display=='none'){
-        document.getElementById("projects").style.display='block';
-        document.getElementById("projects").style.width='376px';
-        document.getElementById("diceText").style.display='block';
-    }
-    else{
-        document.getElementById("projects").style.display='none';
-        document.getElementById("diceText").style.display='none';
-    }
+    sendDataToServer('rollDice');
+    document.getElementById("wuerfelBut").disabled=true;
+}
+
+//Einblenden der Ergebnislose
+function showECard(cardNumber) {
+    var link = "images/ergebnislose/BER_Ergebnislos_VS_06_";
+    link += cardNumber;
+    link += ".jpg";
+    document.getElementById("los").src=link;
+    document.getElementById("los").style.display="block";
+    setTimeout(hideCard, 3000);
+}
+//Einblenden der Verantwortungslose
+function showVCard(cardNumber) {
+    var link = "images/verantwortungslose/BER_Verantwortungslos_VS_06_";
+    link += cardNumber;
+    link += ".jpg";
+    document.getElementById("los").src=link;
+    document.getElementById("los").style.display="block";
+    setTimeout(hideCard, 5000);
+}
+function hideCard() {
+    document.getElementById("los").style.display="none";
+}
+
+//Wechsel Lobby in Spiel
+function startGame(){
+	document.getElementById("game").style.display='block';
+	document.getElementById("lobby").style.display='none';
+	console.log("startGame");
+	sendDataToServer('startGame');
+}
+//add new AI
+function addAI() {
+    console.log("addAI");
+    $("#lobbyTable").append('<tr><td class="playerColumn">Computer</td><td class="roleColumn">Spieler</td></tr>');
+    sendDataToServer('addAI');
+}
+
+//prints the table of the players
+addListener('showPlayer', function(event) {
+    console.log("Listener showPlayer");
+    var stringFromServer = event.data;
+    // console.log(event.data);
+    var obj = JSON.parse(stringFromServer);
+
+    $("#lobbyTable tr").remove();
+
+    for (var i = 0; i < obj.length; i++) {
+        if (obj[i].current) {
+            var row = '<tr id="active">'
+        } else var row = '<tr>';
+
+        $("#lobbyTable").append(
+            row+ (obj[i].isHuman ? '<td class="playerColumn">' : '<td class="computerColumn">' )+obj[i].name+'</td></tr>'
+        );
+    };
+
+});
+
+//leave lobby
+function byeBye() {
+	console.log("Spiel verlassen");
+	sendDataToServer('quit');
+}
+
+function setChip(projectID, fieldID){
+	switch(projectID){
+		case 0:
+			switch(fieldID){
+				case 0:
+					document.getElementById("feuw2").classList.remove('chidden');
+					document.getElementById("feuw2").classList.add('cred');
+			}
+	}
 }
