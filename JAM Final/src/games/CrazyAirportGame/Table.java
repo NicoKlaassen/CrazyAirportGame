@@ -128,8 +128,10 @@ public class Table {
 	//Fills deck of EreignisLOS-Cards by setting ID's
 	public void fillEreignisLOSArray() {
 		for(int i=1; i<=55; i++) {
-			ErgebnisLOSCard c= new ErgebnisLOSCard(i);
-			eCards.add(c);
+			if(i!=10) {
+				ErgebnisLOSCard c= new ErgebnisLOSCard(i);
+				eCards.add(c);
+			}
 		}
 	}
 	
@@ -138,6 +140,16 @@ public class Table {
 		for (ErgebnisLOSCard e:eCards) {
 			if(e.getId()==id) {
 				result=e;
+			}
+		}
+		return result;
+	}
+	
+	public VerantwortungsLOSCard getVCardByID(int id) {
+		VerantwortungsLOSCard result=null;
+		for (VerantwortungsLOSCard v:vCards) {
+			if(v.getId()==id) {
+				result=v;
 			}
 		}
 		return result;
@@ -215,6 +227,16 @@ public class Table {
 			if(p.getUser().getName().equals(name)) return p;
 		}
 		return null;
+	}
+	
+	public ArrayList<Player> getPlayersExceptCurrent(){
+		ArrayList<Player> players=new ArrayList<Player>();
+		for(Player p:this.players) {
+			if(p.getUser().getName()!=current.getUser().getName()) {
+				players.add(p);
+			}
+		}
+		return players;
 	}
 	
 	public VerantwortungsLOSCard getVCardFromCurrentByID(int id) {
@@ -398,9 +420,17 @@ public class Table {
 			current.raiseScore(50);
 			break;
 		case (21):
-			getRightNeigbour().lowerScore(50);
-			current.raiseScore(50);
-			break;
+			if(getRightNeigbour().getScore()<50) {
+				int score=getRightNeigbour().getScore();
+				getRightNeigbour().lowerScore(score);
+				current.raiseScore(score);
+				break;
+			}
+			else {
+				getRightNeigbour().lowerScore(50);
+				current.raiseScore(50);
+				break;
+			}
 		case (22):
 			current.raiseScore(20);
 			break;
@@ -432,7 +462,8 @@ public class Table {
 			break;
 		case (36):{
 			if(!projectsAvailable.isEmpty()) {
-				openUpProject(drawProject());				
+				openUpProject(drawProject());
+				break;
 			}
 			else current.raiseScore(30);
 			}
@@ -667,8 +698,15 @@ public class Table {
 	
 	//current gets specified amount of SZT from current player
 	public void takeSZTFromRightNeighbor(int value) {
-		getRightNeigbour().lowerScore(value);
-		current.raiseScore(value);
+		if(getRightNeigbour().getScore()<value) {
+			int score=getRightNeigbour().getScore();
+			getRightNeigbour().lowerScore(score);
+			current.raiseScore(score);
+		}
+		else {
+			getRightNeigbour().lowerScore(value);
+			current.raiseScore(value);
+		}
 	}
 	
 	//second right neighbor of current player gets his score raised by a specified amount

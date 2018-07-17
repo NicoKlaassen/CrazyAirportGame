@@ -28,6 +28,7 @@ public class CrazyAirportGame extends Game{
 	private static final String STRINGFehlgeschlagen = "<h2>Laden fehlgeschlagen</h2>";
 	private static final int MaxPlayers = 5;
 	private static final int MinPlayers =3;
+	private int setTwoChipHelp;
 	Table table=new Table();
 	HashMap<String, BiConsumer<User, JsonObject>> reactionMethods = new HashMap<>();
 	Gson gsonFormatter = new Gson();
@@ -68,7 +69,7 @@ public class CrazyAirportGame extends Game{
 			messageToSend=Boolean.toString(result);
 			sendGameDataToClients("diceResult");
 			if(result) {
-				ErgebnisLOSCard eCard=table.getECardByID(42);
+				ErgebnisLOSCard eCard=table.drawECard();
 				messageToSend=Integer.toString(eCard.getId());
 				sendGameDataToClients("showECard");
 				switch(eCard.getId()) {
@@ -131,18 +132,104 @@ public class CrazyAirportGame extends Game{
 			int chosenProject=message.get("projectID").getAsInt();
 			System.out.println("test");
 			if(table.setChipOnProject(table.getActiveProjectByID(chosenProject))) {
-				table.endTurn();
-				startTurn();
-				VerantwortungsLOSCard vCard=table.drawVCard();
+				VerantwortungsLOSCard vCard=table.getVCardByID(12);
 				messageToSend=Integer.toString(vCard.getId());
 				sendGameDataToClients("showVCard");
+				sendGameDataToClients("tableStatus");
+				switch(vCard.getId()) {
+				case 8:
+					if(table.getCurrent().getChips().size()==0) {
+						sendGameDataToClients("tableStatus");
+						table.endTurn();
+						startTurn();
+					}
+					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsTwiceBurn");
+					break;
+				case 12:
+					if(table.getCurrent().getChips().size()==1) {
+						table.getCurrent().raiseScore(50);
+						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+						break;
+					}
+					else if(table.getCurrent().getChips().size()==0) {
+						table.getCurrent().raiseScore(50);
+						break;
+					}
+					else {
+						table.getCurrent().raiseScore(50);
+						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelection");
+						break;
+					}
+				case 15:
+					int i=0;
+					for(Subproject p:table.getActiveProjects()) {
+						if(p.getFields().get(1).isChipped()) {
+							i++;
+						}
+					}
+					if(i==1){
+						table.getCurrent().raiseScore(100);
+						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");//TODO
+						break;
+					}
+					else {
+					table.getCurrent().raiseScore(100);
+					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");
+					break;
+					}
+				case 16:
+					table.getCurrent().raiseScore(100);
+					if(table.getCurrent().getChips().size()>=2) {
+						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsPlaceTwoChips");
+						break;
+					}
+					else if(table.getCurrent().getChips().size()==1) {
+						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+						break;
+					}
+					break;
+				case 17:
+					if(table.getCurrent().getChips().size()>=2) {
+						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelection");
+						break;
+						
+					}
+					else if(table.getCurrent().getChips().size()==1) {
+						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+						break;
+					}
+				case 20:
+					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsExtraDice");
+					break;
+				default:
+					table.processStandardVCard(vCard);
+					sendGameDataToClients("tableStatus");
+					table.endTurn();
+					startTurn();
+				}
+			}
+			else {
+				sendGameDataToClients("tableStatus");
+				table.endTurn();
+				startTurn();
+			}});
+		
+		reactionMethods.put("chosenProject1", (User user, JsonObject message)->{
+			setTwoChipHelp=1;
+			int chosenProject=message.get("projectID").getAsInt();
+			System.out.println("test");
+			if(table.setChipOnProject(table.getActiveProjectByID(chosenProject))) {
+				VerantwortungsLOSCard vCard=table.getVCardByID(12);
+				messageToSend=Integer.toString(vCard.getId());
+				sendGameDataToClients("showVCard");
+				sendGameDataToClients("tableStatus");
 				switch(vCard.getId()) {
 				case 8:
 					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsTwiceBurn");
 					break;
 				case 12:
 					table.getCurrent().raiseScore(50);
-					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelection");
+					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
 					break;
 				case 15:
 					table.getCurrent().raiseScore(100);
@@ -170,13 +257,11 @@ public class CrazyAirportGame extends Game{
 					break;
 				default:
 					table.processStandardVCard(vCard);
-					table.endTurn();
 					startTurn();
 				}
 			}
 			else {
 				sendGameDataToClients("tableStatus");
-				table.endTurn();
 				startTurn();
 			}});
 
@@ -249,8 +334,15 @@ public class CrazyAirportGame extends Game{
 			sendGameDataToUser(table.getCurrent().getUser(), "showDiceButton");
 			startTurn();
 		});
+		
+		reactionMethods.put("stealChipFromPlayer",(User user, JsonObject message)->{
+			Player player=table.getPlayerByName(message.get("playerName").getAsString());
+			table.takeChipFromAnotherPlayer(player);
+			startTurn();
+		});
 
 		reactionMethods.put("add2ChipsOnExistingProjects", (User user, JsonObject message)-> {
+			System.out.println("waaaaaaaarum");
 			Subproject answerProject1=table.getActiveProjectByID(message.get("projectID1").getAsInt());
 			Subproject answerProject2=table.getActiveProjectByID(message.get("projectID2").getAsInt());
 			if(answerProject1.getId()==answerProject2.getId()) {
@@ -259,7 +351,6 @@ public class CrazyAirportGame extends Game{
 			else if(answerProject1.getId()!=answerProject2.getId()) {
 				table.add2ChipsOnExistingProjects(answerProject1, answerProject2);
 			}
-			sendGameDataToClients("tableStatus");
 			table.endTurn();
 			startTurn();
 		});
@@ -527,31 +618,41 @@ public class CrazyAirportGame extends Game{
 		//Sends all players. Player should select one player to steal from
 		case ("choosePlayerToStealFrom"):
 			JsonArray players=new JsonArray();
-			for(Player p:table.getPlayers()) {
+			JsonObject playersToStealFrom=new JsonObject();
+			for(Player p:table.getPlayersExceptCurrent()) {
 				players.add(p.toJson());
 			}
-		return players.toString();
+			System.out.println(""+players.toString());
+			playersToStealFrom.add("players", players);
+			System.out.println(playersToStealFrom.toString());
+			return playersToStealFrom.toString();
 		//Sends the available projects. Player needs to select to, for removing chip from and adding chip into	
 		case ("showAvailableProjectsTwiceBurn"):
 			JsonArray projects8= new JsonArray();
+			JsonObject twiceBurnProjects=new JsonObject();
 			for(Subproject project:table.getActiveProjects()) {
 				projects8.add(project.toJson());
 			}
-			return projects8.toString();
+			twiceBurnProjects.add("availableProjects", projects8);
+			return twiceBurnProjects.toString();
 		//Sends the available projects. Player needs to select two (can be the same)
 		case ("showAvailableProjectTwoSelection"):
 			JsonArray projects3= new JsonArray();
+			JsonObject twoSelectionProjects=new JsonObject();
 			for(Subproject project:table.getActiveProjects()) {
 				projects3.add(project.toJson());
 			}
-		return projects3.toString();
+			twoSelectionProjects.add("availableProjects", projects3);
+			return twoSelectionProjects.toString();
 		//Sends the available projects. Player needs to select two (can be the same)
 		case ("showAvailableProjectTwoSelectionTakeChips"):
 			JsonArray projects4= new JsonArray();
+			JsonObject twiceSelectionProjects=new JsonObject();
 			for(Subproject project:table.getActiveProjects()) {
 				projects4.add(project.toJson());
 			}
-		return projects4.toString();
+			twiceSelectionProjects.add("availableProjects", projects4);
+			return twiceSelectionProjects.toString();
 		//Sends the available projects. Player needs to select two (can be the same)
 		case ("showAvailableProjectsPlaceTwoChips"):
 			JsonArray projects5= new JsonArray();
