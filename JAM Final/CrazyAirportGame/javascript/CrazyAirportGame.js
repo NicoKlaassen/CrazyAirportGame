@@ -1,15 +1,19 @@
-
-
-//keine verfickten Umlaute in diese verhurten Kommentare - danke
+//keine Umlaute in den Kommentaren oder Funktionen bitte
 
 //Testfunktion um Spiel verlassen zu blockieren
-//function init() {
-//	sendDataToServer('sawf');
-//    console.log("loeschen der kopfzeile");
-//    document.getElementById("content").style.top="100px";
-//    var elem = document.getElementById('menu');
-//    elem.parentNode.removeChild(elem);
-//}
+	function init() {
+	sendDataToServer('sawf');
+    console.log("loeschen der kopfzeile");
+    document.getElementById("content").style.top="100px";
+    var elem = document.getElementById('menu');
+    elem.parentNode.removeChild(elem);
+}
+	
+function load(){
+		init();
+		console.log("Loading done");
+		sendDataToServer("lobbyJoin");
+		}
 
 var onClickDecide='';
 var removeChipProject='';
