@@ -39,7 +39,7 @@ public class CrazyAirportGame extends Game{
 	private ArrayList<User> spectators = new ArrayList<>();
 	private ArrayList<AI> bots = new ArrayList<>();
 	private List<String> colors = Arrays.asList("blue", "yellow", "green", "red", "purple");
-	private List<String> botNames = Arrays.asList("Bot #1", "Bot #2", "Bot #3", "Bot #4");
+	private List<String> botNames = Arrays.asList("Andreas", "Thomas", "Martin", "Julian");
 	private int aiCount=0;
 	//Lobby end
 
@@ -67,18 +67,19 @@ public class CrazyAirportGame extends Game{
 
 		reactionMethods.put("addAI", (User user, JsonObject message)->{
 			if (gState == GameState.SETUP && user.equals(getGameCreator())) {
-				//User bot = new User("Bot","PW");
-				//bot.setGameInstanceId(gameInstanceId);
-				//addUser(bot);
-				aiCount++;
-				sendGameDataToClients("USERJOINED");
+				if(getCurrentPlayerAmount()<5){
+					aiCount++;
+					sendGameDataToClients("USERJOINED");
+				}
 			}
 		});
 		
 		reactionMethods.put("removeAI", (User user, JsonObject message)->{
 			if (gState == GameState.SETUP && user.equals(getGameCreator())) {
-				aiCount--;
-				sendGameDataToClients("USERJOINED");
+				if(aiCount>0){
+					aiCount--;
+					sendGameDataToClients("USERJOINED");
+				}
 			}
 		});
 		
@@ -94,6 +95,7 @@ public class CrazyAirportGame extends Game{
 				ErgebnisLOSCard eCard=table.drawECard();
 				messageToSend=Integer.toString(eCard.getId());
 				sendGameDataToClients("showECard");
+				System.out.println(table.getCurrent().getUser().getName() + " eCard " + eCard.getId());
 				switch(eCard.getId()) {
 				case 3:
 					sendGameDataToUser(table.getCurrent().getUser(), "askForProjectToSetTwoChips");
@@ -144,7 +146,7 @@ public class CrazyAirportGame extends Game{
 			}
 			else {
 				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
-
+				System.out.println(table.getCurrent().getUser().getName() + " Chip setzen");
 			}
 		});
 
@@ -263,6 +265,7 @@ public class CrazyAirportGame extends Game{
 					table.addVCard(20);
 					vCard=table.drawVCard();
 				}
+				System.out.println(table.getCurrent().getUser().getName() + " vCard " + vCard.getId());
 				messageToSend=Integer.toString(vCard.getId());
 				sendGameDataToClients("showVCard");
 				sendGameDataToClients("tableStatus");
@@ -532,6 +535,7 @@ public class CrazyAirportGame extends Game{
 	//TODO card24
 	public void startTurn() {
 		if(table.getCurrent() instanceof AI) {
+			sendGameDataToClients("tableStatus");
 			processAIMove();
 		}
 		else {
@@ -545,12 +549,21 @@ public class CrazyAirportGame extends Game{
 		}	
 	}
 	
+	public void pause(){
+		try {
+			java.util.concurrent.TimeUnit.SECONDS.sleep(10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	//TODO 
 	public void processAIMove() {
 		boolean diceResult=table.rollTheDice();
 		if(diceResult) {
 			ErgebnisLOSCard eCard=table.drawECard();
+			System.out.println(table.getCurrent().getUser().getName() + " eCard " + eCard.getId());
 			messageToSend=Integer.toString(eCard.getId());
 			sendGameDataToClients("showECard");
 			switch(eCard.getId()) {
@@ -558,16 +571,20 @@ public class CrazyAirportGame extends Game{
 				table.setTwoChipsInOneProject(table.getActiveProjects().get((((AI)table.getCurrent()).chooseRandom(table.getActiveProjects().size()))));
 				sendGameDataToClients("tableStatus");
 				table.endTurn();
+				pause();
 				startTurn();
 				break;
 			case 10:
 				sendGameDataToUser(table.getLeftNeighbor().getUser(), "burn20ORPlaceChip");
+				pause();
 				break;
 			case 24:
 				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+				pause();
 				break;
 			case 42:
 				sendGameDataToUser(table.getCurrent().getUser(), "aksForInAndOutProject");
+				pause();
 				break;
 			case 47:
 				table.getCurrent().raiseScore(20);
@@ -575,68 +592,126 @@ public class CrazyAirportGame extends Game{
 				messageToSend=Integer.toString(vCard.getId());
 				sendGameDataToClients("showVCard");
 				handleVCardCommunication(vCard.getId());
+				pause();
 				break;
 			case 49:
 				VerantwortungsLOSCard vCard2=table.drawVCard();
 				messageToSend=Integer.toString(vCard2.getId());
 				sendGameDataToClients("showVCard");
 				handleVCardCommunication(vCard2.getId());
+				pause();
 				break;
 			case 51:
 				sendGameDataToUser(table.getCurrent().getUser(), "choosePlayerToStealFrom");
+				pause();
 				break;
 			case 53:
 				VerantwortungsLOSCard vCard3=table.drawVCard();
 				messageToSend=Integer.toString(vCard3.getId());
 				sendGameDataToClients("showVCard");
+				pause();
 				handleVCardCommunication(vCard3.getId());
 				break;
 			default:
 				table.processStandardECard(eCard);
 				sendGameDataToClients("tableStatus");
 				table.endTurn();
+				pause();
 				startTurn();
 			}
 		}
 		else {
+			System.out.println(table.getCurrent().getUser().getName() + " Chip setzen");
 			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
 		}
 	}
 
 
 	private void handleVCardCommunication(int id) {
+		id = 12;
+		pause();
 		switch(id) {
 		case 8:
+			if(table.getCurrent().getChips().size()==0) {
+				sendGameDataToClients("tableStatus");
+				table.endTurn();
+				startTurn();
+				break;
+			}
 			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsTwiceBurn");
 			break;
 		case 12:
-			table.getCurrent().raiseScore(50);
-			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelection");
-			break;
+			if(table.getCurrent().getChips().size()==1) {
+				table.getCurrent().raiseScore(50);
+				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+				break;
+			}
+			else if(table.getCurrent().getChips().size()==0) {
+				table.getCurrent().raiseScore(50);
+				sendGameDataToClients("tableStatus");
+				table.endTurn();
+				startTurn();
+				break;
+			}
+			else if(table.getCurrent().getChips().size()>=2){
+				table.getCurrent().raiseScore(50);
+				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelection");
+				break;
+			}
 		case 15:
+			int i=0;
+			for(Subproject p:table.getActiveProjects()) {
+				if(p.chipCanBeRemoved()) {
+					i++;
+				}
+			}
+			if(i==1){
+				table.getCurrent().raiseScore(100);
+				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");//TODO take one Chip
+				break;
+			}
+			else {
 			table.getCurrent().raiseScore(100);
 			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");
 			break;
+			}
 		case 16:
 			table.getCurrent().raiseScore(100);
 			if(table.getCurrent().getChips().size()>=2) {
 				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsPlaceTwoChips");
+				break;
 			}
 			else if(table.getCurrent().getChips().size()==1) {
 				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+				break;
+			}
+			else if(table.getCurrent().getChips().size()==0) {
+				sendGameDataToClients("tableStatus");
+				table.endTurn();
+				startTurn();
+				break;
 			}
 			break;
 		case 17:
 			if(table.getCurrent().getChips().size()>=2) {
-				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsPlaceTwoChips");
+				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelection");
+				break;
+				
 			}
 			else if(table.getCurrent().getChips().size()==1) {
 				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+				break;
 			}
-			break;
 		case 20:
+			if(table.getCurrent().getChips().size()>=1) {
 			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsExtraDice");
 			break;
+			}
+			else if(table.getCurrent().getChips().size()==0) {
+				sendGameDataToClients("tableStatus");
+				table.endTurn();
+				startTurn();
+			}
 		default:
 			table.processStandardVCard(table.getVCardFromCurrentByID(id));
 		}
@@ -892,7 +967,7 @@ public class CrazyAirportGame extends Game{
 
 	@Override
 	public int getCurrentPlayerAmount() {
-		return players.size();
+		return players.size() + aiCount;
 	}
 
 	@Override
