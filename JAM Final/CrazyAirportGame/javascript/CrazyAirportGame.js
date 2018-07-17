@@ -1,15 +1,13 @@
-
-
-//keine verfickten Umlaute in diese verhurten Kommentare - danke
+//keine Umlaute in die Kommentare bitte, weil sonst das Script nicht geladen wird - danke
 
 //Testfunktion um Spiel verlassen zu blockieren
-//function init() {
-//	sendDataToServer('sawf');
-//    console.log("loeschen der kopfzeile");
-//    document.getElementById("content").style.top="100px";
-//    var elem = document.getElementById('menu');
-//    elem.parentNode.removeChild(elem);
-//}
+function init() {
+	sendDataToServer('sawf');
+    console.log("loeschen der kopfzeile");
+    document.getElementById("content").style.top="100px";
+    var elem = document.getElementById('menu');
+    elem.parentNode.removeChild(elem);
+}
 
 var onClickDecide='';
 var removeChipProject='';
@@ -17,6 +15,7 @@ var outActiveProjects='';
 var inActiveProjects='';
 
 function load(){
+	init();
 	console.log("Loading done");
 	sendDataToServer("lobbyJoin");
 }
@@ -1033,8 +1032,8 @@ addListener('showPlayer', function(event) {
 
 });
 
-//leave lobby
-function byeBye() {
+//leave Game/Lobby
+function leaveGame() {
 	console.log("Spiel verlassen");
 	sendDataToServer('quit');
 }
