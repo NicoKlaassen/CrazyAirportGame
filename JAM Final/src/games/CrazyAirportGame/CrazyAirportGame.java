@@ -164,6 +164,7 @@ public class CrazyAirportGame extends Game{
 						sendGameDataToClients("tableStatus");
 						table.endTurn();
 						startTurn();
+						break;
 					}
 					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsTwiceBurn");
 					break;
@@ -175,9 +176,12 @@ public class CrazyAirportGame extends Game{
 					}
 					else if(table.getCurrent().getChips().size()==0) {
 						table.getCurrent().raiseScore(50);
+						sendGameDataToClients("tableStatus");
+						table.endTurn();
+						startTurn();
 						break;
 					}
-					else {
+					else if(table.getCurrent().getChips().size()>=2){
 						table.getCurrent().raiseScore(50);
 						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelection");
 						break;
@@ -185,13 +189,13 @@ public class CrazyAirportGame extends Game{
 				case 15:
 					int i=0;
 					for(Subproject p:table.getActiveProjects()) {
-						if(p.getFields().get(1).isChipped()) {
+						if(p.chipCanBeRemoved()) {
 							i++;
 						}
 					}
 					if(i==1){
 						table.getCurrent().raiseScore(100);
-						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");//TODO
+						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");//TODO take one Chip
 						break;
 					}
 					else {
@@ -209,6 +213,12 @@ public class CrazyAirportGame extends Game{
 						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
 						break;
 					}
+					else if(table.getCurrent().getChips().size()==0) {
+						sendGameDataToClients("tableStatus");
+						table.endTurn();
+						startTurn();
+						break;
+					}
 					break;
 				case 17:
 					if(table.getCurrent().getChips().size()>=2) {
@@ -221,8 +231,15 @@ public class CrazyAirportGame extends Game{
 						break;
 					}
 				case 20:
+					if(table.getCurrent().getChips().size()>=1) {
 					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsExtraDice");
 					break;
+					}
+					else if(table.getCurrent().getChips().size()==0) {
+						sendGameDataToClients("tableStatus");
+						table.endTurn();
+						startTurn();
+					}
 				default:
 					table.processStandardVCard(vCard);
 					sendGameDataToClients("tableStatus");
@@ -247,38 +264,86 @@ public class CrazyAirportGame extends Game{
 				sendGameDataToClients("tableStatus");
 				switch(vCard.getId()) {
 				case 8:
+					if(table.getCurrent().getChips().size()==0) {
+						sendGameDataToClients("tableStatus");
+						table.endTurn();
+						startTurn();
+						break;
+					}
 					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsTwiceBurn");
 					break;
 				case 12:
-					table.getCurrent().raiseScore(50);
-					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
-					break;
+					if(table.getCurrent().getChips().size()==1) {
+						table.getCurrent().raiseScore(50);
+						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+						break;
+					}
+					else if(table.getCurrent().getChips().size()==0) {
+						table.getCurrent().raiseScore(50);
+						sendGameDataToClients("tableStatus");
+						startTurn();
+						break;
+					}
+					else if(table.getCurrent().getChips().size()>=2){
+						table.getCurrent().raiseScore(50);
+						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelection");
+						break;
+					}
 				case 15:
+					int i=0;
+					for(Subproject p:table.getActiveProjects()) {
+						if(p.chipCanBeRemoved()) {
+							i++;
+						}
+					}
+					if(i==1){
+						table.getCurrent().raiseScore(100);
+						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");//TODO take one Chip
+						break;
+					}
+					else {
 					table.getCurrent().raiseScore(100);
 					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");
 					break;
+					}
 				case 16:
 					table.getCurrent().raiseScore(100);
 					if(table.getCurrent().getChips().size()>=2) {
 						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsPlaceTwoChips");
+						break;
 					}
 					else if(table.getCurrent().getChips().size()==1) {
 						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+						break;
+					}
+					else if(table.getCurrent().getChips().size()==0) {
+						sendGameDataToClients("tableStatus");
+						startTurn();
+						break;
 					}
 					break;
 				case 17:
 					if(table.getCurrent().getChips().size()>=2) {
-						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsPlaceTwoChips");
+						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelection");
+						break;
+						
 					}
 					else if(table.getCurrent().getChips().size()==1) {
 						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+						break;
 					}
-					break;
 				case 20:
+					if(table.getCurrent().getChips().size()>=1) {
 					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsExtraDice");
 					break;
+					}
+					else if(table.getCurrent().getChips().size()==0) {
+						sendGameDataToClients("tableStatus");
+						startTurn();
+					}
 				default:
 					table.processStandardVCard(vCard);
+					sendGameDataToClients("tableStatus");
 					startTurn();
 				}
 			}
@@ -496,7 +561,6 @@ public class CrazyAirportGame extends Game{
 		}
 		else {
 			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
-
 		}
 	}
 
