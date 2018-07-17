@@ -1434,7 +1434,7 @@ addListener('showPlayer', function(event) {
 });
 
 //leave lobby
-function byeBye() {
+function leaveLobby() {
 	console.log("Spiel verlassen");
 	sendDataToServer('quit');
 }
