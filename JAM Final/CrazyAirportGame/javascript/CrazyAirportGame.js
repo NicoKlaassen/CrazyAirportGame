@@ -1,15 +1,13 @@
-
-
-//keine verfickten Umlaute in diese verhurten Kommentare - danke
+//keine Umlaute in die Kommentare bitte, weil sonst das Script nicht geladen wird - danke
 
 //Testfunktion um Spiel verlassen zu blockieren
-//function init() {
-//	sendDataToServer('sawf');
-//    console.log("loeschen der kopfzeile");
-//    document.getElementById("content").style.top="100px";
-//    var elem = document.getElementById('menu');
-//    elem.parentNode.removeChild(elem);
-//}
+function init() {
+	sendDataToServer('sawf');
+    console.log("loeschen der kopfzeile");
+    document.getElementById("content").style.top="100px";
+    var elem = document.getElementById('menu');
+    elem.parentNode.removeChild(elem);
+}
 
 var onClickDecide='';
 var removeChipProject='';
@@ -18,14 +16,19 @@ var inActiveProjects='';
 var stealPlayersSize='';
 var chosenProject='';
 
+function load(){
+	init();
+	console.log("Loading done");
+	sendDataToServer("lobbyJoin");
+}
+
 addListener('USERJOINED',function (event) {
 	$("#lobbyTable").html("<thead><tr><th>Name</th><th>Rolle</th></tr></thead>");
 	var obj = event.data;
 	var json = JSON.parse(obj);
 	for(var i in json.users){
-		$("#lobbyTable").append('<tr><td class="playerColumn">'+json.users[i].name+'</td><td class="roleColumn">Spieler</td></tr>');
+		$("#lobbyTable").append('<tr><td class="playerColumn">'+json.users[i].name+'</td><td class="roleColumn">'+json.users[i].role+'</td></tr>');
 	}
-	 
 });
 
 addListener('tableStatus',function (event) {
@@ -1322,16 +1325,38 @@ function hideCard() {
 
 //Wechsel Lobby in Spiel
 function startGame(){
+    if(minmaxPlayer()) {
+        window.alert("Es sind mehr als 5 Spieler in der Lobby oder Es sind weniger als 2 Spieler in der Lobby und ein weiterer Spieler muss in die Lobby ");
+        return false;
+    } 
 	document.getElementById("game").style.display='block';
 	document.getElementById("lobby").style.display='none';
 	console.log("startGame");
-	sendDataToServer('startGame');
-}
+    sendDataToServer('startGame');
+    }
 //add new AI
 function addAI() {
     console.log("addAI");
-    $("#lobbyTable").append('<tr><td class="playerColumn">Computer</td><td class="roleColumn">Spieler</td></tr>');
     sendDataToServer('addAI');
+}
+
+function removeAI() {
+    console.log("removeAI");
+    sendDataToServer('removeAI');
+}
+
+function minmaxPlayer() {
+    var rowCount = $("#lobbyTable tr").length;
+    rowCount = rowCount - 1;
+   // rowCount = 2;
+    console.log(rowCount);
+    var check= false;
+    if(rowCount>5) {
+        check = true;
+    } else if(rowCount<2) {
+        check = true;
+    }
+    return check;
 }
 
 //prints the table of the players
@@ -1355,11 +1380,12 @@ addListener('showPlayer', function(event) {
 
 });
 
-//leave lobby
-function byeBye() {
+//leave Game/Lobby
+function leaveGame() {
 	console.log("Spiel verlassen");
 	sendDataToServer('quit');
 }
+
 
 function setChip(projectID, fieldID){
 	switch(projectID){

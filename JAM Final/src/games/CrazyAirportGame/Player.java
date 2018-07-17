@@ -115,6 +115,10 @@ public class Player implements Comparable<Player> {
 		return color;
 	}
 	
+	public void setColor(String color) {
+		this.color = color;
+	}
+	
 	public JsonArray chipsToJson() {
 		JsonArray chips=new JsonArray();
 		for(Chip c:this.chips) {
