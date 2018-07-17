@@ -579,6 +579,7 @@ public class Table {
 		project.finishProject();
 		projectsFinished.add(project);
 		projectsActive.remove(project);
+		openUpProject(drawProject());
 	}
 
 	//Returns the right neighbor of the current player
@@ -750,6 +751,10 @@ public class Table {
 		result.add("players", players);
 		result.add("currentPlayer", current.toJson());
 		return result;
+	}
+	
+	public void addVCard(int id) {
+		this.vCards.add(new VerantwortungsLOSCard(id));
 	}
 	
 	public ArrayList<Subproject> getActiveProjectsMoreThenOneFreeField(){

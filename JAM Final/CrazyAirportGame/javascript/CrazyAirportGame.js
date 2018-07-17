@@ -1,13 +1,15 @@
-//keine Umlaute in die Kommentare bitte, weil sonst das Script nicht geladen wird - danke
+
+
+//keine verfickten Umlaute in diese verhurten Kommentare - danke
 
 //Testfunktion um Spiel verlassen zu blockieren
-function init() {
-	sendDataToServer('sawf');
-    console.log("loeschen der kopfzeile");
-    document.getElementById("content").style.top="100px";
-    var elem = document.getElementById('menu');
-    elem.parentNode.removeChild(elem);
-}
+//function init() {
+//	sendDataToServer('sawf');
+//    console.log("loeschen der kopfzeile");
+//    document.getElementById("content").style.top="100px";
+//    var elem = document.getElementById('menu');
+//    elem.parentNode.removeChild(elem);
+//}
 
 var onClickDecide='';
 var removeChipProject='';
@@ -16,19 +18,14 @@ var inActiveProjects='';
 var stealPlayersSize='';
 var chosenProject='';
 
-function load(){
-	init();
-	console.log("Loading done");
-	sendDataToServer("lobbyJoin");
-}
-
 addListener('USERJOINED',function (event) {
 	$("#lobbyTable").html("<thead><tr><th>Name</th><th>Rolle</th></tr></thead>");
 	var obj = event.data;
 	var json = JSON.parse(obj);
 	for(var i in json.users){
-		$("#lobbyTable").append('<tr><td class="playerColumn">'+json.users[i].name+'</td><td class="roleColumn">'+json.users[i].role+'</td></tr>');
+		$("#lobbyTable").append('<tr><td class="playerColumn">'+json.users[i].name+'</td><td class="roleColumn">Spieler</td></tr>');
 	}
+	 
 });
 
 addListener('tableStatus',function (event) {
@@ -65,6 +62,80 @@ addListener('tableStatus',function (event) {
 			$("#playerTable").append('<tr><td class="chipColumn"><img src="images/chipLila.png" alt="Icon Lila" id="iconLila"></td><td style="color: #7C4DFF">'+json.players[i].name+'</td><td>'+json.players[i].score+'</td><td>'+json.players[i].chips.length+'</td><td><button type="button" id="takeSZTPlayer5" class="btn btn-primary btn-sm" disabled onclick="takeSZTPlayer5()" >SZT wegnehmen</button></td><td><button type="button" id="takeChipPlayer5" class="btn btn-primary btn-sm" disabled onclick="removeChipPlayer5()">Chip wegnehmen</button></td><td><button type="button" id="userSpecialCard11" class="btn btn-primary btn-sm" disabled onclick="useSpecialCard11()" >Karte 11 nutzen</button></td><td><button type="button" id="userSpecialCard23" class="btn btn-primary btn-sm" disabled onclick="useSpecialCard23()" >Karte 23 nutzen</button></td></tr>')
 			if(json.players[i].name==json.currentPlayer.name){
 				$("#amZug").html('<span style="color : #7C4DFF">'+json.players[i].name+'</span><span style="color : #FFFFFF"> ist am Zug</span>');
+			}
+		}
+	}
+	for(var a in json.finished){
+		if(json.finished[a].id==0){
+			for(var b in json.finished[a].fields){
+				if(json.finished[a].fields[b].Chip=="none"){
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.finished[a].id==1){
+			for(var b in json.finished[a].fields){
+				if(json.finished[a].fields[b].Chip=="none"){
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("landn"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.finished[a].id==2){
+			for(var b in json.finished[a].fields){
+				if(json.finished[a].fields[b].Chip=="none"){
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("lands"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.finished[a].id==3){
+			for(var b in json.finished[a].fields){
+				if(json.finished[a].fields[b].Chip=="none"){
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("terma"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.finished[a].id==4){
+			for(var b in json.finished[a].fields){
+				if(json.finished[a].fields[b].Chip=="none"){
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("termb"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.finished[a].id==5){
+			for(var b in json.finished[a].fields){
+				if(json.finished[a].fields[b].Chip=="none"){
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("maint"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.finished[a].id==6){
+			for(var b in json.finished[a].fields){
+				if(json.finished[a].fields[b].Chip=="none"){
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("park"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("park"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.finished[a].id==7){
+			for(var b in json.finished[a].fields){
+				if(json.finished[a].fields[b].Chip=="none"){
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
 			}
 		}
 	}
@@ -622,7 +693,7 @@ addListener('showAvailableProjectTwoSelection', function(event){
 addListener('choosePlayerToStealFrom', function(event) {
 	var obj = event.data;
 	var json = JSON.parse(obj);
-	stealPlayersSize=json.player.length;
+	stealPlayersSize=json.players.length;
 	for(var i in json.players){
 		console.log(json.players[i].name);
 		console.log(document.getElementById('playerTable').rows[1].cells[1].innerHTML);
@@ -1325,38 +1396,16 @@ function hideCard() {
 
 //Wechsel Lobby in Spiel
 function startGame(){
-    if(minmaxPlayer()) {
-        window.alert("Es sind mehr als 5 Spieler in der Lobby oder Es sind weniger als 2 Spieler in der Lobby und ein weiterer Spieler muss in die Lobby ");
-        return false;
-    } 
 	document.getElementById("game").style.display='block';
 	document.getElementById("lobby").style.display='none';
 	console.log("startGame");
-    sendDataToServer('startGame');
-    }
+	sendDataToServer('startGame');
+}
 //add new AI
 function addAI() {
     console.log("addAI");
+    $("#lobbyTable").append('<tr><td class="playerColumn">Computer</td><td class="roleColumn">Spieler</td></tr>');
     sendDataToServer('addAI');
-}
-
-function removeAI() {
-    console.log("removeAI");
-    sendDataToServer('removeAI');
-}
-
-function minmaxPlayer() {
-    var rowCount = $("#lobbyTable tr").length;
-    rowCount = rowCount - 1;
-   // rowCount = 2;
-    console.log(rowCount);
-    var check= false;
-    if(rowCount>5) {
-        check = true;
-    } else if(rowCount<2) {
-        check = true;
-    }
-    return check;
 }
 
 //prints the table of the players
@@ -1380,12 +1429,11 @@ addListener('showPlayer', function(event) {
 
 });
 
-//leave Game/Lobby
-function leaveGame() {
+//leave lobby
+function byeBye() {
 	console.log("Spiel verlassen");
 	sendDataToServer('quit');
 }
-
 
 function setChip(projectID, fieldID){
 	switch(projectID){

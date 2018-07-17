@@ -98,7 +98,6 @@ public class CrazyAirportGame extends Game{
 				case 3:
 					sendGameDataToUser(table.getCurrent().getUser(), "askForProjectToSetTwoChips");
 					break;
-				//maybe we should skip this shit... :-D
 				case 10:
 					sendGameDataToUser(table.getLeftNeighbor().getUser(), "burn20ORPlaceChip");
 					break;
@@ -151,10 +150,11 @@ public class CrazyAirportGame extends Game{
 
 		//In allen Methoden tableStatus
 		reactionMethods.put("chosenProject", (User user, JsonObject message)->{
+			setTwoChipHelp=0;
 			int chosenProject=message.get("projectID").getAsInt();
 			System.out.println("test");
 			if(table.setChipOnProject(table.getActiveProjectByID(chosenProject))) {
-				VerantwortungsLOSCard vCard=table.getVCardByID(12);
+				VerantwortungsLOSCard vCard=table.drawVCard();
 				messageToSend=Integer.toString(vCard.getId());
 				sendGameDataToClients("showVCard");
 				sendGameDataToClients("tableStatus");
@@ -258,7 +258,11 @@ public class CrazyAirportGame extends Game{
 			int chosenProject=message.get("projectID").getAsInt();
 			System.out.println("test");
 			if(table.setChipOnProject(table.getActiveProjectByID(chosenProject))) {
-				VerantwortungsLOSCard vCard=table.getVCardByID(12);
+				VerantwortungsLOSCard vCard=table.drawVCard();
+				if(vCard.getId()==20) {
+					table.addVCard(20);
+					vCard=table.drawVCard();
+				}
 				messageToSend=Integer.toString(vCard.getId());
 				sendGameDataToClients("showVCard");
 				sendGameDataToClients("tableStatus");
@@ -281,6 +285,7 @@ public class CrazyAirportGame extends Game{
 					else if(table.getCurrent().getChips().size()==0) {
 						table.getCurrent().raiseScore(50);
 						sendGameDataToClients("tableStatus");
+						table.endTurn();
 						startTurn();
 						break;
 					}
@@ -349,7 +354,6 @@ public class CrazyAirportGame extends Game{
 			}
 			else {
 				sendGameDataToClients("tableStatus");
-				startTurn();
 			}});
 
 		reactionMethods.put("specialCardAnswer11", (User user, JsonObject message)->{
@@ -410,8 +414,14 @@ public class CrazyAirportGame extends Game{
 			System.out.println("ToProject"+toProject.getId());
 			table.removeChipFromProjectAndPutItIntoAnother(fromProject, toProject);
 			sendGameDataToClients("tableStatus");
+			if(setTwoChipHelp==1) {
+				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+				setTwoChipHelp=0;
+			}
+			else {
 			table.endTurn();
 			startTurn();
+			}
 		});
 
 		reactionMethods.put("removeChipFromProjectAndPutItIntoAnotherAnswerExtraDice",(User user, JsonObject message)->{
@@ -438,16 +448,28 @@ public class CrazyAirportGame extends Game{
 			else if(answerProject1.getId()!=answerProject2.getId()) {
 				table.add2ChipsOnExistingProjects(answerProject1, answerProject2);
 			}
+			if(setTwoChipHelp==1) {
+				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+				setTwoChipHelp=0;
+			}
+			else {
 			table.endTurn();
 			startTurn();
+			}
 		});
 
 		reactionMethods.put("chipOnFieldBurnSZTTwice", (User user, JsonObject message)-> {
 			Subproject answerProject=table.getActiveProjectByID(message.get("projectID").getAsInt());
 			table.setChipOnExistingProjectBurnSZTTwice(answerProject);
 			sendGameDataToClients("tableStatus");
+			if(setTwoChipHelp==1) {
+				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+				setTwoChipHelp=0;
+			}
+			else {
 			table.endTurn();
 			startTurn();
+			}
 		});
 
 		reactionMethods.put("remove2ChipsFromProjectsAndAddToPlayer", (User user, JsonObject message)-> {
@@ -455,24 +477,42 @@ public class CrazyAirportGame extends Game{
 			Subproject answerProject2=table.getActiveProjectByID(message.get("projectID2").getAsInt());
 			table.remove2ChipsFromProjectsAndAddToPlayer(answerProject1, answerProject2);
 			sendGameDataToClients("tableStatus");
+			if(setTwoChipHelp==1) {
+				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+				setTwoChipHelp=0;
+			}
+			else {
 			table.endTurn();
 			startTurn();
+			}
 		});
 
 		reactionMethods.put("twoChipsInOneProject", (User user, JsonObject message)-> {
 			Subproject answerProject=table.getActiveProjectByID(message.get("projectID").getAsInt());
 			table.setTwoChipsInOneProject(answerProject);
 			sendGameDataToClients("tableStatus");
+			if(setTwoChipHelp==1) {
+				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+				setTwoChipHelp=0;
+			}
+			else {
 			table.endTurn();
 			startTurn();
+			}
 		});
 
 		reactionMethods.put("takeAway20SZTFromPlayer", (User user, JsonObject message)-> {
 			Player player=table.getPlayerByName(message.get("player").getAsString());
 			table.takeAway20SZTFromPlayer(player);
 			sendGameDataToClients("tableStatus");
+			if(setTwoChipHelp==1) {
+				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+				setTwoChipHelp=0;
+			}
+			else {
 			table.endTurn();
 			startTurn();
+			}
 		});
 
 		reactionMethods.put("burnOrPlace", (User user, JsonObject message)-> {
@@ -496,7 +536,6 @@ public class CrazyAirportGame extends Game{
 		}
 		else {
 			sendGameDataToClients("tableStatus");
-			sendGameDataToUser(table.getCurrent().getUser(), "rollDice");
 			if(table.getCurrent().isHasVCard11()) {
 				sendGameDataToUser(table.getCurrent().getUser(), "useSpecialCard11");
 			}
