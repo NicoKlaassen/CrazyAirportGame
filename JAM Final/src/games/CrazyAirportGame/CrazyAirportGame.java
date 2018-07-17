@@ -38,14 +38,14 @@ public class CrazyAirportGame extends Game{
 	private ArrayList<User> spectators = new ArrayList<>();
 	private ArrayList<AI> bots = new ArrayList<>();
 	private List<String> colors = Arrays.asList("blue", "yellow", "green", "red", "purple");
-	private List<String> botNames = Arrays.asList("Bot #1", "Bot #2", "Bot #3", "Bot #4");
+	private List<String> botNames = Arrays.asList("Andreas", "Thomas", "Martin", "Julian");
 	private int aiCount=0;
 	//Lobby end
 
 	public CrazyAirportGame() {
 
 		reactionMethods.put("startGame", (User user, JsonObject message)->{
-			if(gState==GameState.SETUP && user.equals(getGameCreator())) {
+			if(gState==GameState.SETUP) {
 				sendMessage("Das Spiel wurde gestartet!");
 				gState=GameState.RUNNING;
 				int i=0;
@@ -66,11 +66,10 @@ public class CrazyAirportGame extends Game{
 
 		reactionMethods.put("addAI", (User user, JsonObject message)->{
 			if (gState == GameState.SETUP && user.equals(getGameCreator())) {
-				//User bot = new User("Bot","PW");
-				//bot.setGameInstanceId(gameInstanceId);
-				//addUser(bot);
-				aiCount++;
-				sendGameDataToClients("USERJOINED");
+				if(getCurrentPlayerAmount()<5){
+					aiCount++;
+					sendGameDataToClients("USERJOINED");
+				}
 			}
 		});
 		
@@ -90,9 +89,10 @@ public class CrazyAirportGame extends Game{
 			messageToSend=Boolean.toString(result);
 			sendGameDataToClients("diceResult");
 			if(result) {
-				ErgebnisLOSCard eCard=table.getECardByID(42);
+				ErgebnisLOSCard eCard=table.drawECard();
 				messageToSend=Integer.toString(eCard.getId());
 				sendGameDataToClients("showECard");
+				System.out.println(table.getCurrent().getUser().getName() + " " + eCard.getId());
 				switch(eCard.getId()) {
 				case 3:
 					sendGameDataToUser(table.getCurrent().getUser(), "askForProjectToSetTwoChips");
@@ -144,7 +144,7 @@ public class CrazyAirportGame extends Game{
 			}
 			else {
 				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
-
+				System.out.println(table.getCurrent().getUser().getName() + " setzt Chip");
 			}
 		});
 
@@ -336,6 +336,7 @@ public class CrazyAirportGame extends Game{
 	//TODO card24
 	public void startTurn() {
 		if(table.getCurrent() instanceof AI) {
+			sendGameDataToClients("tableStatus");
 			processAIMove();
 		}
 		else {
@@ -353,9 +354,15 @@ public class CrazyAirportGame extends Game{
 	
 	//TODO 
 	public void processAIMove() {
+		try {
+			Thread.sleep(5000);
+			System.out.println("pause");
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		boolean diceResult=table.rollTheDice();
 		if(diceResult) {
-			ErgebnisLOSCard eCard=table.drawECard();
+			ErgebnisLOSCard eCard=table.getECardByID(42);
 			messageToSend=Integer.toString(eCard.getId());
 			sendGameDataToClients("showECard");
 			switch(eCard.getId()) {
@@ -419,6 +426,11 @@ public class CrazyAirportGame extends Game{
 			table.getCurrent().raiseScore(50);
 			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelection");
 			break;
+		case 14:
+			if(!projectsAvailable.isEmpty()) {
+				openUpProject(drawProject());				
+			}
+			table.getCurrent().raiseScore(80);
 		case 15:
 			table.getCurrent().raiseScore(100);
 			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");
@@ -611,6 +623,8 @@ public class CrazyAirportGame extends Game{
 		//Make dice button clickable
 		case ("showDiceButton"):
 			return "";
+		case ("sendMessage"):
+			return messageToSend;
 		case("USERJOINED"):
 			JsonObject object=new JsonObject();
 			JsonArray users=new JsonArray();
@@ -688,7 +702,7 @@ public class CrazyAirportGame extends Game{
 
 	@Override
 	public int getCurrentPlayerAmount() {
-		return players.size();
+		return players.size() + aiCount;
 	}
 
 	@Override
@@ -730,7 +744,7 @@ public class CrazyAirportGame extends Game{
 
 	@Override
 	public boolean isJoinable() {
-		return this.gState == GameState.SETUP && players.size() < getMaxPlayerAmount();
+		return this.gState == GameState.SETUP && getCurrentPlayerAmount() < getMaxPlayerAmount();
 	}
 
 	@Override

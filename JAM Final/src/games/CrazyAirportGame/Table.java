@@ -123,6 +123,7 @@ public class Table {
 		VerantwortungsLOSCard c=new VerantwortungsLOSCard(i);
 		vCards.add(c);
 		}
+		vCards.remove(23);
 	}
 	
 	//Fills deck of EreignisLOS-Cards by setting ID's
@@ -300,6 +301,7 @@ public class Table {
 	
 	//Performances VCard with actions that don't need any input by the player
 	public void processStandardVCard(VerantwortungsLOSCard card) {
+		System.out.println("vcard"+ card.getId());
 		switch(card.getId()) {
 		case (1):
 			current.raiseScore(100);
@@ -317,6 +319,7 @@ public class Table {
 		case (5):
 			current.setSkipNextRound(true);
 			break;
+			// Falscher Spieler bekommt Geld
 		case (6):
 			current.raiseScore(70);
 			if(!projectsAvailable.isEmpty()) {
@@ -328,6 +331,7 @@ public class Table {
 		case (9):
 		case (10):
 		case (13):
+			current.raiseScore(100);
 			break;
 		case (18):
 			raiseScoreOfEveryPlayer(50);

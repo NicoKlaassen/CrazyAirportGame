@@ -29,6 +29,8 @@ addListener('USERJOINED',function (event) {
 	}
 });
 
+addListener
+
 addListener('tableStatus',function (event) {
 	$("#playerTable").html("<thead><tr><th>Chip</th><th>Name</th><th>Steuerzahlertaler</th><th>Chips</th></tr></thead>");
 	var obj = event.data;
@@ -792,6 +794,12 @@ addListener('showECard',function (event) {
 	showECard(json.eCardID);
 });
 
+addListener('showVCard',function (event) {
+	var obj = event.data;
+	var json = JSON.parse(obj);
+	console.log(json.vCardID);
+	showVCard(json.vCardID);
+});
 
 addListener('showDiceButton',function (event) {
 	document.getElementById("wuerfelBut").removeAttribute("disabled");
@@ -812,6 +820,7 @@ function executeOnServer(keyword, json) {
 
 addListener('sendMessage', function(event){
 	console.log("event sendMessage");
+	document.getElementById("messageCenter").innerHTML(event.data);
 	console.log(event.data);
 });
 
@@ -978,16 +987,17 @@ function showECard(cardNumber) {
     link += ".jpg";
     document.getElementById("los").src=link;
     document.getElementById("los").style.display="block";
-    setTimeout(hideCard, 3000);
+    setTimeout(hideCard, 7000);
 }
 //Einblenden der Verantwortungslose
 function showVCard(cardNumber) {
+	console.log("vcard");
     var link = "images/verantwortungslose/BER_Verantwortungslos_VS_06_";
     link += cardNumber;
     link += ".jpg";
     document.getElementById("los").src=link;
     document.getElementById("los").style.display="block";
-    setTimeout(hideCard, 5000);
+    setTimeout(hideCard, 7000);
 }
 function hideCard() {
     document.getElementById("los").style.display="none";
