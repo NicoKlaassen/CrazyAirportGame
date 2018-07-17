@@ -1308,7 +1308,7 @@ function showECard(cardNumber) {
     link += ".jpg";
     document.getElementById("los").src=link;
     document.getElementById("los").style.display="block";
-    setTimeout(hideCard, 3000);
+    setTimeout(hideCard, 7000);
 }
 //Einblenden der Verantwortungslose
 function showVCard(cardNumber) {
@@ -1317,7 +1317,7 @@ function showVCard(cardNumber) {
     link += ".jpg";
     document.getElementById("los").src=link;
     document.getElementById("los").style.display="block";
-    setTimeout(hideCard, 5000);
+    setTimeout(hideCard, 7000);
 }
 function hideCard() {
     document.getElementById("los").style.display="none";
