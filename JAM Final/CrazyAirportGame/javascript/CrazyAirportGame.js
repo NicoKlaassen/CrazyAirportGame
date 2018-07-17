@@ -27,9 +27,8 @@ addListener('USERJOINED',function (event) {
 	var obj = event.data;
 	var json = JSON.parse(obj);
 	for(var i in json.users){
-		$("#lobbyTable").append('<tr><td class="playerColumn">'+json.users[i].name+'</td><td class="roleColumn">Spieler</td></tr>');
+		$("#lobbyTable").append('<tr><td class="playerColumn">'+json.users[i].name+'</td><td class="roleColumn">'+json.users[i].role+'</td></tr>');
 	}
-	 
 });
 
 addListener('tableStatus',function (event) {
@@ -1408,7 +1407,6 @@ function startGame(){
 //add new AI
 function addAI() {
     console.log("addAI");
-    $("#lobbyTable").append('<tr><td class="playerColumn">Computer</td><td class="roleColumn">Spieler</td></tr>');
     sendDataToServer('addAI');
 }
 
