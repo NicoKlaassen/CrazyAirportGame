@@ -573,3 +573,53 @@
 [2018-07-17 13:04:47.081] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
 [2018-07-17 13:05:13.61] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: < 1  Minutes
 [2018-07-17 13:05:16.735] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 13:21:21.811] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: 16  Minutes
+[2018-07-17 13:21:24.263] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 13:23:50.803] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: 2  Minutes
+[2018-07-17 13:23:53.105] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 13:35:06.385] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 13:36:44.739] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: 1  Minutes
+[2018-07-17 13:36:47.144] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 13:39:56.216] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: 3  Minutes
+[2018-07-17 13:39:59.723] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 13:47:16.965] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: 7  Minutes
+[2018-07-17 13:47:19.665] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 13:49:40.725] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: 2  Minutes
+[2018-07-17 13:49:43.695] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 13:52:28.847] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: 2  Minutes
+[2018-07-17 13:52:31.882] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 13:54:16.678] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: 1  Minutes
+[2018-07-17 13:54:19.119] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 13:55:32.363] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: 1  Minutes
+[2018-07-17 13:55:34.982] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" failed
+[2018-07-17 13:55:41.215] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 13:57:57.834] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: 2  Minutes
+[2018-07-17 13:58:00.659] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 13:58:25.08] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: < 1  Minutes
+[2018-07-17 13:58:28.02] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 14:00:30.306] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: 2  Minutes
+[2018-07-17 14:00:32.859] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 14:01:02.529] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: < 1  Minutes
+[2018-07-17 14:01:05.528] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 14:01:22.86] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: < 1  Minutes
+[2018-07-17 14:01:26.021] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 14:02:24.648] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: < 1  Minutes
+[2018-07-17 14:02:27.283] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 14:04:32.25] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 14:05:45.496] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: 1  Minutes
+[2018-07-17 14:05:49.691] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 14:06:58.26] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: 1  Minutes
+[2018-07-17 14:07:00.934] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 14:07:52.925] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: < 1  Minutes
+[2018-07-17 14:07:55.641] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 14:09:06.399] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: 1  Minutes
+[2018-07-17 14:09:08.857] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 14:10:08.53] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 14:10:38.662] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: < 1  Minutes
+[2018-07-17 14:10:41.737] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 14:11:01.101] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: < 1  Minutes
+[2018-07-17 14:11:03.668] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 14:11:43.277] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: < 1  Minutes
+[2018-07-17 14:11:45.765] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded
+[2018-07-17 14:12:50.779] [IP: /192.168.178.101] [LOGOUT] Logging out user "asd" succeeded; Session length: 1  Minutes
+[2018-07-17 14:12:53.812] [IP: /192.168.178.101] [LOGIN] Logging in user "asd" succeeded

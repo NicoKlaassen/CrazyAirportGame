@@ -1056,6 +1056,7 @@ function leaveGame() {
 	sendDataToServer('quit');
 }
 
+
 function setChip(projectID, fieldID){
 	switch(projectID){
 		case 0:
