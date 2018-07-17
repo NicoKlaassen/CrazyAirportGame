@@ -995,11 +995,15 @@ function hideCard() {
 
 //Wechsel Lobby in Spiel
 function startGame(){
+    if(minmaxPlayer()) {
+        window.alert("Es sind mehr als 5 Spieler in der Lobby oder Es sind weniger als 2 Spieler in der Lobby und ein weiterer Spieler muss in die Lobby ");
+        return false;
+    } 
 	document.getElementById("game").style.display='block';
 	document.getElementById("lobby").style.display='none';
 	console.log("startGame");
-	sendDataToServer('startGame');
-}
+    sendDataToServer('startGame');
+    }
 //add new AI
 function addAI() {
     console.log("addAI");
@@ -1009,6 +1013,20 @@ function addAI() {
 function removeAI() {
     console.log("removeAI");
     sendDataToServer('removeAI');
+}
+
+function minmaxPlayer() {
+    var rowCount = $("#lobbyTable tr").length;
+    rowCount = rowCount - 1;
+   // rowCount = 2;
+    console.log(rowCount);
+    var check= false;
+    if(rowCount>5) {
+        check = true;
+    } else if(rowCount<2) {
+        check = true;
+    }
+    return check;
 }
 
 //prints the table of the players
