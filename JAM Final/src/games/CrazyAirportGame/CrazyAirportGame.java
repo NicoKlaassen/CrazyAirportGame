@@ -535,34 +535,19 @@ public class CrazyAirportGame extends Game{
 	//TODO card24
 	public void startTurn() {
 		if(table.getCurrent() instanceof AI) {
-			if(table.getCurrent().isSkipNextRound()) {
-				sendGameDataToClients("tableStatus");
-				table.endTurn();
-				startTurn();
-			}
-			else {
-				sendGameDataToClients("tableStatus");
-				processAIMove();
-			}
+			sendGameDataToClients("tableStatus");
+			processAIMove();
 		}
 		else {
-			if(!table.getCurrent().isSkipNextRound()) {
-				sendGameDataToClients("tableStatus");
-				if(table.getCurrent().isHasVCard11()) {
-					sendGameDataToUser(table.getCurrent().getUser(), "useSpecialCard11");
-				}
-				else {
-					sendGameDataToUser(table.getCurrent().getUser(), "showDiceButton");
-				}
+			sendGameDataToClients("tableStatus");
+			if(table.getCurrent().isHasVCard11()) {
+				sendGameDataToUser(table.getCurrent().getUser(), "useSpecialCard11");
 			}
 			else {
-				sendGameDataToClients("tableStatus");
-				table.endTurn();
-				startTurn();
+				sendGameDataToUser(table.getCurrent().getUser(), "showDiceButton");
 			}
-		}
-	}		
-
+		}	
+	}
 	
 	public void pause(){
 		try {
