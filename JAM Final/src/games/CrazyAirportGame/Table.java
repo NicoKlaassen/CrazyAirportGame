@@ -259,8 +259,14 @@ public class Table {
 	}
 	
 	public void endTurn() {
+		if(getCurrent() instanceof AI) {
+		CrazyAirportGame.pause();
 		current=players.get((players.indexOf(current)+1)%players.size());
-	}
+		}
+		else{
+			current=players.get((players.indexOf(current)+1)%players.size());
+			}
+		}
 	
 	public Player getCurrent() {
 		return current;

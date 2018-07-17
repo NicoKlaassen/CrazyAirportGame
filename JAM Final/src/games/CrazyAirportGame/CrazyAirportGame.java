@@ -536,6 +536,7 @@ public class CrazyAirportGame extends Game{
 	public void startTurn() {
 		if(table.getCurrent() instanceof AI) {
 			sendGameDataToClients("tableStatus");
+			pause();
 			processAIMove();
 		}
 		else {
@@ -549,7 +550,7 @@ public class CrazyAirportGame extends Game{
 		}	
 	}
 	
-	public void pause(){
+	public static void pause(){
 		try {
 			java.util.concurrent.TimeUnit.SECONDS.sleep(10);
 		} catch (InterruptedException e) {
@@ -571,20 +572,16 @@ public class CrazyAirportGame extends Game{
 				table.setTwoChipsInOneProject(table.getActiveProjects().get((((AI)table.getCurrent()).chooseRandom(table.getActiveProjects().size()))));
 				sendGameDataToClients("tableStatus");
 				table.endTurn();
-				pause();
 				startTurn();
 				break;
 			case 10:
 				sendGameDataToUser(table.getLeftNeighbor().getUser(), "burn20ORPlaceChip");
-				pause();
 				break;
 			case 24:
 				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
-				pause();
 				break;
 			case 42:
 				sendGameDataToUser(table.getCurrent().getUser(), "aksForInAndOutProject");
-				pause();
 				break;
 			case 47:
 				table.getCurrent().raiseScore(20);
@@ -592,31 +589,26 @@ public class CrazyAirportGame extends Game{
 				messageToSend=Integer.toString(vCard.getId());
 				sendGameDataToClients("showVCard");
 				handleVCardCommunication(vCard.getId());
-				pause();
 				break;
 			case 49:
 				VerantwortungsLOSCard vCard2=table.drawVCard();
 				messageToSend=Integer.toString(vCard2.getId());
 				sendGameDataToClients("showVCard");
 				handleVCardCommunication(vCard2.getId());
-				pause();
 				break;
 			case 51:
 				sendGameDataToUser(table.getCurrent().getUser(), "choosePlayerToStealFrom");
-				pause();
 				break;
 			case 53:
 				VerantwortungsLOSCard vCard3=table.drawVCard();
 				messageToSend=Integer.toString(vCard3.getId());
 				sendGameDataToClients("showVCard");
-				pause();
 				handleVCardCommunication(vCard3.getId());
 				break;
 			default:
 				table.processStandardECard(eCard);
 				sendGameDataToClients("tableStatus");
 				table.endTurn();
-				pause();
 				startTurn();
 			}
 		}
@@ -629,7 +621,6 @@ public class CrazyAirportGame extends Game{
 
 	private void handleVCardCommunication(int id) {
 		id = 12;
-		pause();
 		switch(id) {
 		case 8:
 			if(table.getCurrent().getChips().size()==0) {
