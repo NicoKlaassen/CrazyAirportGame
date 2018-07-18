@@ -95,7 +95,7 @@ public class CrazyAirportGame extends Game{
 			messageToSend=Boolean.toString(result);
 			sendGameDataToClients("diceResult");
 			if(result) {
-				ErgebnisLOSCard eCard=table.getECardByID(3);
+				ErgebnisLOSCard eCard=table.drawECard();
 				messageToSend=Integer.toString(eCard.getId());
 				sendGameDataToClients("showECard");
 				System.out.println(table.getCurrent().getUser().getName() + " eCard " + eCard.getId());
@@ -157,9 +157,9 @@ public class CrazyAirportGame extends Game{
 		reactionMethods.put("chosenProject", (User user, JsonObject message)->{
 			setTwoChipHelp=0;
 			int chosenProject=message.get("projectID").getAsInt();
-			System.out.println("test");
+			System.out.println("chosen project");
 			if(table.setChipOnProject(table.getActiveProjectByID(chosenProject))) {
-				VerantwortungsLOSCard vCard=table.drawVCard();
+				VerantwortungsLOSCard vCard=table.getVCardByID(15);
 				messageToSend=Integer.toString(vCard.getId());
 				sendGameDataToClients("showVCard");
 				sendGameDataToClients("tableStatus");
@@ -194,6 +194,7 @@ public class CrazyAirportGame extends Game{
 				case 15:
 					int i=0;
 					int z=0;
+					table.getCurrent().raiseScore(100);
 					for(Subproject p:table.getActiveProjects()) {
 						if(p.twoChipsCanBeRemoved()) {
 							i++;
@@ -206,24 +207,20 @@ public class CrazyAirportGame extends Game{
 					}
 					if(i==0 && z==1){
 						System.out.println("OneChip");
-						table.getCurrent().raiseScore(100);
 						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsTakeOneChip");
 						break;
 					}
 					else if(i>=1){
-						System.out.println("twoChips");
-						table.getCurrent().raiseScore(100);
+						System.out.println("twoChips1");
 						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");
 						break;
 					}
 					else if(z>=2){
-						System.out.println("twoChips");
-						table.getCurrent().raiseScore(100);
+						System.out.println("twoChips2");
 						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");
 						break;
 					}
 					else {
-						table.getCurrent().raiseScore(100);
 						table.endTurn();
 						startTurn();
 						break;
@@ -281,7 +278,7 @@ public class CrazyAirportGame extends Game{
 		reactionMethods.put("chosenProject1", (User user, JsonObject message)->{
 			setTwoChipHelp=1;
 			int chosenProject=message.get("projectID").getAsInt();
-			System.out.println("test");
+			System.out.println("chosen project1");
 			if(table.setChipOnProject(table.getActiveProjectByID(chosenProject))) {
 				VerantwortungsLOSCard vCard=table.drawVCard();
 				if(vCard.getId()==20) {
@@ -524,11 +521,13 @@ public class CrazyAirportGame extends Game{
 			}
 		});
 
-		reactionMethods.put("removeSecondChipsFromProjectsAndAddToPlayer", (User user, JsonObject message)-> {
+		reactionMethods.put("removeSecondChipFromProjectAndAddToPlayer", (User user, JsonObject message)-> {
+			System.out.println("remove Second Chip");
 			Subproject answerProject=table.getActiveProjectByID(message.get("projectID").getAsInt());
 			table.remove1ChipFromProjectAndAddToPlayer(answerProject);
 			sendGameDataToClients("tableStatus");
 			if(setTwoChipHelp==1) {
+				System.out.println("Why tho?!");
 				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
 				setTwoChipHelp=0;
 			}
@@ -567,8 +566,7 @@ public class CrazyAirportGame extends Game{
 						i++;
 					}
 				}
-				if(i==1){
-					table.getCurrent().raiseScore(100);
+				if(i>=1){
 					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsTakeOneChip");
 				}
 				else {
@@ -625,6 +623,7 @@ public class CrazyAirportGame extends Game{
 		if(!table.hasToSkipNextRound()) {
 			if(table.getCurrent() instanceof AI) {
 				sendGameDataToClients("tableStatus");
+				pause();
 				processAIMove();
 			}
 		else {
@@ -655,7 +654,7 @@ public class CrazyAirportGame extends Game{
 	}
 	
 	public int random(int max) {
-		int random = rand.nextInt((max - 0) + 1);
+		int random = rand.nextInt((max - 0));
 		System.out.println("Zufallszahl: " + random);
 		return random;
 	}
@@ -664,10 +663,9 @@ public class CrazyAirportGame extends Game{
 	public void processAIMove() {
 		boolean diceResult=table.rollTheDice();
 		// Testvariable
-		diceResult = false;
 		if(diceResult) {
 			// Testvariable
-			ErgebnisLOSCard eCard=table.getECardByID(42);
+			ErgebnisLOSCard eCard=table.drawECard();
 			System.out.println(table.getCurrent().getUser().getName() + " eCard " + eCard.getId());
 			messageToSend=Integer.toString(eCard.getId());
 			sendGameDataToClients("showECard");
@@ -690,9 +688,17 @@ public class CrazyAirportGame extends Game{
 				break;
 			case 42:
 				if(table.projectWithMoreThanOneChippedFieldAvailable()) {
-					ArrayList<Subproject> projects = table.getActiveProjects(); // Hier muss andere Methode hin
-					Subproject fromProject = projects.get(random(projects.size()));
-					Subproject toProject = projects.get(random(projects.size()));
+					ArrayList<Subproject> projectsArrTo = table.getActiveProjects();
+					ArrayList<Subproject> projectsArrFrom = new ArrayList<Subproject>();
+					for(Subproject project:table.getActiveProjects()) {
+						if(project.chipCanBeRemoved()) {
+							projectsArrFrom.add(project);
+						}
+					}
+					int randomFrom = random(projectsArrFrom.size());
+					int randomTo = random(projectsArrTo.size());
+					Subproject fromProject = projectsArrFrom.get(randomFrom);
+					Subproject toProject = projectsArrTo.get(randomTo);
 					table.removeChipFromProjectAndPutItIntoAnother(fromProject, toProject);
 					sendGameDataToClients("tableStatus");
 				}
@@ -735,17 +741,24 @@ public class CrazyAirportGame extends Game{
 		}
 		else {
 			System.out.println(table.getCurrent().getUser().getName() + " Chip setzen");
-			table.setChipOnProject(table.getActiveProjects().get(random(table.getActiveProjects().size())));
-			sendGameDataToClients("tableStatus");
-			table.endTurn();
-			startTurn();
+			if(table.setChipOnProject(table.getActiveProjects().get(random(table.getActiveProjects().size())))){
+				handleVCardCommunication(table.drawVCard().getId());
+				sendGameDataToClients("tableStatus");
+			}
+			else{
+				sendGameDataToClients("tableStatus");
+				table.endTurn();
+				startTurn();
+			}
+
+			
 		}
 	}
 
 
 	private void handleVCardCommunication(int id) {
 		// Testvariable
-		id = 12;
+		id = 15;
 		switch(id) {
 		case 8:
 			if(table.getCurrent().getChips().size()==0) {
@@ -779,22 +792,47 @@ public class CrazyAirportGame extends Game{
 			}
 		case 15:
 			int i=0;
+			int z=0;
+			table.getCurrent().raiseScore(100);
+			ArrayList<Subproject> arr = new ArrayList<Subproject>();
 			for(Subproject p:table.getActiveProjects()) {
 				if(p.twoChipsCanBeRemoved()) {
+					arr.add(p);
 					i++;
 				}
 			}
-			if(i==1){
-				table.getCurrent().raiseScore(100);
-				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsTakeOneChip");
+			ArrayList<Subproject> arr2 = new ArrayList<Subproject>();
+			for(Subproject p:table.getActiveProjects()) {
+				if(p.chipCanBeRemoved()) {
+					arr2.add(p);
+					z++;
+				}
+			}
+			if(i==0 && z==1){
+				System.out.println("OneChip");
+				table.remove1ChipFromProjectAndAddToPlayer(arr2.get(0));
+				table.endTurn();
+				startTurn();
+				break;
+			}
+			else if(i>=1){
+				System.out.println("twoChips1");
+				table.remove2ChipsFromProjectsAndAddToPlayer(arr.get(0), arr.get(1));
+				table.endTurn();
+				startTurn();
+				break;
+			}
+			else if(z>=2){
+				System.out.println("twoChips2");
+				table.remove2ChipsFromProjectsAndAddToPlayer(arr2.get(0), arr2.get(1));
+				table.endTurn();
+				startTurn();
 				break;
 			}
 			else {
-			table.getCurrent().raiseScore(100);
-			Subproject projectA = table.getActiveProjects().get(random(table.getActiveProjects().size()));
-			Subproject projectB = table.getActiveProjects().get(random(table.getActiveProjects().size()));
-			table.remove2ChipsFromProjectsAndAddToPlayer(projectA, projectB);
-			break;
+				table.endTurn();
+				startTurn();
+				break;
 			}
 		case 16:
 			table.getCurrent().raiseScore(100);
@@ -830,6 +868,7 @@ public class CrazyAirportGame extends Game{
 		case 20:
 			if(table.getCurrent().getChips().size()>=1) {
 				// Methode ?
+				startTurn();
 			break;
 			}
 			else if(table.getCurrent().getChips().size()==0) {

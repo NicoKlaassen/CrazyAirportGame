@@ -158,7 +158,7 @@ public class Table {
 	public boolean projectWithMoreThanOneChippedFieldAvailable() {
 		boolean result=false;
 		for(Subproject p:projectsActive) {
-			if(p.getFields().get(1).isChipped()) {
+			if(p.chipCanBeRemoved()) {
 				result=true;
 			}
 		}
@@ -355,6 +355,10 @@ public class Table {
 			break;
 		case (9):
 		case (10):
+			break;
+		case (11):
+			current.setHasVCard11(true);
+			break;
 		case (13):
 			break;
 		case (18):
@@ -369,6 +373,9 @@ public class Table {
 			break;
 		case (22):
 			SZTFromEveryOtherPlayer(30);
+			break;
+		case (23):
+			current.setHasVCard23(true);
 			break;
 		case (24):
 			current.raiseScore(50);
