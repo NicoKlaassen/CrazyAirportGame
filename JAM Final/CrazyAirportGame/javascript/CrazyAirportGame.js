@@ -694,6 +694,46 @@ addListener('showAvailableProjectTwoSelection', function(event){
 	}
 });
 
+addListener('showAvailableProjectsTakeOneChip', function(event){
+	onClickDecide=6;
+	var obj = event.data;
+	var json = JSON.parse(obj);
+	for(var i in json.availableProjects){
+		if(json.availableProjects[i].id==0){
+			console.log("projects0");
+			document.getElementById("feuwEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==1){
+			console.log("projects1");
+			document.getElementById("landnEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==2){
+			console.log("projects2");
+			document.getElementById("landsEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==3){
+			console.log("projects3");
+			document.getElementById("termaEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==4){
+			console.log("projects4");
+			document.getElementById("termbEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==5){
+			console.log("projects5");
+			document.getElementById("maintEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==6){
+			console.log("projects6");
+			document.getElementById("parkEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==7){
+			console.log("projects7");
+			document.getElementById("vorfEntf").removeAttribute("disabled");
+		}
+	}
+});
+
 addListener('choosePlayerToStealFrom', function(event) {
 	var obj = event.data;
 	var json = JSON.parse(obj);
@@ -857,57 +897,180 @@ function removeEnableActiveProjects(){
 
 
 function removeChipFeuw(){
-	removeChipProject=0;
-	enableRemoveChipButtons();
-	removeEnableActiveProjects();
+	if(onClickDecide==6){
+		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 0 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	if(onClickDecide==7){
+		executeOnServer("removeFirstChipFromProjectAndAddToPlayer", '{"projectID":'+ 0 + '}');
+		onClickDecide==0;
+	}
+	if(onClickDecide==8){
+		executeOnServer("removeSecondChipFromProjectAndAddToPlayer", '{"projectID":'+ 0 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	else{
+		removeChipProject=0;
+		enableRemoveChipButtons();
+		removeEnableActiveProjects();
+	}
 }
 
 function removeChipLandn(){
-	removeChipProject=1;
-	enableRemoveChipButtons();
-	removeEnableActiveProjects();
+	if(onClickDecide==6){
+		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 1 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	if(onClickDecide==7){
+		executeOnServer("removeFirstChipFromProjectAndAddToPlayer", '{"projectID":'+ 1 + '}');
+		onClickDecide==0;
+	}
+	if(onClickDecide==8){
+		executeOnServer("removeSecondChipFromProjectAndAddToPlayer", '{"projectID":'+ 1 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	else{
+		removeChipProject=1;
+		enableRemoveChipButtons();
+		removeEnableActiveProjects();
+	}
 }
 
 function removeChipLands(){
-	removeChipProject=2;
-	enableRemoveChipButtons();
-	removeEnableActiveProjects();
+	if(onClickDecide==6){
+		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 2 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	if(onClickDecide==7){
+		executeOnServer("removeFirstChipFromProjectAndAddToPlayer", '{"projectID":'+ 2 + '}');
+		onClickDecide==0;
+	}
+	if(onClickDecide==8){
+		executeOnServer("removeSecondChipFromProjectAndAddToPlayer", '{"projectID":'+ 2 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	else{
+		removeChipProject=2;
+		enableRemoveChipButtons();
+		removeEnableActiveProjects();
+	}
 }
 
 function removeChipTermA(){
-	removeChipProject=3;
-	enableRemoveChipButtons();
-	removeEnableActiveProjects();
+	if(onClickDecide==6){
+		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 3 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	if(onClickDecide==7){
+		executeOnServer("removeFirstChipFromProjectAndAddToPlayer", '{"projectID":'+ 3 + '}');
+		onClickDecide==0;
+	}
+	if(onClickDecide==8){
+		executeOnServer("removeSecondChipFromProjectAndAddToPlayer", '{"projectID":'+ 3 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	else{
+		removeChipProject=3;
+		enableRemoveChipButtons();
+		removeEnableActiveProjects();
+	}
 }
 
 function removeChipTermb(){
-	removeChipProject=4;
-	enableRemoveChipButtons();
-	removeEnableActiveProjects();
+if(onClickDecide==6){
+		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 4 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	if(onClickDecide==7){
+		executeOnServer("removeFirstChipFromProjectAndAddToPlayer", '{"projectID":'+ 4 + '}');
+		onClickDecide==0;
+	}
+	if(onClickDecide==8){
+		executeOnServer("removeSecondChipFromProjectAndAddToPlayer", '{"projectID":'+ 4 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	else{
+		removeChipProject=4;
+		enableRemoveChipButtons();
+		removeEnableActiveProjects();
+	}
 }
 
 function removeChipMainT(){
-	removeChipProject=5;
-	enableRemoveChipButtons();
-	removeEnableActiveProjects();
-}
-
-function removeChipMainT(){
-	removeChipProject=5;
-	enableRemoveChipButtons();
-	removeEnableActiveProjects();
+	if(onClickDecide==6){
+		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 5 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	if(onClickDecide==7){
+		executeOnServer("removeFirstChipFromProjectAndAddToPlayer", '{"projectID":'+ 5 + '}');
+		onClickDecide==0;
+	}
+	if(onClickDecide==8){
+		executeOnServer("removeSecondChipFromProjectAndAddToPlayer", '{"projectID":'+ 5 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	else{
+		removeChipProject=5;
+		enableRemoveChipButtons();
+		removeEnableActiveProjects();
+	}
 }
 
 function removeChipPark(){
-	removeChipProject=6;
-	enableRemoveChipButtons();
-	removeEnableActiveProjects();
+	if(onClickDecide==6){
+		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 6 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	if(onClickDecide==7){
+		executeOnServer("removeFirstChipFromProjectAndAddToPlayer", '{"projectID":'+ 6 + '}');
+		onClickDecide==0;
+	}
+	if(onClickDecide==8){
+		executeOnServer("removeSecondChipFromProjectAndAddToPlayer", '{"projectID":'+ 6 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	else{
+		removeChipProject=6;
+		enableRemoveChipButtons();
+		removeEnableActiveProjects();
+	}
 }
 
 function removeChipVorfeld(){
-	removeChipProject=7;
-	enableRemoveChipButtons();
-	removeEnableActiveProjects();
+	if(onClickDecide==6){
+		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 7 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	if(onClickDecide==7){
+		executeOnServer("removeFirstChipFromProjectAndAddToPlayer", '{"projectID":'+ 7 + '}');
+		onClickDecide=8;
+		onClickDecide==0;
+	}
+	if(onClickDecide==8){
+		executeOnServer("removeSecondChipFromProjectAndAddToPlayer", '{"projectID":'+ 7 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	else{
+		removeChipProject=7;
+		enableRemoveChipButtons();
+		removeEnableActiveProjects();
+	}
 }
 
 addListener('askForProjectToSetTwoChips', function (event) {
@@ -955,6 +1118,46 @@ addListener('askForProjectToSetTwoChips', function (event) {
 			console.log("projects7");
 			document.getElementById("vorfSetz").removeAttribute("disabled");
 			document.getElementById("vorfSetz").firstChild.data="Zwei Chips setzen";
+		}
+	}
+});
+
+addListener('showAvailableProjectTwoSelectionTakeChips', function(event){
+	onClickDecide=7;
+	var obj = event.data;
+	var json = JSON.parse(obj);
+	for(var i in json.availableProjects){
+		if(json.availableProjects[i].id==0){
+			console.log("projects0");
+			document.getElementById("feuwEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==1){
+			console.log("projects1");
+			document.getElementById("landnEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==2){
+			console.log("projects2");
+			document.getElementById("landsEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==3){
+			console.log("projects3");
+			document.getElementById("termaEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==4){
+			console.log("projects4");
+			document.getElementById("termbEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==5){
+			console.log("projects5");
+			document.getElementById("maintEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==6){
+			console.log("projects6");
+			document.getElementById("parkEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==7){
+			console.log("projects7");
+			document.getElementById("vorfEntf").removeAttribute("disabled");
 		}
 	}
 });
@@ -1383,7 +1586,7 @@ function showECard(cardNumber) {
     link += ".jpg";
     document.getElementById("los").src=link;
     document.getElementById("los").style.display="block";
-    setTimeout(hideCard, 7000);
+    setTimeout(hideCard, 3000);
 }
 //Einblenden der Verantwortungslose
 function showVCard(cardNumber) {
@@ -1392,7 +1595,7 @@ function showVCard(cardNumber) {
     link += ".jpg";
     document.getElementById("los").src=link;
     document.getElementById("los").style.display="block";
-    setTimeout(hideCard, 7000);
+    setTimeout(hideCard, 5000);
 }
 function hideCard() {
     document.getElementById("los").style.display="none";
@@ -1434,7 +1637,7 @@ addListener('showPlayer', function(event) {
 });
 
 //leave lobby
-function leaveGame() {
+function byeBye() {
 	console.log("Spiel verlassen");
 	sendDataToServer('quit');
 }

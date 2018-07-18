@@ -633,6 +633,11 @@ public class Table {
 		current.addChip(projectB.removeLastChip());
 	}
 	
+	//removes two chips from active projects and adds it to chip-list of current player
+	public void remove1ChipFromProjectAndAddToPlayer(Subproject projectA) {
+		current.addChip(projectA.removeLastChip());
+	}
+	
 	//raises score of every player by specific amount
 	public void SZTToEveryOtherPlayer(int value) {
 		for(Player p:players) {
@@ -655,9 +660,13 @@ public class Table {
 	//current player gets a chip from its second left neighbor
 	public void secondLeftNeighborGivesChipToCurrent() {
 		if(players.indexOf(current)<2) {
+			Chip chip=players.get(players.size()-players.indexOf(current)-1).removeChip();
+			chip.setCurrentOwner(current);
 			current.addChip(players.get(players.size()-players.indexOf(current)-1).removeChip());
 		}
 		else {
+			Chip chip=players.get(players.indexOf(current)-2).removeChip();
+			chip.setCurrentOwner(current);
 			current.addChip(players.get(players.indexOf(current)-2).removeChip());
 		}
 	}
@@ -686,8 +695,8 @@ public class Table {
 	
 	//instead of putting one chip in one project the current player sets two chips in one project
 	public void setTwoChipsInOneProject(Subproject project) {
-		current.raiseScore(project.setChip(current.removeChip()).getAmountSZT());
-		current.raiseScore(project.setChip(current.removeChip()).getAmountSZT());
+		project.setChip(this.current.removeChip());
+		project.setChip(this.current.removeChip());
 	}
 	
 	//raises score of every player including the current one

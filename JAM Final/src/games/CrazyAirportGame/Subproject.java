@@ -57,7 +57,19 @@ public class Subproject {
 	}
 
 	public int getIdNextFreeField() {
-		return fields.indexOf(nextFree);
+		return fields.indexOf(fields.get(nextFree));
+	}
+	
+	public int getIdSecondNextFreeField() {
+		return fields.indexOf(fields.get(nextFree+1));
+	}
+	
+	public SubprojectField getNextFreeField() {
+		return fields.get(nextFree);
+	}
+	
+	public SubprojectField getSecondNextFreeField() {
+		return fields.get(nextFree+1);
 	}
 	
 	public boolean isNextFreeFieldLast() {
@@ -66,6 +78,10 @@ public class Subproject {
 	
 	public boolean chipCanBeRemoved() {
 		return nextFree>1;
+	}
+	
+	public boolean twoChipsCanBeRemoved() {
+		return nextFree>2;
 	}
 	
 /*	public SubprojectField getLastField() {
