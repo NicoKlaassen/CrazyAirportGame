@@ -128,8 +128,10 @@ public class Table {
 	//Fills deck of EreignisLOS-Cards by setting ID's
 	public void fillEreignisLOSArray() {
 		for(int i=1; i<=55; i++) {
-			ErgebnisLOSCard c= new ErgebnisLOSCard(i);
-			eCards.add(c);
+			if(i!=10) {
+				ErgebnisLOSCard c= new ErgebnisLOSCard(i);
+				eCards.add(c);
+			}
 		}
 	}
 	
@@ -138,6 +140,16 @@ public class Table {
 		for (ErgebnisLOSCard e:eCards) {
 			if(e.getId()==id) {
 				result=e;
+			}
+		}
+		return result;
+	}
+	
+	public VerantwortungsLOSCard getVCardByID(int id) {
+		VerantwortungsLOSCard result=null;
+		for (VerantwortungsLOSCard v:vCards) {
+			if(v.getId()==id) {
+				result=v;
 			}
 		}
 		return result;
@@ -217,6 +229,16 @@ public class Table {
 		return null;
 	}
 	
+	public ArrayList<Player> getPlayersExceptCurrent(){
+		ArrayList<Player> players=new ArrayList<Player>();
+		for(Player p:this.players) {
+			if(p.getUser().getName()!=current.getUser().getName()) {
+				players.add(p);
+			}
+		}
+		return players;
+	}
+	
 	public VerantwortungsLOSCard getVCardFromCurrentByID(int id) {
 		for(VerantwortungsLOSCard vCard:current.getvCards()) {
 			if(vCard.getId()==id) {
@@ -237,8 +259,14 @@ public class Table {
 	}
 	
 	public void endTurn() {
+		if(getCurrent() instanceof AI) {
+		CrazyAirportGame.pause();
 		current=players.get((players.indexOf(current)+1)%players.size());
-	}
+		}
+		else{
+			current=players.get((players.indexOf(current)+1)%players.size());
+			}
+		}
 	
 	public Player getCurrent() {
 		return current;
@@ -398,9 +426,17 @@ public class Table {
 			current.raiseScore(50);
 			break;
 		case (21):
-			getRightNeigbour().lowerScore(50);
-			current.raiseScore(50);
-			break;
+			if(getRightNeigbour().getScore()<50) {
+				int score=getRightNeigbour().getScore();
+				getRightNeigbour().lowerScore(score);
+				current.raiseScore(score);
+				break;
+			}
+			else {
+				getRightNeigbour().lowerScore(50);
+				current.raiseScore(50);
+				break;
+			}
 		case (22):
 			current.raiseScore(20);
 			break;
@@ -432,7 +468,8 @@ public class Table {
 			break;
 		case (36):{
 			if(!projectsAvailable.isEmpty()) {
-				openUpProject(drawProject());				
+				openUpProject(drawProject());
+				break;
 			}
 			else current.raiseScore(30);
 			}
@@ -548,6 +585,7 @@ public class Table {
 		project.finishProject();
 		projectsFinished.add(project);
 		projectsActive.remove(project);
+		openUpProject(drawProject());
 	}
 
 	//Returns the right neighbor of the current player
@@ -601,6 +639,11 @@ public class Table {
 		current.addChip(projectB.removeLastChip());
 	}
 	
+	//removes two chips from active projects and adds it to chip-list of current player
+	public void remove1ChipFromProjectAndAddToPlayer(Subproject projectA) {
+		current.addChip(projectA.removeLastChip());
+	}
+	
 	//raises score of every player by specific amount
 	public void SZTToEveryOtherPlayer(int value) {
 		for(Player p:players) {
@@ -623,9 +666,13 @@ public class Table {
 	//current player gets a chip from its second left neighbor
 	public void secondLeftNeighborGivesChipToCurrent() {
 		if(players.indexOf(current)<2) {
+			Chip chip=players.get(players.size()-players.indexOf(current)-1).removeChip();
+			chip.setCurrentOwner(current);
 			current.addChip(players.get(players.size()-players.indexOf(current)-1).removeChip());
 		}
 		else {
+			Chip chip=players.get(players.indexOf(current)-2).removeChip();
+			chip.setCurrentOwner(current);
 			current.addChip(players.get(players.indexOf(current)-2).removeChip());
 		}
 	}
@@ -654,8 +701,8 @@ public class Table {
 	
 	//instead of putting one chip in one project the current player sets two chips in one project
 	public void setTwoChipsInOneProject(Subproject project) {
-		current.raiseScore(project.setChip(current.removeChip()).getAmountSZT());
-		current.raiseScore(project.setChip(current.removeChip()).getAmountSZT());
+		project.setChip(this.current.removeChip());
+		project.setChip(this.current.removeChip());
 	}
 	
 	//raises score of every player including the current one
@@ -667,8 +714,15 @@ public class Table {
 	
 	//current gets specified amount of SZT from current player
 	public void takeSZTFromRightNeighbor(int value) {
-		getRightNeigbour().lowerScore(value);
-		current.raiseScore(value);
+		if(getRightNeigbour().getScore()<value) {
+			int score=getRightNeigbour().getScore();
+			getRightNeigbour().lowerScore(score);
+			current.raiseScore(score);
+		}
+		else {
+			getRightNeigbour().lowerScore(value);
+			current.raiseScore(value);
+		}
 	}
 	
 	//second right neighbor of current player gets his score raised by a specified amount
@@ -712,6 +766,10 @@ public class Table {
 		result.add("players", players);
 		result.add("currentPlayer", current.toJson());
 		return result;
+	}
+	
+	public void addVCard(int id) {
+		this.vCards.add(new VerantwortungsLOSCard(id));
 	}
 	
 	public ArrayList<Subproject> getActiveProjectsMoreThenOneFreeField(){

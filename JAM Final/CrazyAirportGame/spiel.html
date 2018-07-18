@@ -4,19 +4,40 @@
   
  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
  	<script type="text/javascript" src="javascript/CrazyAirportGame.js"></script>
+      <script type="text/javascript" src="javascript/morphext.js"></script>
+      <script type="text/javascript" src="javascript/morphext.min.js"></script>
+      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css">
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<link rel="stylesheet" href="CrazyAirportGame.css">
+	<link rel="stylesheet" href="css/CrazyAirportGame.css">
+    <link rel="stylesheet" href="css/morphext.css">
+      <script>
+       $(function() {
+            jQuery("#js-rotating").Morphext({
+        animation: "flipInX",
+        seperator: ",",
+        speed: 2000,
+        complete: function () {
+        }
+    });
+});
+</script>
+   
     <title>UnberechenBER</title>
+      <style>
+    .morphext > .animated {
+    display: inline-block;}
+      </style>
   </head>
-  <body>
+  <body onload="load()">
 	
 	<div id="lobby">
 	<div class="container">
+        <h1>DAS <span id="js-rotating">VERRÜCKTE</span> FLUGHAFENSPIEL</h1>
 	<h1>Lobby #1</h1>
 	<h2>Spielerübersicht</h2>
 	<p>Das Spiel ist mit 2 bis 5 Spielern bzw. Bots spielbar.</p>       
@@ -32,7 +53,7 @@
 		</thead>
 	  </table>
 	  <button type="button" class="btn btn-success" onclick="startGame()">Spiel starten</button>
-	  <button type="button" class="btn btn-danger">Lobby verlassen</button>
+	  <button type="button" class="btn btn-danger" onclick="leaveGame()">Lobby verlassen</button>
 	</div>
 	</div>
 	
@@ -116,13 +137,17 @@
 				<th>Name</th>
 				<th>Steuerzahlertaler</th>
 				<th>Chips</th>
+				<th>SZT wegnehmen</th>
+				<th>Chip wegnehmen</th>
+				<th>Karte 11 nutzen</th>
+				<th>Karte 23 nutzen</th>
 			  </tr>
 			</thead>
 			</table>
 			
 			<p id="dice">
 				<button type="button" id="wuerfelBut" class="btn btn-success" disabled onclick="roll()" >Würfeln</button>
-				<h3 id="diceText">Ergebnis: 3</h3>
+				<h3 id="diceText" align="center"> Ergebnis: 3</h3>
 			</p>
 			
 			<p>
@@ -187,7 +212,7 @@
 				</tbody>
 				</table>
 			</p>
-		  <button type="button" id="exit" class="btn btn-danger" onclick="init()">Spiel verlassen</button>
+		  <button type="button" id="exit" class="btn btn-danger" onclick="leaveGame()">Spiel verlassen</button>
 	</div>
 	</div>
 	</div>
@@ -197,5 +222,6 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="javascript/morphext.js"></script>
   </body>
 </html>

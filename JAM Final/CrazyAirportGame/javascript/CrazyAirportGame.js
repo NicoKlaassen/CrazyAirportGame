@@ -1,65 +1,144 @@
-
-
-//keine verfickten Umlaute in diese verhurten Kommentare - danke
+//keine Umlaute in den Kommentaren oder Funktionen bitte
 
 //Testfunktion um Spiel verlassen zu blockieren
-//function init() {
-//	sendDataToServer('sawf');
-//    console.log("loeschen der kopfzeile");
-//    document.getElementById("content").style.top="100px";
-//    var elem = document.getElementById('menu');
-//    elem.parentNode.removeChild(elem);
-//}
+	function init() {
+	sendDataToServer('sawf');
+    console.log("loeschen der kopfzeile");
+    document.getElementById("content").style.top="100px";
+    var elem = document.getElementById('menu');
+    elem.parentNode.removeChild(elem);
+}
+	
+function load(){
+		init();
+		console.log("Loading done");
+		sendDataToServer("lobbyJoin");
+		}
 
 var onClickDecide='';
 var removeChipProject='';
 var outActiveProjects='';
 var inActiveProjects='';
+var stealPlayersSize='';
+var chosenProject='';
 
 addListener('USERJOINED',function (event) {
 	$("#lobbyTable").html("<thead><tr><th>Name</th><th>Rolle</th></tr></thead>");
 	var obj = event.data;
 	var json = JSON.parse(obj);
 	for(var i in json.users){
-		$("#lobbyTable").append('<tr><td class="playerColumn">'+json.users[i].name+'</td><td class="roleColumn">Spieler</td></tr>');
+		$("#lobbyTable").append('<tr><td class="playerColumn">'+json.users[i].name+'</td><td class="roleColumn">'+json.users[i].role+'</td></tr>');
 	}
-	 
 });
 
 addListener('tableStatus',function (event) {
-	$("#playerTable").html("<thead><tr><th>Chip</th><th>Name</th><th>Steuerzahlertaler</th><th>Chips</th></tr></thead>");
+	$("#playerTable").html("<thead><tr><th>Chip</th><th>Name</th><th>Steuerzahlertaler</th><th>Chips</th><th>SZT wegnehmen</th><th>Chip wegnehmen</th><th>Karte 11 nutzen</th><th>Karte 23 nutzen</th></tr></thead>");
 	var obj = event.data;
 	var json = JSON.parse(obj);
 	console.log(json);
 	for(var i in json.players){
 		if(i==0){
-			$("#playerTable").append('<tr><td class="chipColumn"><img src="images/chipBlau.png" alt="Icon Blau" id="iconBlau"></td><td style="color: #03A9F4">'+json.players[i].name+'</td><td>'+json.players[i].score+'</td><td>'+json.players[i].chips.length+'</td></tr>')
+			$("#playerTable").append('<tr><td class="chipColumn"><img src="images/chipBlau.png" alt="Icon Blau" id="iconBlau"></td><td style="color: #03A9F4">'+json.players[i].name+'</td><td>'+json.players[i].score+'</td><td>'+json.players[i].chips.length+'</td><td><button type="button" id="takeSZTPlayer1" class="btn btn-primary btn-sm" disabled onclick="takeSZTPlayer1()" >SZT wegnehmen</button></td><td><button type="button" id="takeChipPlayer1" class="btn btn-primary btn-sm" disabled onclick="removeChipPlayer1()">Chip wegnehmen</button></td><td><button type="button" id="userSpecialCard11" class="btn btn-primary btn-sm" disabled onclick="useSpecialCard11()" >Karte 11 nutzen</button></td><td><button type="button" id="userSpecialCard23" class="btn btn-primary btn-sm" disabled onclick="useSpecialCard23()" >Karte 23 nutzen</button></td></tr>')
 			if(json.players[i].name==json.currentPlayer.name){
 				$("#amZug").html('<span style="color : #03A9F4">'+json.players[i].name+'</span><span style="color : #FFFFFF"> ist am Zug</span>');
 			}
 		}
 		if(i==1){
-			$("#playerTable").append('<tr><td class="chipColumn"><img src="images/chipGelb.png" alt="Icon Gelb" id="iconGelb"></td><td style="color: #FFEB3B">'+json.players[i].name+'</td><td>'+json.players[i].score+'</td><td>'+json.players[i].chips.length+'</td></tr>')
+			$("#playerTable").append('<tr><td class="chipColumn"><img src="images/chipGelb.png" alt="Icon Gelb" id="iconGelb"></td><td style="color: #FFEB3B">'+json.players[i].name+'</td><td>'+json.players[i].score+'</td><td>'+json.players[i].chips.length+'</td><td><button type="button" id="takeSZTPlayer2" class="btn btn-primary btn-sm" disabled onclick="takeSZTPlayer2()" >SZT wegnehmen</button></td><td><button type="button" id="takeChipPlayer2" class="btn btn-primary btn-sm" disabled onclick="removeChipPlayer2()">Chip wegnehmen</button></td><td><button type="button" id="userSpecialCard11" class="btn btn-primary btn-sm" disabled onclick="useSpecialCard11()" >Karte 11 nutzen</button></td><td><button type="button" id="userSpecialCard23" class="btn btn-primary btn-sm" disabled onclick="useSpecialCard23()" >Karte 23 nutzen</button></td></tr>')
 			if(json.players[i].name==json.currentPlayer.name){
 				$("#amZug").html('<span style="color : #FFEB3B">'+json.players[i].name+'</span><span style="color : #FFFFFF"> ist am Zug</span>');
 			}
 		}
 		if(i==2){
-			$("#playerTable").append('<tr><td class="chipColumn"><img src="images/chipGruen.png" alt="Icon Gruen" id="iconGruen"></td><td style="color: #4CAF50">'+json.players[i].name+'</td><td>'+json.players[i].score+'</td><td>'+json.players[i].chips.length+'</td></tr>')
+			$("#playerTable").append('<tr><td class="chipColumn"><img src="images/chipGruen.png" alt="Icon Gruen" id="iconGruen"></td><td style="color: #4CAF50">'+json.players[i].name+'</td><td>'+json.players[i].score+'</td><td>'+json.players[i].chips.length+'</td><td><button type="button" id="takeSZTPlayer3" class="btn btn-primary btn-sm" disabled onclick="takeSZTPlayer3()" >SZT wegnehmen</button></td><td><button type="button" id="takeChipPlayer3" class="btn btn-primary btn-sm" disabled onclick="removeChipPlayer3()">Chip wegnehmen</button></td><td><button type="button" id="userSpecialCard11" class="btn btn-primary btn-sm" disabled onclick="useSpecialCard11()" >Karte 11 nutzen</button></td><td><button type="button" id="userSpecialCard23" class="btn btn-primary btn-sm" disabled onclick="useSpecialCard23()" >Karte 23 nutzen</button></td></tr>')
 			if(json.players[i].name==json.currentPlayer.name){
 				$("#amZug").html('<span style="color : #4CAF50">'+json.players[i].name+'</span><span style="color : #FFFFFF"> ist am Zug</span>');
 			}
 		}
 		if(i==3){
-			$("#playerTable").append('<tr><td class="chipColumn"><img src="images/chipRot.png" alt="Icon Rot" id="iconRot"></td><td style="color: #D32F2F">'+json.players[i].name+'</td><td>'+json.players[i].score+'</td><td>'+json.players[i].chips.length+'</td></tr>')
+			$("#playerTable").append('<tr><td class="chipColumn"><img src="images/chipRot.png" alt="Icon Rot" id="iconRot"></td><td style="color: #D32F2F">'+json.players[i].name+'</td><td>'+json.players[i].score+'</td><td>'+json.players[i].chips.length+'</td><td><button type="button" id="takeSZTPlayer4" class="btn btn-primary btn-sm" disabled onclick="takeSZTPlayer4()" >SZT wegnehmen</button></td><td><button type="button" id="takeChipPlayer4" class="btn btn-primary btn-sm" disabled onclick="removeChipPlayer4()">Chip wegnehmen</button></td><td><button type="button" id="userSpecialCard11" class="btn btn-primary btn-sm" disabled onclick="useSpecialCard11()" >Karte 11 nutzen</button></td><td><button type="button" id="userSpecialCard23" class="btn btn-primary btn-sm" disabled onclick="useSpecialCard23()" >Karte 23 nutzen</button></td></tr>')
 			if(json.players[i].name==json.currentPlayer.name){
 				$("#amZug").html('<span style="color : #D32F2F">'+json.players[i].name+'</span><span style="color : #FFFFFF"> ist am Zug</span>');
 			}
 		}
 		if(i==4){
-			$("#playerTable").append('<tr><td class="chipColumn"><img src="images/chipLila.png" alt="Icon Lila" id="iconLila"></td><td style="color: #7C4DFF">'+json.players[i].name+'</td><td>'+json.players[i].score+'</td><td>'+json.players[i].chips.length+'</td></tr>')
+			$("#playerTable").append('<tr><td class="chipColumn"><img src="images/chipLila.png" alt="Icon Lila" id="iconLila"></td><td style="color: #7C4DFF">'+json.players[i].name+'</td><td>'+json.players[i].score+'</td><td>'+json.players[i].chips.length+'</td><td><button type="button" id="takeSZTPlayer5" class="btn btn-primary btn-sm" disabled onclick="takeSZTPlayer5()" >SZT wegnehmen</button></td><td><button type="button" id="takeChipPlayer5" class="btn btn-primary btn-sm" disabled onclick="removeChipPlayer5()">Chip wegnehmen</button></td><td><button type="button" id="userSpecialCard11" class="btn btn-primary btn-sm" disabled onclick="useSpecialCard11()" >Karte 11 nutzen</button></td><td><button type="button" id="userSpecialCard23" class="btn btn-primary btn-sm" disabled onclick="useSpecialCard23()" >Karte 23 nutzen</button></td></tr>')
 			if(json.players[i].name==json.currentPlayer.name){
 				$("#amZug").html('<span style="color : #7C4DFF">'+json.players[i].name+'</span><span style="color : #FFFFFF"> ist am Zug</span>');
+			}
+		}
+	}
+	for(var a in json.finished){
+		if(json.finished[a].id==0){
+			for(var b in json.finished[a].fields){
+				if(json.finished[a].fields[b].Chip=="none"){
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("feuw"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.finished[a].id==1){
+			for(var b in json.finished[a].fields){
+				if(json.finished[a].fields[b].Chip=="none"){
+					document.getElementById("landn"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("landn"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("landn"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.finished[a].id==2){
+			for(var b in json.finished[a].fields){
+				if(json.finished[a].fields[b].Chip=="none"){
+					document.getElementById("lands"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("lands"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("lands"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.finished[a].id==3){
+			for(var b in json.finished[a].fields){
+				if(json.finished[a].fields[b].Chip=="none"){
+					document.getElementById("terma"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("terma"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("terma"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.finished[a].id==4){
+			for(var b in json.finished[a].fields){
+				if(json.finished[a].fields[b].Chip=="none"){
+					document.getElementById("termb"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("termb"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("termb"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.finished[a].id==5){
+			for(var b in json.finished[a].fields){
+				if(json.finished[a].fields[b].Chip=="none"){
+					document.getElementById("maint"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("maint"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("maint"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.finished[a].id==6){
+			for(var b in json.finished[a].fields){
+				if(json.finished[a].fields[b].Chip=="none"){
+					document.getElementById("park"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("park"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("park"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
+			}
+		}
+		if(json.finished[a].id==7){
+			for(var b in json.finished[a].fields){
+				if(json.finished[a].fields[b].Chip=="none"){
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.add('chidden');
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.remove('cpurple', 'cred', 'cgreen', 'cyellow', 'cblue', );
+					document.getElementById("pfield"+(parseInt(b)+1)).classList.remove('cvisible');
+				}
 			}
 		}
 	}
@@ -534,10 +613,200 @@ addListener('aksForInAndOutProject',function (event) {
 	}
 });
 
-function removeChipFromFeuwAndPutItIntoAnother(){
-	console.log("zwei");
-	executeOnServer("removeChipFromProjectAndPutItIntoAnotherAnswer", '{"projectID":'+ 0 + '}');
-	enableRemoveChipButtonsChipButtons();
+addListener('showAvailableProjectsTwiceBurn', function (event){
+	onClickDecide=3;
+	var obj = event.data;
+	var json = JSON.parse(obj);
+	for(var i in json.availableProjects){
+		if(json.availableProjects[i].id==0){
+			console.log("projects0");
+			document.getElementById("feuwSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==1){
+			console.log("projects1");
+			document.getElementById("landnSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==2){
+			console.log("projects2");
+			document.getElementById("landsSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==3){
+			console.log("projects3");
+			document.getElementById("termaSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==4){
+			console.log("projects4");
+			document.getElementById("termbSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==5){
+			console.log("projects5");
+			document.getElementById("maintSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==6){
+			console.log("projects6");
+			document.getElementById("parkSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==7){
+			console.log("projects7");
+			document.getElementById("vorfSetz").removeAttribute("disabled");
+		}
+	}
+});
+
+addListener('showAvailableProjectTwoSelection', function(event){
+	onClickDecide=4;
+	var obj = event.data;
+	var json = JSON.parse(obj);
+	for(var i in json.availableProjects){
+		if(json.availableProjects[i].id==0){
+			console.log("projects0");
+			document.getElementById("feuwSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==1){
+			console.log("projects1");
+			document.getElementById("landnSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==2){
+			console.log("projects2");
+			document.getElementById("landsSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==3){
+			console.log("projects3");
+			document.getElementById("termaSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==4){
+			console.log("projects4");
+			document.getElementById("termbSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==5){
+			console.log("projects5");
+			document.getElementById("maintSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==6){
+			console.log("projects6");
+			document.getElementById("parkSetz").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==7){
+			console.log("projects7");
+			document.getElementById("vorfSetz").removeAttribute("disabled");
+		}
+	}
+});
+
+addListener('showAvailableProjectsTakeOneChip', function(event){
+	onClickDecide=6;
+	var obj = event.data;
+	var json = JSON.parse(obj);
+	for(var i in json.availableProjects){
+		if(json.availableProjects[i].id==0){
+			console.log("projects0");
+			document.getElementById("feuwEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==1){
+			console.log("projects1");
+			document.getElementById("landnEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==2){
+			console.log("projects2");
+			document.getElementById("landsEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==3){
+			console.log("projects3");
+			document.getElementById("termaEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==4){
+			console.log("projects4");
+			document.getElementById("termbEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==5){
+			console.log("projects5");
+			document.getElementById("maintEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==6){
+			console.log("projects6");
+			document.getElementById("parkEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==7){
+			console.log("projects7");
+			document.getElementById("vorfEntf").removeAttribute("disabled");
+		}
+	}
+});
+
+addListener('choosePlayerToStealFrom', function(event) {
+	var obj = event.data;
+	var json = JSON.parse(obj);
+	stealPlayersSize=json.players.length;
+	for(var i in json.players){
+		console.log(json.players[i].name);
+		console.log(document.getElementById('playerTable').rows[1].cells[1].innerHTML);
+		if(json.players[i].name==document.getElementById('playerTable').rows[1].cells[1].innerHTML){
+			console.log("takeSZT");
+			document.getElementById("takeSZTPlayer1").removeAttribute("disabled");
+			document.getElementById("takeSZTPlayer1").style.display = 'none';
+			document.getElementById("takeSZTPlayer1").style.display = 'block';
+		}
+		if(json.players[i].name==document.getElementById('playerTable').rows[2].cells[1].innerHTML){
+			console.log("takeSZT");
+			document.getElementById("takeSZTPlayer2").removeAttribute("disabled");
+			document.getElementById("takeSZTPlayer2").style.display = 'none';
+			document.getElementById("takeSZTPlayer2").style.display = 'block';
+			if(json.players.length>2){
+				if(json.players[i].name==document.getElementById('playerTable').rows[3].cells[1].innerHTML){
+					console.log("takeSZT");
+					document.getElementById("takeSZTPlayer3").removeAttribute("disabled");
+					document.getElementById("takeSZTPlayer3").style.display = 'none';
+					document.getElementById("takeSZTPlayer3").style.display = 'block';
+					if(json.players.length>3){
+						if(json.players[i].name==document.getElementById('playerTable').rows[4].cells[1].innerHTML){
+							console.log("takeSZT");
+							document.getElementById("takeSZTPlayer4").removeAttribute("disabled");
+							document.getElementById("takeSZTPlayer4").style.display = 'none';
+							document.getElementById("takeSZTPlayer4").style.display = 'block';
+							if(json.players.length>4){
+								if(json.players[i].name==document.getElementById('playerTable').rows[5].cells[1].innerHTML){
+									console.log("takeSZT");
+									document.getElementById("takeSZTPlayer5").removeAttribute("disabled");
+									document.getElementById("takeSZTPlayer5").style.display = 'none';
+									document.getElementById("takeSZTPlayer5").style.display = 'block';
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+});
+
+function takeSZTPlayer1(){
+	//console.log("subprojectAnswerTwoChipsInOneProject", '{"player":' + document.getElementById('playerTable').rows[1].cells[1].innerHTML + "}');
+	executeOnServer("takeAway20SZTFromPlayer", '{"player":"' + document.getElementById('playerTable').rows[1].cells[1].innerHTML + '"}');
+	enableTakeSZTButtons();
+}
+
+function takeSZTPlayer2(){
+	//console.log("subprojectAnswerTwoChipsInOneProject", '{"player":"' + document.getElementById('playerTable').rows[2].cells[1].innerHTML + '"}');
+	executeOnServer("takeAway20SZTFromPlayer", '{"player":"' + document.getElementById('playerTable').rows[2].cells[1].innerHTML + '"}');
+	enableTakeSZTButtons();
+}
+
+function takeSZTPlayer3(){
+	//console.log("subprojectAnswerTwoChipsInOneProject", '{"player":"' + document.getElementById('playerTable').rows[3].cells[1].innerHTML + '"}');
+	executeOnServer("takeAway20SZTFromPlayer", '{"player":"' + document.getElementById('playerTable').rows[3].cells[1].innerHTML + '"}');
+	enableTakeSZTButtons();
+}
+
+function takeSZTPlayer4(){
+	//console.log("subprojectAnswerTwoChipsInOneProject", '{"player":"' + document.getElementById('playerTable').rows[4].cells[1].innerHTML + '"}');
+	executeOnServer("takeAway20SZTFromPlayer", '{"player":"' + document.getElementById('playerTable').rows[4].cells[1].innerHTML + '"}');
+	enableTakeSZTButtons();
+}
+
+function takeSZTPlayer5(){
+	//console.log("subprojectAnswerTwoChipsInOneProject", '{"player":"' + document.getElementById('playerTable').rows[5].cells[1].innerHTML + '"}');
+	executeOnServer("takeAway20SZTFromPlayer", '{"player":"' + document.getElementById('playerTable').rows[5].cells[1].innerHTML + '"}');
+	enableTakeSZTButtons();
 }
 
 function enableRemoveChipButtons(){
@@ -551,6 +820,25 @@ function enableRemoveChipButtons(){
 	document.getElementById("vorfEntf").disabled=true;
 }
 
+function enableTakeSZTButtons(){
+	if(!$("#takeSZTPlayer1").is('[disabled]')){
+		document.getElementById("takeSZTPlayer1").disabled=true;
+	}
+	if(!$("#takeSZTPlayer2").is('[disabled]')){
+		document.getElementById("takeSZTPlayer2").disabled=true;
+	}
+	if(stealPlayersSize>=3){
+		document.getElementById("takeSZTPlayer3").disabled=true;
+	}
+	if(stealPlayersSize>=4){
+		document.getElementById("takeSZTPlayer4").disabled=true;
+	}
+	if(stealPlayersSize==5){
+		document.getElementById("takeSZTPlayer5").disabled=true;
+	}
+}
+
+
 function removeEnableActiveProjects(){
 	console.log(outActiveProjects.inProjects);
 	console.log(outActiveProjects.inProjects);
@@ -558,91 +846,230 @@ function removeEnableActiveProjects(){
 		if(outActiveProjects.inProjects[i].id==0){
 			console.log("projects0");
 			document.getElementById("feuwSetz").removeAttribute("disabled");
+			document.getElementById("feuwSetz").style.display = 'none';
+			document.getElementById("feuwSetz").style.display = 'block';
 		}
 		if(outActiveProjects.inProjects[i].id==1){
 			console.log("projects1");
 			document.getElementById("landnSetz").removeAttribute("disabled");
+			document.getElementById("landnSetz").style.display = 'none';
+			document.getElementById("landnSetz").style.display = 'block';
 		}
 		if(outActiveProjects.inProjects[i].id==2){
 			console.log("projects2");
 			document.getElementById("landsSetz").removeAttribute("disabled");
+			document.getElementById("landsSetz").style.display = 'none';
+			document.getElementById("landsSetz").style.display = 'block';
 		}
 		if(outActiveProjects.inProjects[i].id==3){
 			console.log("projects3");
 			document.getElementById("termaSetz").removeAttribute("disabled");
+			document.getElementById("termaSetz").style.display = 'none';
+			document.getElementById("termaSetz").style.display = 'block';
 		}
 		if(outActiveProjects.inProjects[i].id==4){
 			console.log("projects4");
 			document.getElementById("termbSetz").removeAttribute("disabled");
+			document.getElementById("termbSetz").style.display = 'none';
+			document.getElementById("termbSetz").style.display = 'block';
 		}
 		if(outActiveProjects.inProjects[i].id==5){
 			console.log("projects5");
 			document.getElementById("maintSetz").removeAttribute("disabled");
+			document.getElementById("maintSetz").style.display = 'none';
+			document.getElementById("maintSetz").style.display = 'block';
 		}
 		if(outActiveProjects.inProjects[i].id==6){
 			console.log("projects6");
 			document.getElementById("parkSetz").removeAttribute("disabled");
+			document.getElementById("parkSetz").style.display = 'none';
+			document.getElementById("parkSetz").style.display = 'block';
 		}
 		if(outActiveProjects.inProjects[i].id==7){
 			console.log("projects7");
 			document.getElementById("vorfSetz").removeAttribute("disabled");
+			document.getElementById("vorfSetz").style.display = 'none';
+			document.getElementById("vorfSetz").style.display = 'block';
 		}
 	}
 }
 
 
 function removeChipFeuw(){
-	removeChipProject=0;
-	enableRemoveChipButtons();
-	removeEnableActiveProjects();
+	if(onClickDecide==6){
+		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 0 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	if(onClickDecide==7){
+		executeOnServer("removeFirstChipFromProjectAndAddToPlayer", '{"projectID":'+ 0 + '}');
+		onClickDecide==0;
+	}
+	if(onClickDecide==8){
+		executeOnServer("removeSecondChipFromProjectAndAddToPlayer", '{"projectID":'+ 0 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	else{
+		removeChipProject=0;
+		enableRemoveChipButtons();
+		removeEnableActiveProjects();
+	}
 }
 
 function removeChipLandn(){
-	removeChipProject=1;
-	enableRemoveChipButtons();
-	removeEnableActiveProjects();
+	if(onClickDecide==6){
+		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 1 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	if(onClickDecide==7){
+		executeOnServer("removeFirstChipFromProjectAndAddToPlayer", '{"projectID":'+ 1 + '}');
+		onClickDecide==0;
+	}
+	if(onClickDecide==8){
+		executeOnServer("removeSecondChipFromProjectAndAddToPlayer", '{"projectID":'+ 1 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	else{
+		removeChipProject=1;
+		enableRemoveChipButtons();
+		removeEnableActiveProjects();
+	}
 }
 
 function removeChipLands(){
-	removeChipProject=2;
-	enableRemoveChipButtons();
-	removeEnableActiveProjects();
+	if(onClickDecide==6){
+		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 2 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	if(onClickDecide==7){
+		executeOnServer("removeFirstChipFromProjectAndAddToPlayer", '{"projectID":'+ 2 + '}');
+		onClickDecide==0;
+	}
+	if(onClickDecide==8){
+		executeOnServer("removeSecondChipFromProjectAndAddToPlayer", '{"projectID":'+ 2 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	else{
+		removeChipProject=2;
+		enableRemoveChipButtons();
+		removeEnableActiveProjects();
+	}
 }
 
 function removeChipTermA(){
-	removeChipProject=3;
-	enableRemoveChipButtons();
-	removeEnableActiveProjects();
+	if(onClickDecide==6){
+		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 3 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	if(onClickDecide==7){
+		executeOnServer("removeFirstChipFromProjectAndAddToPlayer", '{"projectID":'+ 3 + '}');
+		onClickDecide==0;
+	}
+	if(onClickDecide==8){
+		executeOnServer("removeSecondChipFromProjectAndAddToPlayer", '{"projectID":'+ 3 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	else{
+		removeChipProject=3;
+		enableRemoveChipButtons();
+		removeEnableActiveProjects();
+	}
 }
 
 function removeChipTermb(){
-	removeChipProject=4;
-	enableRemoveChipButtons();
-	removeEnableActiveProjects();
+if(onClickDecide==6){
+		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 4 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	if(onClickDecide==7){
+		executeOnServer("removeFirstChipFromProjectAndAddToPlayer", '{"projectID":'+ 4 + '}');
+		onClickDecide==0;
+	}
+	if(onClickDecide==8){
+		executeOnServer("removeSecondChipFromProjectAndAddToPlayer", '{"projectID":'+ 4 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	else{
+		removeChipProject=4;
+		enableRemoveChipButtons();
+		removeEnableActiveProjects();
+	}
 }
 
 function removeChipMainT(){
-	removeChipProject=5;
-	enableRemoveChipButtons();
-	removeEnableActiveProjects();
-}
-
-function removeChipMainT(){
-	removeChipProject=5;
-	enableRemoveChipButtons();
-	removeEnableActiveProjects();
+	if(onClickDecide==6){
+		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 5 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	if(onClickDecide==7){
+		executeOnServer("removeFirstChipFromProjectAndAddToPlayer", '{"projectID":'+ 5 + '}');
+		onClickDecide==0;
+	}
+	if(onClickDecide==8){
+		executeOnServer("removeSecondChipFromProjectAndAddToPlayer", '{"projectID":'+ 5 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	else{
+		removeChipProject=5;
+		enableRemoveChipButtons();
+		removeEnableActiveProjects();
+	}
 }
 
 function removeChipPark(){
-	removeChipProject=6;
-	enableRemoveChipButtons();
-	removeEnableActiveProjects();
+	if(onClickDecide==6){
+		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 6 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	if(onClickDecide==7){
+		executeOnServer("removeFirstChipFromProjectAndAddToPlayer", '{"projectID":'+ 6 + '}');
+		onClickDecide==0;
+	}
+	if(onClickDecide==8){
+		executeOnServer("removeSecondChipFromProjectAndAddToPlayer", '{"projectID":'+ 6 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	else{
+		removeChipProject=6;
+		enableRemoveChipButtons();
+		removeEnableActiveProjects();
+	}
 }
 
 function removeChipVorfeld(){
-	removeChipProject=7;
-	enableRemoveChipButtons();
-	removeEnableActiveProjects();
+	if(onClickDecide==6){
+		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 7 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	if(onClickDecide==7){
+		executeOnServer("removeFirstChipFromProjectAndAddToPlayer", '{"projectID":'+ 7 + '}');
+		onClickDecide=8;
+		onClickDecide==0;
+	}
+	if(onClickDecide==8){
+		executeOnServer("removeSecondChipFromProjectAndAddToPlayer", '{"projectID":'+ 7 + '}');
+		enableRemoveChipButtons();
+		onClickDecide==0;
+	}
+	else{
+		removeChipProject=7;
+		enableRemoveChipButtons();
+		removeEnableActiveProjects();
+	}
 }
 
 addListener('askForProjectToSetTwoChips', function (event) {
@@ -690,6 +1117,46 @@ addListener('askForProjectToSetTwoChips', function (event) {
 			console.log("projects7");
 			document.getElementById("vorfSetz").removeAttribute("disabled");
 			document.getElementById("vorfSetz").firstChild.data="Zwei Chips setzen";
+		}
+	}
+});
+
+addListener('showAvailableProjectTwoSelectionTakeChips', function(event){
+	onClickDecide=7;
+	var obj = event.data;
+	var json = JSON.parse(obj);
+	for(var i in json.availableProjects){
+		if(json.availableProjects[i].id==0){
+			console.log("projects0");
+			document.getElementById("feuwEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==1){
+			console.log("projects1");
+			document.getElementById("landnEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==2){
+			console.log("projects2");
+			document.getElementById("landsEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==3){
+			console.log("projects3");
+			document.getElementById("termaEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==4){
+			console.log("projects4");
+			document.getElementById("termbEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==5){
+			console.log("projects5");
+			document.getElementById("maintEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==6){
+			console.log("projects6");
+			document.getElementById("parkEntf").removeAttribute("disabled");
+		}
+		if(json.availableProjects[i].id==7){
+			console.log("projects7");
+			document.getElementById("vorfEntf").removeAttribute("disabled");
 		}
 	}
 });
@@ -752,34 +1219,42 @@ function setTwoChipsOnVorfeld(){
 
 function removedChipOnFeuw(){
 	executeOnServer("removeChipFromProjectAndPutItIntoAnotherAnswer", '{"fromProjectID":'+ removeChipProject + ', "toProjectID":'+ 0 + '}');
+	enableSetChipButtons();
 }
 
 function removedChipOnLandn(){
 	executeOnServer("removeChipFromProjectAndPutItIntoAnotherAnswer", '{"fromProjectID":'+ removeChipProject + ', "toProjectID":'+ 1 + '}');
+	enableSetChipButtons();
 }
 
 function removedChipOnLands(){
 	executeOnServer("removeChipFromProjectAndPutItIntoAnotherAnswer", '{"fromProjectID":'+ removeChipProject + ', "toProjectID":'+ 2 + '}');
+	enableSetChipButtons();
 }
 
 function removedChipOnTerma(){
 	executeOnServer("removeChipFromProjectAndPutItIntoAnotherAnswer", '{"fromProjectID":'+ removeChipProject + ', "toProjectID":'+ 3 + '}');
+	enableSetChipButtons();
 }
 
 function removedChipOnTermb(){
 	executeOnServer("removeChipFromProjectAndPutItIntoAnotherAnswer", '{"fromProjectID":'+ removeChipProject + ', "toProjectID":'+ 4 + '}');
+	enableSetChipButtons();
 }
 
 function removedChipOnMaint(){
 	executeOnServer("removeChipFromProjectAndPutItIntoAnotherAnswer", '{"fromProjectID":'+ removeChipProject + ', "toProjectID":'+ 5 + '}');
+	enableSetChipButtons();
 }
 
 function removedChipOnPark(){
 	executeOnServer("removeChipFromProjectAndPutItIntoAnotherAnswer", '{"fromProjectID":'+ removeChipProject + ', "toProjectID":'+ 6 + '}');
+	enableSetChipButtons();
 }
 
 function removedChipOnVorfeld(){
 	executeOnServer("removeChipFromProjectAndPutItIntoAnotherAnswer", '{"fromProjectID":'+ removeChipProject + ', "toProjectID":'+ 7 + '}');
+	enableSetChipButtons();
 }
 
 addListener('showECard',function (event) {
@@ -787,6 +1262,13 @@ addListener('showECard',function (event) {
 	var json = JSON.parse(obj);
 	console.log(json.eCardID);
 	showECard(json.eCardID);
+});
+
+addListener('showVCard', function (event) {
+	var obj = event.data;
+	var json = JSON.parse(obj);
+	console.log(json.vCardID);
+	showVCard(json.vCardID);
 });
 
 
@@ -821,9 +1303,25 @@ function setChipOnFeuw(){
 		removedChipOnFeuw();
 		onClickDecide=0;
 	}
+	if(onClickDecide==3){
+		executeOnServer('chipOnFieldBurnSZTTwice', '{"projectID":' + 0 + '}');
+		onClickDecide=0;
+		enableSetChipButtons();
+	}
+	if(onClickDecide==4){
+		console.log("runInto");
+		executeOnServer("chosenProject1", '{"projectID":' + 0 + '}');
+		onClickDecide=5
+		return;
+	}
+	if(onClickDecide==5){
+		executeOnServer("chosenProject", '{"projectID":' + 0 + '}');
+		chosenProject=0;
+		enableSetChipButtons();
+	}
 	else{
 	console.log("chosen Project feuw");
-	executeOnServer("chosenProject", '{"projectID":'+ 0 + '}');
+	executeOnServer("chosenProject", '{"projectID":' + 0 + '}');
 	enableSetChipButtons();
 	}
 }
@@ -837,10 +1335,26 @@ function setChipOnLandn(){
 		removedChipOnLandn();
 		onClickDecide=0;
 	}
+	if(onClickDecide==3){
+		executeOnServer('chipOnFieldBurnSZTTwice', '{"projectID":'+ 1 + '}');
+		onClickDecide=0;
+		enableSetChipButtons();
+	}
+	if(onClickDecide==4){
+		console.log("runInto");
+		executeOnServer("chosenProject1", '{"projectID":' + 1 + '}');
+		onClickDecide=5
+		return;
+	}
+	if(onClickDecide==5){
+		executeOnServer("chosenProject", '{"projectID":' + 1 + '}');
+		chosenProject=0;
+		enableSetChipButtons();
+	}
 	else{
-	console.log("chosen Project landn");
-	executeOnServer("chosenProject", '{"projectID":'+ 1 + '}');
-	enableSetChipButtons();
+		console.log("chosen Project landn");
+		executeOnServer("chosenProject", '{"projectID":' + 1 + '}');
+		enableSetChipButtons();
 	}
 }
 
@@ -853,10 +1367,26 @@ function setChipOnLands(){
 		removedChipOnLands();
 		onClickDecide=0;
 	}
+	if(onClickDecide==3){
+		executeOnServer('chipOnFieldBurnSZTTwice', '{"projectID":' + 2 + '}');
+		onClickDecide=0;
+		enableSetChipButtons();
+	}
+	if(onClickDecide==4){
+		console.log("runInto");
+		executeOnServer("chosenProject1", '{"projectID":' + 2 + '}');
+		onClickDecide=5
+		return;
+	}
+	if(onClickDecide==5){
+		executeOnServer("chosenProject", '{"projectID":' + 2 + '}');
+		chosenProject=0;
+		enableSetChipButtons();
+	}
 	else{
-	console.log("chosen Project lands");
-	executeOnServer("chosenProject", '{"projectID":'+ 2 + '}');
-	enableSetChipButtons();
+		console.log("chosen Project lands");
+		executeOnServer("chosenProject", '{"projectID":' + 2 + '}');
+		enableSetChipButtons();
 	}
 }
 
@@ -869,10 +1399,26 @@ function setChipOnTermA(){
 		removedChipOnTerma();
 		onClickDecide=0;
 	}
+	if(onClickDecide==3){
+		executeOnServer('chipOnFieldBurnSZTTwice', '{"projectID":' + 3 + '}');
+		onClickDecide=0;
+		enableSetChipButtons();
+	}
+	if(onClickDecide==4){
+		console.log("runInto");
+		executeOnServer("chosenProject1", '{"projectID":' + 3 + '}');
+		onClickDecide=5
+		return;
+	}
+	if(onClickDecide==5){
+		executeOnServer("chosenProject", '{"projectID":' + 3 + '}');
+		chosenProject=0;
+		enableSetChipButtons();
+	}
 	else{
-	console.log("chosen Project termA");
-	executeOnServer("chosenProject", '{"projectID":'+ 3 + '}');
-	enableSetChipButtons();
+		console.log("chosen Project termA");
+		executeOnServer("chosenProject", '{"projectID":' + 3 + '}');
+		enableSetChipButtons();
 	}
 }
 
@@ -885,10 +1431,26 @@ function setChipOnTermB(){
 		removedChipOnTermb();
 		onClickDecide=0;
 	}
+	if(onClickDecide==3){
+		executeOnServer('chipOnFieldBurnSZTTwice', '{"projectID":' + 4 + '}');
+		onClickDecide=0;
+		enableSetChipButtons();
+	}
+	if(onClickDecide==4){
+		console.log("runInto");
+		executeOnServer("chosenProject1", '{"projectID":' + 4 + '}');
+		onClickDecide=5
+		return;
+	}
+	if(onClickDecide==5){
+		executeOnServer("chosenProject", '{"projectID":' + 4 + '}');
+		chosenProject=0;
+		enableSetChipButtons();
+	}
 	else{
-	console.log("chosen Project termB");
-	executeOnServer("chosenProject", '{"projectID":'+ 4 + '}');
-	enableSetChipButtons();
+		console.log("chosen Project termB");
+		executeOnServer("chosenProject", '{"projectID":' + 4 + '}');
+		enableSetChipButtons();
 	}
 }
 
@@ -901,10 +1463,26 @@ function setChipOnMainT(){
 		removedChipOnMaint();
 		onClickDecide=0;
 	}
+	if(onClickDecide==3){
+		executeOnServer('chipOnFieldBurnSZTTwice', '{"projectID":' + 5 + '}');
+		onClickDecide=0;
+		enableSetChipButtons();
+	}
+	if(onClickDecide==4){
+		console.log("runInto");
+		executeOnServer("chosenProject1", '{"projectID":' + 5 + '}');
+		onClickDecide=5
+		return;
+	}
+	if(onClickDecide==5){
+		executeOnServer("chosenProject", '{"projectID":' + 5 + '}');
+		chosenProject=0;
+		enableSetChipButtons();
+	}
 	else{
-	console.log("chosen Project maint");
-	executeOnServer("chosenProject", '{"projectID":'+ 5 + '}');
-	enableSetChipButtons();
+		console.log("chosen Project maint");
+		executeOnServer("chosenProject", '{"projectID":' + 5 + '}');
+		enableSetChipButtons();
 	}
 }
 
@@ -917,10 +1495,26 @@ function setChipOnPark(){
 		removedChipOnPark();
 		onClickDecide=0;
 	}
+	if(onClickDecide==3){
+		executeOnServer('chipOnFieldBurnSZTTwice', '{"projectID":' + 6 + '}');
+		onClickDecide=0;
+		enableSetChipButtons();
+	}
+	if(onClickDecide==4){
+		console.log("runInto");
+		executeOnServer("chosenProject1", '{"projectID":' + 6 + '}');
+		onClickDecide=5
+		return;
+	}
+	if(onClickDecide==5){
+		executeOnServer("chosenProject", '{"projectID":' + 6 + '}');
+		chosenProject=0;
+		enableSetChipButtons();
+	}
 	else{
-	console.log("chosen Project park");
-	executeOnServer("chosenProject", '{"projectID":'+ 6 + '}');
-	enableSetChipButtons();
+		console.log("chosen Project park");
+		executeOnServer("chosenProject", '{"projectID":' + 6 + '}');
+		enableSetChipButtons();
 	}
 }
 
@@ -933,10 +1527,26 @@ function setChipOnVorfeld(){
 		removedChipOnVorfeld();
 		onClickDecide=0;
 	}
+	if(onClickDecide==3){
+		executeOnServer('chipOnFieldBurnSZTTwice', '{"projectID":' + 7 + '}');
+		onClickDecide=0;
+		enableSetChipButtons();
+	}
+	if(onClickDecide==4){
+		console.log("runInto");
+		executeOnServer("chosenProject1", '{"projectID":' + 7 + '}');
+		onClickDecide=5
+		return;
+	}
+	if(onClickDecide==5){
+		executeOnServer("chosenProject", '{"projectID":' + 7 + '}');
+		chosenProject=0;
+		enableSetChipButtons();
+	}
 	else{
-	console.log("chosen Project vfeld");
-	executeOnServer("chosenProject", '{"projectID":'+ 7 + '}');
-	enableSetChipButtons();
+		console.log("chosen Project vfeld");
+		executeOnServer("chosenProject", '{"projectID":' + 7 + '}');
+		enableSetChipButtons();
 	}
 }
 
@@ -1000,7 +1610,6 @@ function startGame(){
 //add new AI
 function addAI() {
     console.log("addAI");
-    $("#lobbyTable").append('<tr><td class="playerColumn">Computer</td><td class="roleColumn">Spieler</td></tr>');
     sendDataToServer('addAI');
 }
 
