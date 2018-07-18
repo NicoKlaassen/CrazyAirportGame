@@ -946,3 +946,9 @@
 [2018-07-18 13:54:41.394] [IP: /192.168.178.111] [LOGIN] Logging in user "asd" succeeded
 [2018-07-18 13:56:48.723] [IP: /192.168.178.111] [LOGIN] Logging in user "asd" succeeded
 >>>>>>> e1f99d7ee541efe7c31722ccc83f38e3a7690653
+[2018-07-18 19:17:22.772] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" failed
+[2018-07-18 19:17:29.222] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" failed
+[2018-07-18 19:17:48.72] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" failed
+[2018-07-18 19:18:03.904] [IP: /192.168.178.88] [LOGIN] Logging in user "marius" failed
+[2018-07-18 19:18:40.777] [IP: /192.168.178.88] [REGISTER] Registering user "bla" succeeded
+[2018-07-18 19:18:45.604] [IP: /192.168.178.88] [LOGIN] Logging in user "bla" succeeded
