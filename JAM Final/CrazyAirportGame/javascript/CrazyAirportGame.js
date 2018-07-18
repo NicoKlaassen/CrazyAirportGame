@@ -1749,11 +1749,16 @@ function hideCard() {
 
 //Wechsel Lobby in Spiel
 function startGame(){
+    if(minPlayer()) {
+        window.alert("Es muss noch ein weitere Spieler beitreten um das Spiel zu starten!");
+    } else {
 	document.getElementById("game").style.display='block';
 	document.getElementById("lobby").style.display='none';
 	console.log("startGame");
 	sendDataToServer('startGame');
+    }
 }
+
 //add new AI
 function addAI() {
     console.log("addAI");
@@ -1763,6 +1768,17 @@ function addAI() {
 function removeAI() {
     console.log("removeAI");
     sendDataToServer('removeAI')
+}
+
+
+function minPlayer () {
+    var rowCount = $('#lobbyTable tr').length;
+    rowCount = rowCount - 1 ;
+    var check = false;
+    if(rowCount<2) {
+        check = true;
+    }
+    return check;
 }
 
 //prints the table of the players
