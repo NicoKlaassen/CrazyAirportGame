@@ -1164,6 +1164,7 @@ addListener('showAvailableProjectTwoSelectionTakeChips', function(event){
 function setTwoChipsOnFeuw(){
 	console.log("zwei");
 	executeOnServer("subprojectAnswerTwoChipsInOneProject", '{"projectID":'+ 0 + '}');
+	onClickDecide=0;
 	setBackPlaceChipText();
 	enableSetChipButtons();
 }
@@ -1171,6 +1172,7 @@ function setTwoChipsOnFeuw(){
 function setTwoChipsOnLandn(){
 	console.log("zwei");
 	executeOnServer("subprojectAnswerTwoChipsInOneProject", '{"projectID":'+ 1 + '}');
+	onClickDecide=0;
 	setBackPlaceChipText();
 	enableSetChipButtons();
 }
@@ -1178,6 +1180,7 @@ function setTwoChipsOnLandn(){
 function setTwoChipsOnLands(){
 	console.log("zwei");
 	executeOnServer("subprojectAnswerTwoChipsInOneProject", '{"projectID":'+ 2 + '}');
+	onClickDecide=0;
 	setBackPlaceChipText();
 	enableSetChipButtons();
 }
@@ -1185,6 +1188,7 @@ function setTwoChipsOnLands(){
 function setTwoChipsOnTermA(){
 	console.log("zwei");
 	executeOnServer("subprojectAnswerTwoChipsInOneProject", '{"projectID":'+ 3 + '}');
+	onClickDecide=0;
 	setBackPlaceChipText();
 	enableSetChipButtons();
 }
@@ -1192,6 +1196,7 @@ function setTwoChipsOnTermA(){
 function setTwoChipsOnTermB(){
 	console.log("zwei");
 	executeOnServer("subprojectAnswerTwoChipsInOneProject", '{"projectID":'+ 4 + '}');
+	onClickDecide=0;
 	setBackPlaceChipText();
 	enableSetChipButtons();
 }
@@ -1199,6 +1204,7 @@ function setTwoChipsOnTermB(){
 function setTwoChipsOnMainT(){
 	console.log("zwei");
 	executeOnServer("subprojectAnswerTwoChipsInOneProject", '{"projectID":'+ 5 + '}');
+	onClickDecide=0;
 	setBackPlaceChipText();
 	enableSetChipButtons();
 }
@@ -1206,6 +1212,7 @@ function setTwoChipsOnMainT(){
 function setTwoChipsOnPark(){
 	console.log("zwei");
 	executeOnServer("subprojectAnswerTwoChipsInOneProject", '{"projectID":'+ 6 + '}');
+	onClickDecide=0;
 	setBackPlaceChipText();
 	enableSetChipButtons();
 }
@@ -1213,6 +1220,7 @@ function setTwoChipsOnPark(){
 function setTwoChipsOnVorfeld(){
 	console.log("zwei");
 	executeOnServer("subprojectAnswerTwoChipsInOneProject", '{"projectID":'+ 7 + '}');
+	onClickDecide=0;
 	setBackPlaceChipText();
 	enableSetChipButtons();
 }
@@ -1296,8 +1304,9 @@ addListener('sendMessage', function(event){
 
 function setChipOnFeuw(){
 	if(onClickDecide==1){
+		console.log("onClickDecide=1");
 		setTwoChipsOnFeuw();
-		onClickDecide=0;
+		return;
 	}
 	if(onClickDecide==2){
 		removedChipOnFeuw();
@@ -1328,8 +1337,9 @@ function setChipOnFeuw(){
 
 function setChipOnLandn(){
 	if(onClickDecide==1){
+		console.log("onClickDecide=1");
 		setTwoChipsOnLandn();
-		onClickDecide=0;
+		return;
 	}
 	if(onClickDecide==2){
 		removedChipOnLandn();
@@ -1360,8 +1370,9 @@ function setChipOnLandn(){
 
 function setChipOnLands(){
 	if(onClickDecide==1){
+		console.log("onClickDecide=1");
 		setTwoChipsOnLands();
-		onClickDecide=0;
+		return;
 	}
 	if(onClickDecide==2){
 		removedChipOnLands();
@@ -1392,8 +1403,9 @@ function setChipOnLands(){
 
 function setChipOnTermA(){
 	if(onClickDecide==1){
+		console.log("onClickDecide=1");
 		setTwoChipsOnTermA();
-		onClickDecide=0;
+		return;
 	}
 	if(onClickDecide==2){
 		removedChipOnTerma();
@@ -1424,8 +1436,9 @@ function setChipOnTermA(){
 
 function setChipOnTermB(){
 	if(onClickDecide==1){
+		console.log("onClickDecide=1");
 		setTwoChipsOnTermB();
-		onClickDecide=0;
+		return;
 	}
 	if(onClickDecide==2){
 		removedChipOnTermb();
@@ -1456,8 +1469,9 @@ function setChipOnTermB(){
 
 function setChipOnMainT(){
 	if(onClickDecide==1){
+		console.log("onClickDecide=1");
 		setTwoChipsOnMainT();
-		onClickDecide=0;
+		return;
 	}
 	if(onClickDecide==2){
 		removedChipOnMaint();
@@ -1489,7 +1503,7 @@ function setChipOnMainT(){
 function setChipOnPark(){
 	if(onClickDecide==1){
 		setTwoChipsOnPark();
-		onClickDecide=0;
+		return;
 	}
 	if(onClickDecide==2){
 		removedChipOnPark();
@@ -1520,8 +1534,9 @@ function setChipOnPark(){
 
 function setChipOnVorfeld(){
 	if(onClickDecide==1){
+		console.log("onClickDecide=1");
 		setTwoChipsOnVorfeld();
-		onClickDecide=0;
+		return;
 	}
 	if(onClickDecide==2){
 		removedChipOnVorfeld();

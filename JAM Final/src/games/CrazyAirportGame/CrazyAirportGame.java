@@ -447,7 +447,7 @@ public class CrazyAirportGame extends Game{
 				VerantwortungsLOSCard vCard=table.drawVCard();
 				messageToSend=Integer.toString(vCard.getId());
 				sendGameDataToClients("showVCard");
-				handleVCardCommunication(vCard.getId());
+				handleVCardCommunication1(vCard.getId());
 			}
 			else if(!answerProject.getFields().get(answerProject.getIdNextFreeField()).isVField() && !answerProject.getFields().get(answerProject.getIdNextFreeField()+1).isVField()) {
 				System.out.println("zwei in Eins - V");
@@ -843,6 +843,102 @@ public class CrazyAirportGame extends Game{
 		sendGameDataToClients("tableStatus");
 		table.endTurn();
 	}
+	
+	public void handleVCardCommunication1(int id) {
+	switch(id) {
+	case 8:
+		if(table.getCurrent().getChips().size()==0) {
+			sendGameDataToClients("tableStatus");
+			table.endTurn();
+			startTurn();
+			break;
+		}
+		sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsTwiceBurn");
+		break;
+	case 12:
+		if(table.getCurrent().getChips().size()==1) {
+			table.getCurrent().raiseScore(50);
+			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+			break;
+		}
+		else if(table.getCurrent().getChips().size()==0) {
+			table.getCurrent().raiseScore(50);
+			sendGameDataToClients("tableStatus");
+			table.endTurn();
+			startTurn();
+			break;
+		}
+		else if(table.getCurrent().getChips().size()>=2){
+			table.getCurrent().raiseScore(50);
+			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelection");
+			break;
+		}
+	case 15:
+		int i=0;
+		for(Subproject p:table.getActiveProjects()) {
+			if(p.twoChipsCanBeRemoved()) {
+				i++;
+			}
+		}
+		if(i==1){
+			table.getCurrent().raiseScore(100);
+			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsTakeOneChip");
+			break;
+		}
+		else {
+		table.getCurrent().raiseScore(100);
+		sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");
+		break;
+		}
+	case 16:
+		table.getCurrent().raiseScore(100);
+		if(table.getCurrent().getChips().size()>=2) {
+			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelection");
+			break;
+		}
+		else if(table.getCurrent().getChips().size()==1) {
+			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+			break;
+		}
+		else if(table.getCurrent().getChips().size()==0) {
+			sendGameDataToClients("tableStatus");
+			table.endTurn();
+			startTurn();
+			break;
+		}
+		break;
+	case 17:
+		if(table.getCurrent().getChips().size()>=2) {
+			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelection");
+			break;
+			
+		}
+		else if(table.getCurrent().getChips().size()==1) {
+			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
+			break;
+		}
+	case 20:
+		if(table.getCurrent().getChips().size()>=1) {
+		sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsExtraDice");
+		break;
+		}
+		else if(table.getCurrent().getChips().size()==0) {
+			sendGameDataToClients("tableStatus");
+			startTurn();
+		}
+	default:
+		table.processStandardVCard(table.getVCardByID(id));
+		sendGameDataToClients("tableStatus");
+		if(table.getCurrent().getChips().isEmpty()) {
+			table.endTurn();
+			startTurn();
+		}
+		sendGameDataToClients("tableStatus");
+		table.endTurn();
+	}
+	}
+	
+		
 
 
 
