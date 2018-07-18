@@ -128,7 +128,7 @@ public class Table {
 	//Fills deck of EreignisLOS-Cards by setting ID's
 	public void fillEreignisLOSArray() {
 		for(int i=1; i<=55; i++) {
-			if(i!=10) {
+			if(i!=10 || i!=3) {
 				ErgebnisLOSCard c= new ErgebnisLOSCard(i);
 				eCards.add(c);
 			}
@@ -708,8 +708,8 @@ public class Table {
 	
 	//instead of putting one chip in one project the current player sets two chips in one project
 	public void setTwoChipsInOneProject(Subproject project) {
-		project.setChip(this.current.removeChip());
-		project.setChip(this.current.removeChip());
+		this.current.raiseScore(project.setChip(this.current.removeChip()).getAmountSZT());
+		this.current.raiseScore(project.setChip(this.current.removeChip()).getAmountSZT());
 	}
 	
 	//raises score of every player including the current one
@@ -812,6 +812,26 @@ public class Table {
 	}
 		return null;
     }
+    
+    public Player determineWinner() {
+    	int resscore=0;
+    	Player result = null;
+    	for(Player p:this.players) {
+    		if (p.getScore() > resscore) {
+    			result = p;
+    			resscore = p.getScore();
+    		}
+    		if (p.getScore() == resscore) {
+    			if (p.getvCards().size() > result.getvCards().size()) {
+    				result = p;
+    			}
+    			
+    		}
+    	}
+    	
+    	return result;
+    }
+    
 	
 
 	

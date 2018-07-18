@@ -32,6 +32,8 @@ public class CrazyAirportGame extends Game{
 	private static final int MinPlayers =3;
 	private Random rand = new Random();
 	private int setTwoChipHelp;
+	private int help=0;
+	private boolean card11used=false;
 	Table table=new Table();
 	HashMap<String, BiConsumer<User, JsonObject>> reactionMethods = new HashMap<>();
 	Gson gsonFormatter = new Gson();
@@ -101,6 +103,7 @@ public class CrazyAirportGame extends Game{
 				System.out.println(table.getCurrent().getUser().getName() + " eCard " + eCard.getId());
 				switch(eCard.getId()) {
 				case 3:
+					System.out.println("DANIEL");
 					sendGameDataToUser(table.getCurrent().getUser(), "askForProjectToSetTwoChips");
 					break;
 				case 10:
@@ -124,13 +127,13 @@ public class CrazyAirportGame extends Game{
 					VerantwortungsLOSCard vCard=table.drawVCard();
 					messageToSend=Integer.toString(vCard.getId());
 					sendGameDataToClients("showVCard");
-					handleVCardCommunication(vCard.getId());
+					handleVCardCommunication1(vCard.getId());
 					break;
 				case 49:
 					VerantwortungsLOSCard vCard2=table.drawVCard();
 					messageToSend=Integer.toString(vCard2.getId());
 					sendGameDataToClients("showVCard");
-					handleVCardCommunication(vCard2.getId());
+					handleVCardCommunication1(vCard2.getId());
 					break;
 				case 51:
 					sendGameDataToUser(table.getCurrent().getUser(), "choosePlayerToStealFrom");
@@ -139,7 +142,7 @@ public class CrazyAirportGame extends Game{
 					VerantwortungsLOSCard vCard3=table.drawVCard();
 					messageToSend=Integer.toString(vCard3.getId());
 					sendGameDataToClients("showVCard");
-					handleVCardCommunication(vCard3.getId());
+					handleVCardCommunication1(vCard3.getId());
 					break;
 				default:
 					table.processStandardECard(eCard);
@@ -159,7 +162,7 @@ public class CrazyAirportGame extends Game{
 			int chosenProject=message.get("projectID").getAsInt();
 			System.out.println("chosen project");
 			if(table.setChipOnProject(table.getActiveProjectByID(chosenProject))) {
-				VerantwortungsLOSCard vCard=table.getVCardByID(15);
+				VerantwortungsLOSCard vCard=table.getVCardByID(11);
 				messageToSend=Integer.toString(vCard.getId());
 				sendGameDataToClients("showVCard");
 				sendGameDataToClients("tableStatus");
@@ -319,20 +322,37 @@ public class CrazyAirportGame extends Game{
 					}
 				case 15:
 					int i=0;
+					int z=0;
+					table.getCurrent().raiseScore(100);
 					for(Subproject p:table.getActiveProjects()) {
 						if(p.twoChipsCanBeRemoved()) {
 							i++;
 						}
 					}
-					if(i==1){
-						table.getCurrent().raiseScore(100);
+					for(Subproject p:table.getActiveProjects()) {
+						if(p.chipCanBeRemoved()) {
+							z++;
+						}
+					}
+					if(i==0 && z==1){
+						System.out.println("OneChip");
 						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsTakeOneChip");
 						break;
 					}
+					else if(i>=1){
+						System.out.println("twoChips1");
+						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");
+						break;
+					}
+					else if(z>=2){
+						System.out.println("twoChips2");
+						sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");
+						break;
+					}
 					else {
-					table.getCurrent().raiseScore(100);
-					sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");
-					break;
+						table.endTurn();
+						startTurn();
+						break;
 					}
 				case 16:
 					table.getCurrent().raiseScore(100);
@@ -390,7 +410,8 @@ public class CrazyAirportGame extends Game{
 		reactionMethods.put("specialCardAnswer11", (User user, JsonObject message)->{
 			boolean answer=message.get("answer").getAsBoolean();
 			if(answer) {
-				sendGameDataToUser(table.getCurrent().getUser(), "showCard11Choice");
+				card11used=true;
+				sendGameDataToUser(table.getCurrent().getUser(), "aksForInAndOutProject");
 			}
 			else {
 				if(table.getCurrent().isHasVCard23()) {
@@ -431,6 +452,8 @@ public class CrazyAirportGame extends Game{
 		});
 
 		reactionMethods.put("subprojectAnswerTwoChipsInOneProject", (User user, JsonObject message)->{
+			if(help==0) {
+			help++;
 			System.out.println("richtige Reaction");
 			Subproject answerProject=table.getActiveProjectByID(message.get("projectID").getAsInt());
 			System.out.println("IdNextFreeField"+answerProject.getIdNextFreeField());
@@ -454,6 +477,7 @@ public class CrazyAirportGame extends Game{
 				table.endTurn();
 				startTurn();
 			}
+			}
 		});
 
 		reactionMethods.put("removeChipFromProjectAndPutItIntoAnotherAnswer",(User user, JsonObject message)->{
@@ -466,6 +490,12 @@ public class CrazyAirportGame extends Game{
 			if(setTwoChipHelp==1) {
 				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
 				setTwoChipHelp=0;
+			}
+			else if(card11used) {
+				table.getCurrent().setHasVCard11(false);
+				card11used=false;
+				sendGameDataToUser(table.getCurrent().getUser(), "showDiceButton");
+				return;
 			}
 			else {
 			table.endTurn();
@@ -620,26 +650,42 @@ public class CrazyAirportGame extends Game{
 
 	//TODO card24
 	public void startTurn() {
-		if(!table.hasToSkipNextRound()) {
-			if(table.getCurrent() instanceof AI) {
+		System.out.println("start");
+		if(!checkGameEnd()) {
+			if(!table.hasToSkipNextRound()) {
+				if(table.getCurrent() instanceof AI) {
+					sendGameDataToClients("tableStatus");
+					pause();
+					processAIMove();
+				}
+			else {
 				sendGameDataToClients("tableStatus");
-				pause();
-				processAIMove();
+				if(table.getCurrent().isHasVCard11()) {
+					if(table.getCurrent().isHasVCard23()) {
+						sendGameDataToUser(table.getCurrent().getUser(), "useSpecialCard11");
+						sendGameDataToUser(table.getCurrent().getUser(), "useSpecialCard23");
+					}
+					else {
+						sendGameDataToUser(table.getCurrent().getUser(), "useSpecialCard11");
+					}
+				}
+				if(table.getCurrent().isHasVCard23()) {
+					sendGameDataToUser(table.getCurrent().getUser(), "useSpecialCard23");
+				}
+				else {
+					System.out.println("Dice Button next Player");
+					sendGameDataToUser(table.getCurrent().getUser(), "showDiceButton");
+				}
 			}
-		else {
-			sendGameDataToClients("tableStatus");
-			if(table.getCurrent().isHasVCard11()) {
-				sendGameDataToUser(table.getCurrent().getUser(), "useSpecialCard11");
 			}
 			else {
-				System.out.println("Dice Button next Player");
-				sendGameDataToUser(table.getCurrent().getUser(), "showDiceButton");
+				table.endTurn();
+				startTurn();
 			}
 		}
-		}
 		else {
-			table.endTurn();
-			startTurn();
+			sendGameDataToClients("Winner");
+            gState = GameState.FINISHED;
 		}
 	}
 		
@@ -883,6 +929,13 @@ public class CrazyAirportGame extends Game{
 		table.endTurn();
 	}
 	
+	
+	
+	
+	
+	
+	
+	
 	public void handleVCardCommunication1(int id) {
 	switch(id) {
 	case 8:
@@ -914,25 +967,42 @@ public class CrazyAirportGame extends Game{
 		}
 	case 15:
 		int i=0;
+		int z=0;
+		table.getCurrent().raiseScore(100);
 		for(Subproject p:table.getActiveProjects()) {
 			if(p.twoChipsCanBeRemoved()) {
 				i++;
 			}
 		}
-		if(i==1){
-			table.getCurrent().raiseScore(100);
+		for(Subproject p:table.getActiveProjects()) {
+			if(p.chipCanBeRemoved()) {
+				z++;
+			}
+		}
+		if(i==0 && z==1){
+			System.out.println("OneChip");
 			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsTakeOneChip");
 			break;
 		}
+		else if(i>=1){
+			System.out.println("twoChips1");
+			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");
+			break;
+		}
+		else if(z>=2){
+			System.out.println("twoChips2");
+			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");
+			break;
+		}
 		else {
-		table.getCurrent().raiseScore(100);
-		sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelectionTakeChips");
-		break;
+			table.endTurn();
+			startTurn();
+			break;
 		}
 	case 16:
 		table.getCurrent().raiseScore(100);
 		if(table.getCurrent().getChips().size()>=2) {
-			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelection");
+			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectsPlaceTwoChips");
 			break;
 		}
 		else if(table.getCurrent().getChips().size()==1) {
@@ -963,19 +1033,17 @@ public class CrazyAirportGame extends Game{
 		}
 		else if(table.getCurrent().getChips().size()==0) {
 			sendGameDataToClients("tableStatus");
+			table.endTurn();
 			startTurn();
 		}
 	default:
 		table.processStandardVCard(table.getVCardByID(id));
 		sendGameDataToClients("tableStatus");
-		if(table.getCurrent().getChips().isEmpty()) {
-			table.endTurn();
-			startTurn();
-		}
-		sendGameDataToClients("tableStatus");
 		table.endTurn();
+		startTurn();
 	}
-	}
+}
+
 	
 		
 
@@ -1135,17 +1203,21 @@ public class CrazyAirportGame extends Game{
 		return projects6.toString();
 		//You need to ask the player whether he wants to use his card 11 or not and send a boolean to server
 		case ("useSpecialCard11"):
-			return "";
+			JsonObject card11=new JsonObject();
+			card11.addProperty("player", table.getCurrent().getUser().getName().toString());
+			return card11.toString();
 		//You need to ask the player whether he wants to use his card 23 or not and send a boolean to server
 		case ("useSpecialCard23"):
-			return "";
+			JsonObject card23=new JsonObject();
+			card23.addProperty("player", table.getCurrent().getUser().getName().toString());
+			return card23.toString();
 		//Sends the list of available projects and expects TWO selections (in and out project)
 		case ("showCard11Choice"):
 			JsonArray projects9= new JsonArray();
-		for(Subproject project:table.getActiveProjects()) {
+			for(Subproject project:table.getActiveProjects()) {
 			projects9.add(project.toJson());
-		}
-		return projects9.toString();
+			}
+			return projects9.toString();
 		//Sends the list of players. Player needs to select one player to steal a chip from
 		case ("showCard23Choice"):
 			JsonArray players1=new JsonArray();
@@ -1184,6 +1256,10 @@ public class CrazyAirportGame extends Game{
 			}
 			singleSelectionProjects.add("availableProjects", projects10);
 			return singleSelectionProjects.toString();
+		case ("Winner"):
+			JsonObject winner = new JsonObject();
+			winner.addProperty("name", table.determineWinner().getUser().getName());
+			return winner.toString();
 		}
 		return null;
 	}
@@ -1302,5 +1378,45 @@ public class CrazyAirportGame extends Game{
 	public GameState getGameState() {
 		return this.gState;
 	}
+	
+	private boolean checkGameEnd() {
+		boolean toContinue=true;
+		if(table.getPlayers().isEmpty()) {
+			toContinue=false;
+		}
+		for(Player p:table.getPlayers()) {
+			if(!p.getChips().isEmpty()) {
+				toContinue=false;
+			}
+		}
+		if(table.airportIsBuilt() || toContinue) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

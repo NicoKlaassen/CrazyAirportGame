@@ -21,6 +21,7 @@ var outActiveProjects='';
 var inActiveProjects='';
 var stealPlayersSize='';
 var chosenProject='';
+var test='';
 
 addListener('USERJOINED',function (event) {
 	$("#lobbyTable").html("<thead><tr><th>Name</th><th>Rolle</th></tr></thead>");
@@ -520,8 +521,34 @@ addListener('tableStatus',function (event) {
 	}
 });
 
+addListener('useSpecialCard11', function (event){
+	var obj = event.data;
+	var json = JSON.parse(obj);
+	var tableRows=(document.getElementById('playerTable').rows.length);
+	var i;
+	for(i=1; i<tableRows; i++){
+		if(json.name=document.getElementById('playerTable').rows[i].cells[1].innerHTML){
+			document.getElementById("userSpecialCard11").removeAttribute("disabled");
+		}
+	}
+});
+
+addListener('useSpecialCard23', function (event){
+	var obj = event.data;
+	var json = JSON.parse(obj);
+	var tableRows=(document.getElementById('playerTable').rows.length);
+	var i;
+	for(i=1; i<tableRows; i++){
+		if(json.name=document.getElementById('playerTable').rows[i].cells[1].innerHTML){
+			document.getElementById("userSpecialCard23").removeAttribute("disabled");
+		}
+	}
+});
+
+
 addListener('showAvailableProjects', function(event){
 	console.log("projects");
+	test=0;
 	var obj = event.data;
 	var json = JSON.parse(obj);
 	for(var i in json.availableProjects){
@@ -814,6 +841,11 @@ function takeSZTPlayer5(){
 	enableTakeSZTButtons();
 }
 
+function useSpecialCard11(){
+	document.getElementById("wuerfelBut").disabled=true;
+	executeOnServer("specialCardAnswer11", '{"answer": true}');
+}
+
 function enableRemoveChipButtons(){
 	document.getElementById("feuwEntf").disabled=true;
 	document.getElementById("landnEntf").disabled=true;
@@ -905,7 +937,7 @@ function removeChipFeuw(){
 		console.log("onClick6");
 		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 0 + '}');
 		enableRemoveChipButtons();
-		onClickDecide=0;
+		onClickDecide='';
 		return;
 	}
 	if(onClickDecide==7){
@@ -934,7 +966,7 @@ function removeChipLandn(){
 		console.log("onClick6");
 		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 1 + '}');
 		enableRemoveChipButtons();
-		onClickDecide=0;
+		onClickDecide='';
 		return;
 	}
 	if(onClickDecide==7){
@@ -963,7 +995,7 @@ function removeChipLands(){
 		console.log("onClick6");
 		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 2 + '}');
 		enableRemoveChipButtons();
-		onClickDecide=0;
+		onClickDecide='';
 		return;
 	}
 	if(onClickDecide==7){
@@ -992,7 +1024,7 @@ function removeChipTermA(){
 		console.log("onClick6");
 		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 3 + '}');
 		enableRemoveChipButtons();
-		onClickDecide=0;
+		onClickDecide='';
 		return;
 	}
 	if(onClickDecide==7){
@@ -1021,7 +1053,7 @@ if(onClickDecide==6){
 	console.log("onClick6");
 		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 4 + '}');
 		enableRemoveChipButtons();
-		onClickDecide=0;
+		onClickDecide='';
 		return;
 	}
 	if(onClickDecide==7){
@@ -1050,7 +1082,7 @@ function removeChipMainT(){
 		console.log("onClick6");
 		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 5 + '}');
 		enableRemoveChipButtons();
-		onClickDecide=0;
+		onClickDecide='';
 		return;
 	}
 	if(onClickDecide==7){
@@ -1079,7 +1111,7 @@ function removeChipPark(){
 		console.log("onClick6");
 		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 6 + '}');
 		enableRemoveChipButtons();
-		onClickDecide=0;
+		onClickDecide='';
 		return;
 	}
 	if(onClickDecide==7){
@@ -1108,7 +1140,7 @@ function removeChipVorfeld(){
 		console.log("onClick6");
 		executeOnServer("remove1ChipFromProjectAndAddToPlayer", '{"projectID":'+ 7 + '}');
 		enableRemoveChipButtons();
-		onClickDecide=0;
+		onClickDecide='';
 		return;
 	}
 	if(onClickDecide==7){
@@ -1227,6 +1259,7 @@ function setTwoChipsOnFeuw(){
 	onClickDecide=0;
 	setBackPlaceChipText();
 	enableSetChipButtons();
+	return;
 }
 
 function setTwoChipsOnLandn(){
@@ -1235,6 +1268,7 @@ function setTwoChipsOnLandn(){
 	onClickDecide=0;
 	setBackPlaceChipText();
 	enableSetChipButtons();
+	return;
 }
 
 function setTwoChipsOnLands(){
@@ -1243,6 +1277,7 @@ function setTwoChipsOnLands(){
 	onClickDecide=0;
 	setBackPlaceChipText();
 	enableSetChipButtons();
+	return;
 }
 
 function setTwoChipsOnTermA(){
@@ -1251,6 +1286,7 @@ function setTwoChipsOnTermA(){
 	onClickDecide=0;
 	setBackPlaceChipText();
 	enableSetChipButtons();
+	return;
 }
 
 function setTwoChipsOnTermB(){
@@ -1259,6 +1295,7 @@ function setTwoChipsOnTermB(){
 	onClickDecide=0;
 	setBackPlaceChipText();
 	enableSetChipButtons();
+	return;
 }
 
 function setTwoChipsOnMainT(){
@@ -1267,6 +1304,7 @@ function setTwoChipsOnMainT(){
 	onClickDecide=0;
 	setBackPlaceChipText();
 	enableSetChipButtons();
+	return;
 }
 
 function setTwoChipsOnPark(){
@@ -1275,6 +1313,7 @@ function setTwoChipsOnPark(){
 	onClickDecide=0;
 	setBackPlaceChipText();
 	enableSetChipButtons();
+	return;
 }
 
 function setTwoChipsOnVorfeld(){
@@ -1283,6 +1322,7 @@ function setTwoChipsOnVorfeld(){
 	onClickDecide=0;
 	setBackPlaceChipText();
 	enableSetChipButtons();
+	return;
 }
 
 function removedChipOnFeuw(){
@@ -1365,17 +1405,20 @@ addListener('sendMessage', function(event){
 function setChipOnFeuw(){
 	if(onClickDecide==1){
 		console.log("onClickDecide=1");
+		onClickDecide=0;
 		setTwoChipsOnFeuw();
 		return;
 	}
 	if(onClickDecide==2){
 		removedChipOnFeuw();
 		onClickDecide=0;
+		return;
 	}
 	if(onClickDecide==3){
 		executeOnServer('chipOnFieldBurnSZTTwice', '{"projectID":' + 0 + '}');
 		onClickDecide=0;
 		enableSetChipButtons();
+		return;
 	}
 	if(onClickDecide==4){
 		console.log("runInto");
@@ -1388,8 +1431,9 @@ function setChipOnFeuw(){
 		chosenProject=0;
 		enableSetChipButtons();
 	}
-	else{
+	else if(test==0){
 	console.log("chosen Project feuw");
+	test='';
 	executeOnServer("chosenProject", '{"projectID":' + 0 + '}');
 	enableSetChipButtons();
 	}
@@ -1398,17 +1442,20 @@ function setChipOnFeuw(){
 function setChipOnLandn(){
 	if(onClickDecide==1){
 		console.log("onClickDecide=1");
+		onClickDecide=0;
 		setTwoChipsOnLandn();
 		return;
 	}
 	if(onClickDecide==2){
 		removedChipOnLandn();
 		onClickDecide=0;
+		return;
 	}
 	if(onClickDecide==3){
 		executeOnServer('chipOnFieldBurnSZTTwice', '{"projectID":'+ 1 + '}');
 		onClickDecide=0;
 		enableSetChipButtons();
+		return;
 	}
 	if(onClickDecide==4){
 		console.log("runInto");
@@ -1421,8 +1468,9 @@ function setChipOnLandn(){
 		chosenProject=0;
 		enableSetChipButtons();
 	}
-	else{
+	else if(test==0){
 		console.log("chosen Project landn");
+		test='';
 		executeOnServer("chosenProject", '{"projectID":' + 1 + '}');
 		enableSetChipButtons();
 	}
@@ -1431,17 +1479,20 @@ function setChipOnLandn(){
 function setChipOnLands(){
 	if(onClickDecide==1){
 		console.log("onClickDecide=1");
+		onClickDecide=0;
 		setTwoChipsOnLands();
 		return;
 	}
 	if(onClickDecide==2){
 		removedChipOnLands();
 		onClickDecide=0;
+		return;
 	}
 	if(onClickDecide==3){
 		executeOnServer('chipOnFieldBurnSZTTwice', '{"projectID":' + 2 + '}');
 		onClickDecide=0;
 		enableSetChipButtons();
+		return;
 	}
 	if(onClickDecide==4){
 		console.log("runInto");
@@ -1454,8 +1505,9 @@ function setChipOnLands(){
 		chosenProject=0;
 		enableSetChipButtons();
 	}
-	else{
+	else if(test==0){
 		console.log("chosen Project lands");
+		test='';
 		executeOnServer("chosenProject", '{"projectID":' + 2 + '}');
 		enableSetChipButtons();
 	}
@@ -1464,17 +1516,20 @@ function setChipOnLands(){
 function setChipOnTermA(){
 	if(onClickDecide==1){
 		console.log("onClickDecide=1");
+		onClickDecide=0;
 		setTwoChipsOnTermA();
 		return;
 	}
 	if(onClickDecide==2){
 		removedChipOnTerma();
 		onClickDecide=0;
+		return;
 	}
 	if(onClickDecide==3){
 		executeOnServer('chipOnFieldBurnSZTTwice', '{"projectID":' + 3 + '}');
 		onClickDecide=0;
 		enableSetChipButtons();
+		return;
 	}
 	if(onClickDecide==4){
 		console.log("runInto");
@@ -1487,8 +1542,9 @@ function setChipOnTermA(){
 		chosenProject=0;
 		enableSetChipButtons();
 	}
-	else{
+	else if(test==0){
 		console.log("chosen Project termA");
+		test='';
 		executeOnServer("chosenProject", '{"projectID":' + 3 + '}');
 		enableSetChipButtons();
 	}
@@ -1497,17 +1553,20 @@ function setChipOnTermA(){
 function setChipOnTermB(){
 	if(onClickDecide==1){
 		console.log("onClickDecide=1");
+		onClickDecide=0;
 		setTwoChipsOnTermB();
 		return;
 	}
 	if(onClickDecide==2){
 		removedChipOnTermb();
 		onClickDecide=0;
+		return;
 	}
 	if(onClickDecide==3){
 		executeOnServer('chipOnFieldBurnSZTTwice', '{"projectID":' + 4 + '}');
 		onClickDecide=0;
 		enableSetChipButtons();
+		return;
 	}
 	if(onClickDecide==4){
 		console.log("runInto");
@@ -1520,8 +1579,9 @@ function setChipOnTermB(){
 		chosenProject=0;
 		enableSetChipButtons();
 	}
-	else{
+	else if(test==0){
 		console.log("chosen Project termB");
+		test='';
 		executeOnServer("chosenProject", '{"projectID":' + 4 + '}');
 		enableSetChipButtons();
 	}
@@ -1530,17 +1590,20 @@ function setChipOnTermB(){
 function setChipOnMainT(){
 	if(onClickDecide==1){
 		console.log("onClickDecide=1");
+		onClickDecide=0;
 		setTwoChipsOnMainT();
 		return;
 	}
 	if(onClickDecide==2){
 		removedChipOnMaint();
 		onClickDecide=0;
+		return;
 	}
 	if(onClickDecide==3){
 		executeOnServer('chipOnFieldBurnSZTTwice', '{"projectID":' + 5 + '}');
 		onClickDecide=0;
 		enableSetChipButtons();
+		return;
 	}
 	if(onClickDecide==4){
 		console.log("runInto");
@@ -1553,8 +1616,9 @@ function setChipOnMainT(){
 		chosenProject=0;
 		enableSetChipButtons();
 	}
-	else{
+	else if(test==0){
 		console.log("chosen Project maint");
+		test='';
 		executeOnServer("chosenProject", '{"projectID":' + 5 + '}');
 		enableSetChipButtons();
 	}
@@ -1563,16 +1627,19 @@ function setChipOnMainT(){
 function setChipOnPark(){
 	if(onClickDecide==1){
 		setTwoChipsOnPark();
+		onClickDecide=0;
 		return;
 	}
 	if(onClickDecide==2){
 		removedChipOnPark();
 		onClickDecide=0;
+		return;
 	}
 	if(onClickDecide==3){
 		executeOnServer('chipOnFieldBurnSZTTwice', '{"projectID":' + 6 + '}');
 		onClickDecide=0;
 		enableSetChipButtons();
+		return;
 	}
 	if(onClickDecide==4){
 		console.log("runInto");
@@ -1585,8 +1652,9 @@ function setChipOnPark(){
 		chosenProject=0;
 		enableSetChipButtons();
 	}
-	else{
+	else if(test==0){
 		console.log("chosen Project park");
+		test='';
 		executeOnServer("chosenProject", '{"projectID":' + 6 + '}');
 		enableSetChipButtons();
 	}
@@ -1595,17 +1663,20 @@ function setChipOnPark(){
 function setChipOnVorfeld(){
 	if(onClickDecide==1){
 		console.log("onClickDecide=1");
+		onClickDecide=0;
 		setTwoChipsOnVorfeld();
 		return;
 	}
 	if(onClickDecide==2){
 		removedChipOnVorfeld();
 		onClickDecide=0;
+		return;
 	}
 	if(onClickDecide==3){
 		executeOnServer('chipOnFieldBurnSZTTwice', '{"projectID":' + 7 + '}');
 		onClickDecide=0;
 		enableSetChipButtons();
+		return;
 	}
 	if(onClickDecide==4){
 		console.log("runInto");
@@ -1618,8 +1689,9 @@ function setChipOnVorfeld(){
 		chosenProject=0;
 		enableSetChipButtons();
 	}
-	else{
+	else if(test==0){
 		console.log("chosen Project vfeld");
+		test='';
 		executeOnServer("chosenProject", '{"projectID":' + 7 + '}');
 		enableSetChipButtons();
 	}
