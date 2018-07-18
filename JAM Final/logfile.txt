@@ -1,0 +1,11 @@
+[2018-07-18 20:13:18.426] [IP: /192.168.178.111] [REGISTER] Registering user "asd" succeeded
+[2018-07-18 20:13:20.817] [IP: /192.168.178.111] [LOGIN] Logging in user "asd" succeeded
+[2018-07-18 20:13:53.546] [IP: /192.168.178.111] [LOGIN] Logging in user "asd" succeeded
+[2018-07-18 20:14:53.509] [IP: /192.168.178.111] [LOGIN] Logging in user "asd" succeeded
+[2018-07-18 20:22:16.259] [IP: /192.168.178.111] [LOGIN] Logging in user "asd" succeeded
+[2018-07-18 20:23:00.423] [IP: /192.168.178.111] [LOGOUT] Logging out user "asd" succeeded; Session length: < 1  Minutes
+[2018-07-18 20:23:05.286] [IP: /192.168.178.111] [LOGIN] Logging in user "asd" succeeded
+[2018-07-18 20:23:23.716] [IP: /192.168.178.111] [LOGOUT] Logging out user "asd" succeeded; Session length: < 1  Minutes
+[2018-07-18 20:23:28.522] [IP: /192.168.178.111] [LOGIN] Logging in user "asd" succeeded
+[2018-07-18 20:25:18.905] [IP: /192.168.178.111] [LOGOUT] Logging out user "asd" succeeded; Session length: 1  Minutes
+[2018-07-18 20:25:22.25] [IP: /192.168.178.111] [LOGIN] Logging in user "asd" succeeded
