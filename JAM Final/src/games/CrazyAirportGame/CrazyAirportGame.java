@@ -747,6 +747,7 @@ public class CrazyAirportGame extends Game{
 	
 	public void handleVCardForAIAfterChipSet(boolean vCardOnField) {
 		if(vCardOnField) {
+			pause();
 			VerantwortungsLOSCard vCard=table.drawVCard();
 			messageToSend=Integer.toString(vCard.getId());
 			sendGameDataToClients("showVCard");
