@@ -1673,6 +1673,11 @@ function addAI() {
     sendDataToServer('addAI');
 }
 
+function removeAI() {
+    console.log("removeAI");
+    sendDataToServer('removeAI');
+}
+
 //prints the table of the players
 addListener('showPlayer', function(event) {
     console.log("Listener showPlayer");

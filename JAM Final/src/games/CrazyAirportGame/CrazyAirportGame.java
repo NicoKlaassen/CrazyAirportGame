@@ -662,9 +662,7 @@ public class CrazyAirportGame extends Game{
 	//TODO 
 	public void processAIMove() {
 		boolean diceResult=table.rollTheDice();
-		// Testvariable
 		if(diceResult) {
-			// Testvariable
 			ErgebnisLOSCard eCard=table.drawECard();
 			System.out.println(table.getCurrent().getUser().getName() + " eCard " + eCard.getId());
 			messageToSend=Integer.toString(eCard.getId());
@@ -676,12 +674,11 @@ public class CrazyAirportGame extends Game{
 				table.endTurn();
 				startTurn();
 				break;
-			case 10:
-				// Kommt die raus?????
-				sendGameDataToUser(table.getLeftNeighbor().getUser(), "burn20ORPlaceChip");
-				break;
 			case 24:
-				table.setChipOnProject(table.getActiveProjects().get(random(table.getActiveProjects().size())));
+				handleVCardForAIAfterChipSet(
+						table.setChipOnProject(
+						table.getActiveProjects().get(random(
+						table.getActiveProjects().size()))));
 				sendGameDataToClients("tableStatus");
 				table.endTurn();
 				startTurn();
@@ -741,24 +738,31 @@ public class CrazyAirportGame extends Game{
 		}
 		else {
 			System.out.println(table.getCurrent().getUser().getName() + " Chip setzen");
-			if(table.setChipOnProject(table.getActiveProjects().get(random(table.getActiveProjects().size())))){
-				handleVCardCommunication(table.drawVCard().getId());
-				sendGameDataToClients("tableStatus");
-			}
-			else{
-				sendGameDataToClients("tableStatus");
-				table.endTurn();
-				startTurn();
-			}
-
-			
+			handleVCardForAIAfterChipSet(
+					table.setChipOnProject(
+					table.getActiveProjects().get(random(
+					table.getActiveProjects().size()))));
+		}
+	}
+	
+	public void handleVCardForAIAfterChipSet(boolean vCardOnField) {
+		if(vCardOnField) {
+			VerantwortungsLOSCard vCard=table.drawVCard();
+			messageToSend=Integer.toString(vCard.getId());
+			sendGameDataToClients("showVCard");
+			pause();
+			handleVCardCommunication(vCard.getId());
+			sendGameDataToClients("tableStatus");
+			System.out.println("VCard nach Chip Platzierung: " + vCard.getId());
+		}
+		else {
+			table.endTurn();
+			startTurn();
+			sendGameDataToClients("tableStatus");
 		}
 	}
 
-
 	private void handleVCardCommunication(int id) {
-		// Testvariable
-		id = 15;
 		switch(id) {
 		case 8:
 			if(table.getCurrent().getChips().size()==0) {
@@ -773,7 +777,10 @@ public class CrazyAirportGame extends Game{
 		case 12:
 			if(table.getCurrent().getChips().size()==1) {
 				table.getCurrent().raiseScore(50);
-				table.setChipOnProject(table.getActiveProjects().get(random(table.getActiveProjects().size())));
+				handleVCardForAIAfterChipSet(
+						table.setChipOnProject(
+						table.getActiveProjects().get(random(
+						table.getActiveProjects().size()))));
 				break;
 			}
 			else if(table.getCurrent().getChips().size()==0) {
@@ -844,7 +851,10 @@ public class CrazyAirportGame extends Game{
 				break;
 			}
 			else if(table.getCurrent().getChips().size()==1) {
-				table.setChipOnProject(table.getActiveProjects().get(random(table.getActiveProjects().size())));
+				handleVCardForAIAfterChipSet(
+						table.setChipOnProject(
+						table.getActiveProjects().get(random(
+						table.getActiveProjects().size()))));
 				break;
 			}
 			else if(table.getCurrent().getChips().size()==0) {
@@ -862,25 +872,39 @@ public class CrazyAirportGame extends Game{
 				break;
 			}
 			else if(table.getCurrent().getChips().size()==1) {
-				table.setChipOnProject(table.getActiveProjects().get(random(table.getActiveProjects().size())));
+				handleVCardForAIAfterChipSet(
+						table.setChipOnProject(
+						table.getActiveProjects().get(random(
+						table.getActiveProjects().size()))));
 				break;
 			}
 		case 20:
-			if(table.getCurrent().getChips().size()>=1) {
-				// Methode ?
-				startTurn();
-			break;
-			}
-			else if(table.getCurrent().getChips().size()==0) {
+			if(table.projectWithMoreThanOneChippedFieldAvailable()) {
+				ArrayList<Subproject> projectsArrTo = table.getActiveProjects();
+				ArrayList<Subproject> projectsArrFrom = new ArrayList<Subproject>();
+				for(Subproject project:table.getActiveProjects()) {
+					if(project.chipCanBeRemoved()) {
+						projectsArrFrom.add(project);
+					}
+				}
+				int randomFrom = random(projectsArrFrom.size());
+				int randomTo = random(projectsArrTo.size());
+				Subproject fromProject = projectsArrFrom.get(randomFrom);
+				Subproject toProject = projectsArrTo.get(randomTo);
+				table.removeChipFromProjectAndPutItIntoAnother(fromProject, toProject);
 				sendGameDataToClients("tableStatus");
-				table.endTurn();
-				startTurn();
 			}
+			startTurn();
+			break;
+			
 		default:
 			table.processStandardVCard(table.getVCardFromCurrentByID(id));
+			table.endTurn();
+			startTurn();
 		}
+		//table.endTurn();
+		//startTurn();
 		sendGameDataToClients("tableStatus");
-		table.endTurn();
 	}
 
 
