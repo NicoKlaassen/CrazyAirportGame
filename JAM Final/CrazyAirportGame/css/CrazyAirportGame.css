@@ -1,5 +1,6 @@
 #game{
 	display: none;
+	margin-left: -300px;
 }
 
 #lobbytable:first-child td {
@@ -8,6 +9,7 @@
 
 #lobbytable {
     width: 100%;
+    margin-left: -300px;
 }
 
 #lobbytable td {
@@ -15,6 +17,7 @@
     padding: 5px 0px 5px 30px;
     background-repeat: no-repeat;
     background-position: left;
+    margin-left: -300px;
 }
 
 #los{
@@ -22,7 +25,8 @@
 }
 
 #main{
-	width: 1700px;
+	width: 1875px;
+	margin-left: -325px;
 }
 
 #dice{
