@@ -701,12 +701,18 @@ public class CrazyAirportGame extends Game{
 				sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");
 			}
 		});
+		
+		reactionMethods.put("gameFinished", (User user, JsonObject message)-> {
+			System.out.println("FINISHED");
+			gState = GameState.FINISHED;
+		});
 	}
 
 	//TODO card23
 	public void startTurn() {
 		System.out.println("start");
-		if(!checkGameEnd()) {
+		sendGameDataToClients("tableStatus");
+		if(!(this.gState==GameState.FINISHED)) {
 			if(!table.hasToSkipNextRound()) {
 				if(table.getCurrent() instanceof AI) {
 					sendGameDataToClients("tableStatus");
@@ -737,14 +743,15 @@ public class CrazyAirportGame extends Game{
 				table.endTurn();
 				startTurn();
 			}
-		}
-		else {
+		}	
+	}
+		/*else {
 			System.out.println("Zu Ende: Gewinner");
 			sendGameDataToClients("Winner");
 			pause();
-            gState = GameState.FINISHED;
+            //gState = GameState.FINISHED;
 		}
-	}
+	}*/
 		
 	
 	public static void pause(){
@@ -1017,10 +1024,10 @@ public class CrazyAirportGame extends Game{
 				break;
 			}
 			else if(table.getCurrent().getChips().size()==1) {
-				handleVCardForAIAfterChipSet(
-						table.setChipOnProject(
-						table.getActiveProjects().get(random(
-						table.getActiveProjects().size()))));
+				handleVCardForAIAfterChipSet(table.setChipOnProject(table.getActiveProjects().get(random(table.getActiveProjects().size()))));
+				table.endTurn();
+				startTurn();
+				sendGameDataToClients("tableStatus");
 				break;
 			}
 		case 20:

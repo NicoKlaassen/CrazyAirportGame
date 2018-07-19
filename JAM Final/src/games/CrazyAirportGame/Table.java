@@ -170,7 +170,7 @@ public class Table {
 	//Gives every player 7 chips
 	public void initChips() {
 		for(Player p:players) {
-			for(int i=0; i<7; i++) {
+			for(int i=0; i<2; i++) {
 				p.addChip(new Chip(p));
 			}			
 		}
@@ -303,9 +303,28 @@ public class Table {
 		if(projectsAvailable.isEmpty() && projectsActive.isEmpty()) {
 			return true;
 		}
-		else {
+		else{
 			return false;
 		}
+	}
+	
+	//checks if there is any player, who has Chips left in his depot
+	public boolean playersHaveNoChipsLeft() {
+		boolean result=true;
+		for(Player p:this.players) {
+			if(!p.getChips().isEmpty()) {
+				result=false;
+			}
+		}
+		return result;
+	}
+	
+	public boolean endGame() {
+		boolean result=false;
+		if(playersHaveNoChipsLeft() || airportIsBuilt()) {
+			result=true;
+		}
+		return result;
 	}
 	
 	//Added Player as parameter to assign Card to players deck
@@ -793,6 +812,8 @@ public class Table {
 		}
 		result.add("players", players);
 		result.add("currentPlayer", current.toJson());
+		result.add("Winner", determineWinner().toJson());
+		result.addProperty("airportIsBuilt", endGame());
 		return result;
 	}
 	

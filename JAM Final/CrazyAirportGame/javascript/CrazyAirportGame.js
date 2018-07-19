@@ -525,7 +525,13 @@ addListener('tableStatus',function (event) {
 			document.getElementById('vorfStatus').style="color:#FFFFFF";
 			document.getElementById('vorfStatus').innerHTML="Abgeschlossen";
 		}
-	}
+		}
+		if(json.airportIsBuilt==true){
+			var score=0;
+			var name=json.Winner.name;
+			window.alert("Spieler "+name+" hat das Spiel gewonnen!");
+		}
+		
 });
 
 addListener('useSpecialCard11', function (event){
