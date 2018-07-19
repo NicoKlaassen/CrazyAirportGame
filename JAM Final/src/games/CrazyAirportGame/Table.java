@@ -170,7 +170,7 @@ public class Table {
 	//Gives every player 7 chips
 	public void initChips() {
 		for(Player p:players) {
-			for(int i=0; i<=7; i++) {
+			for(int i=0; i<7; i++) {
 				p.addChip(new Chip(p));
 			}			
 		}
