@@ -1,6 +1,7 @@
 #game{
 	display: none;
 	margin-left: -300px;
+	height: 100%;
 }
 
 #InfoTable{
