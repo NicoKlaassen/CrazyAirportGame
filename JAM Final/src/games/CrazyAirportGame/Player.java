@@ -54,7 +54,12 @@ public class Player implements Comparable<Player> {
 	}
 	
 	public void lowerScore(int score) {
-		this.score -= score;
+		if(this.score<score) {
+			this.score -= this.score;
+		}
+		else {
+			this.score -= score;
+		}
 	}
 
 	public void addChip(Chip chip) {
