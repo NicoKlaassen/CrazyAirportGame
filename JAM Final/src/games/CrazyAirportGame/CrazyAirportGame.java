@@ -929,6 +929,9 @@ public class CrazyAirportGame extends Game{
 						table.setChipOnProject(
 						table.getActiveProjects().get(random(
 						table.getActiveProjects().size()))));
+				sendGameDataToClients("tableStatus");
+				table.endTurn();
+				startTurn();
 				break;
 			}
 			else if(table.getCurrent().getChips().size()==0) {
