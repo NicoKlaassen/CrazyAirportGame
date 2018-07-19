@@ -100,7 +100,7 @@ public class CrazyAirportGame extends Game{
 			messageToSend=Boolean.toString(result);
 			sendGameDataToClients("diceResult");
 			if(result) {
-				ErgebnisLOSCard eCard=table.drawECard();
+				ErgebnisLOSCard eCard = table.drawECard();
 				messageToSend=Integer.toString(eCard.getId());
 				sendGameDataToClients("showECard");
 				System.out.println(table.getCurrent().getUser().getName() + " eCard " + eCard.getId());
@@ -810,10 +810,15 @@ public class CrazyAirportGame extends Game{
 			sendGameDataToClients("showECard");
 			switch(eCard.getId()) {
 			case 3:
-				table.setTwoChipsInOneProject(table.getActiveProjects().get(random(table.getActiveProjectsMoreThenOneFreeField().size())));
-				sendGameDataToClients("tableStatus");
-				table.endTurn();
-				startTurn();
+				if(table.getCurrent().getChips().size()>=2) {
+					ArrayList<Subproject> projects = table.getActiveProjectsMoreThenOneFreeField();
+					if(!projects.isEmpty()) {
+						table.setTwoChipsInOneProject(projects.get(random(projects.size())));
+					}
+					sendGameDataToClients("tableStatus");
+					table.endTurn();
+					startTurn();
+				}
 				break;
 			case 24:
 				handleVCardForAIAfterChipSet(
@@ -946,6 +951,9 @@ public class CrazyAirportGame extends Game{
 				Subproject projectA = table.getActiveProjects().get(random(table.getActiveProjects().size()));
 				Subproject projectB = table.getActiveProjects().get(random(table.getActiveProjects().size()));
 				table.add2ChipsOnExistingProjects(projectA, projectB);
+				sendGameDataToClients("tableStatus");
+				table.endTurn();
+				startTurn();
 				break;
 			}
 		case 15:
@@ -995,15 +1003,13 @@ public class CrazyAirportGame extends Game{
 		case 16:
 			table.getCurrent().raiseScore(100);
 			if(table.getCurrent().getChips().size()>=2) {
-				handleVCardForAIAfterChipSet(
-						table.setChipOnProject(
+				table.setChipOnProject(
 						table.getActiveProjects().get(random(
-						table.getActiveProjects().size()))));
+						table.getActiveProjects().size())));
 				sendGameDataToClients("tableStatus");
-				handleVCardForAIAfterChipSet(
-						table.setChipOnProject(
+				table.setChipOnProject(
 						table.getActiveProjects().get(random(
-						table.getActiveProjects().size()))));
+						table.getActiveProjects().size())));
 				sendGameDataToClients("tableStatus");
 				table.endTurn();
 				startTurn();
