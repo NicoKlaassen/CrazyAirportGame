@@ -1076,7 +1076,6 @@ public class CrazyAirportGame extends Game{
 			break;
 			
 		default:
-			table.(table.getVCardFromCurrentByID(id));
 			table.endTurn();
 			startTurn();
 		}
