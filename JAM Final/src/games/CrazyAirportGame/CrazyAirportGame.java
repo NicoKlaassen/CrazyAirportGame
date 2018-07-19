@@ -771,6 +771,7 @@ public class CrazyAirportGame extends Game{
 	
 	//TODO 
 	public void processAIMove() {
+		if(!table.getCurrent().skipNextRound) {
 		if(table.getCurrent().hasVCard11) {
 			if(table.projectWithMoreThanOneChippedFieldAvailable()) {
 				ArrayList<Subproject> projectsArrTo = table.getActiveProjects();
@@ -826,8 +827,6 @@ public class CrazyAirportGame extends Game{
 						table.getActiveProjects().get(random(
 						table.getActiveProjects().size()))));
 				sendGameDataToClients("tableStatus");
-				table.endTurn();
-				startTurn();
 				break;
 			case 42:
 				if(table.projectWithMoreThanOneChippedFieldAvailable()) {
@@ -891,6 +890,8 @@ public class CrazyAirportGame extends Game{
 					table.setChipOnProject(
 					table.getActiveProjects().get(random(
 					table.getActiveProjects().size()))));
+			sendGameDataToClients("tableStatus");
+		}
 		}
 	}
 	
@@ -948,9 +949,14 @@ public class CrazyAirportGame extends Game{
 			}
 			else if(table.getCurrent().getChips().size()>=2){
 				table.getCurrent().raiseScore(50);
-				Subproject projectA = table.getActiveProjects().get(random(table.getActiveProjects().size()));
-				Subproject projectB = table.getActiveProjects().get(random(table.getActiveProjects().size()));
-				table.add2ChipsOnExistingProjects(projectA, projectB);
+				handleVCardForAIAfterChipSet(
+						table.setChipOnProject(
+						table.getActiveProjects().get(random(
+						table.getActiveProjects().size()))));
+				handleVCardForAIAfterChipSet(
+						table.setChipOnProject(
+						table.getActiveProjects().get(random(
+						table.getActiveProjects().size()))));
 				sendGameDataToClients("tableStatus");
 				table.endTurn();
 				startTurn();
@@ -1003,13 +1009,15 @@ public class CrazyAirportGame extends Game{
 		case 16:
 			table.getCurrent().raiseScore(100);
 			if(table.getCurrent().getChips().size()>=2) {
-				table.setChipOnProject(
+				handleVCardForAIAfterChipSet(
+						table.setChipOnProject(
 						table.getActiveProjects().get(random(
-						table.getActiveProjects().size())));
+						table.getActiveProjects().size()))));
 				sendGameDataToClients("tableStatus");
-				table.setChipOnProject(
+				handleVCardForAIAfterChipSet(
+						table.setChipOnProject(
 						table.getActiveProjects().get(random(
-						table.getActiveProjects().size())));
+						table.getActiveProjects().size()))));
 				sendGameDataToClients("tableStatus");
 				table.endTurn();
 				startTurn();
@@ -1047,7 +1055,7 @@ public class CrazyAirportGame extends Game{
                 handleVCardForAIAfterChipSet(table.setChipOnProject(table.getActiveProjects().get(random(table.getActiveProjects().size()))));
                 sendGameDataToClients("tableStatus");
                 break;
-            }
+			}
 		case 20:
 			if(table.projectWithMoreThanOneChippedFieldAvailable()) {
 				ArrayList<Subproject> projectsArrTo = table.getActiveProjects();
@@ -1068,7 +1076,6 @@ public class CrazyAirportGame extends Game{
 			break;
 			
 		default:
-			table.processStandardVCard(table.getVCardFromCurrentByID(id));
 			table.endTurn();
 			startTurn();
 		}
@@ -1076,10 +1083,6 @@ public class CrazyAirportGame extends Game{
 		//startTurn();
 		sendGameDataToClients("tableStatus");
 	}
-	
-	
-	
-	
 	
 	
 	
