@@ -128,7 +128,7 @@ public class Table {
 	//Fills deck of EreignisLOS-Cards by setting ID's
 	public void fillEreignisLOSArray() {
 		for(int i=1; i<=55; i++) {
-			if(i!=10 || i!=3) {
+			if(i!=10/*|| i!=3*/) {
 				ErgebnisLOSCard c= new ErgebnisLOSCard(i);
 				eCards.add(c);
 			}
@@ -309,6 +309,9 @@ public class Table {
 	//Added Player as parameter to assign Card to players deck
 	// To add: Process E-Card
 	public ErgebnisLOSCard drawECard() {
+		if(this.eCards.isEmpty()) {
+			fillEreignisLOSArray();
+		}
 		ErgebnisLOSCard result=eCards.get(0);
 		eCards.remove(result);
 		current.addeCard(result);
@@ -320,6 +323,9 @@ public class Table {
 	*	- processVCard-Method
 	*/
 	public VerantwortungsLOSCard drawVCard() {
+		if(this.vCards.isEmpty()) {
+			fillVerantworungsLOSArray();
+		}
 		VerantwortungsLOSCard result=vCards.get(0);
 		vCards.remove(result);
 		current.addvCard(result);
@@ -360,6 +366,7 @@ public class Table {
 			current.setHasVCard11(true);
 			break;
 		case (13):
+			current.raiseScore(100);
 			break;
 		case (18):
 			raiseScoreOfEveryPlayer(50);
@@ -709,7 +716,13 @@ public class Table {
 	//instead of putting one chip in one project the current player sets two chips in one project
 	public void setTwoChipsInOneProject(Subproject project) {
 		this.current.raiseScore(project.setChip(this.current.removeChip()).getAmountSZT());
-		this.current.raiseScore(project.setChip(this.current.removeChip()).getAmountSZT());
+		if(project.getFinishField()==project.getNextFreeField()) {
+			this.current.raiseScore(project.setChip(this.current.removeChip()).getAmountSZT());
+			project.finishProject();
+		}
+		else {
+			this.current.raiseScore(project.setChip(this.current.removeChip()).getAmountSZT());
+		}
 	}
 	
 	//raises score of every player including the current one
