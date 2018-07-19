@@ -2032,7 +2032,7 @@ function showECard(cardNumber) {
     link += ".jpg";
     document.getElementById("los").src=link;
     document.getElementById("los").style.display="block";
-    setTimeout(hideCard, 3000);
+    setTimeout(hideCard, 5000);
 }
 //Einblenden der Verantwortungslose
 function showVCard(cardNumber) {
