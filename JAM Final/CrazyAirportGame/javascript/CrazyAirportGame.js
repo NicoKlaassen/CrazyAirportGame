@@ -32,6 +32,13 @@ addListener('USERJOINED',function (event) {
 	}
 });
 
+function minPlayer() {
+    var rowCount = $('#lobbyTable tr').length;
+    rowCount = rowCount - 1;
+    console.log(rowCount);
+    return rowCount;
+}
+
 addListener('tableStatus',function (event) {
 	$("#playerTable").html("<thead><tr><th>Chip</th><th>Name</th><th>Steuerzahlertaler</th><th>Chips</th><th>SZT wegnehmen</th><th>Chip wegnehmen</th><th>Karte 11 nutzen</th><th>Karte 23 nutzen</th></tr></thead>");
 	var obj = event.data;
@@ -2036,10 +2043,14 @@ function hideCard() {
 
 //Wechsel Lobby in Spiel
 function startGame(){
-	document.getElementById("game").style.display='block';
-	document.getElementById("lobby").style.display='none';
-	console.log("startGame");
-	sendDataToServer('startGame');
+    if(minPlayer() < 3) {
+        window.alert("Es muss noch ein weiterer Spieler beitreten!");
+    } else {
+    document.getElementById("game").style.display='block';
+    document.getElementById("lobby").style.display='none';
+    console.log("startGame");
+    sendDataToServer('startGame');
+    }
 }
 //add new AI
 function addAI() {

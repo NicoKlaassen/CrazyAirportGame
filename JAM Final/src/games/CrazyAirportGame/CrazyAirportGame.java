@@ -500,6 +500,7 @@ public class CrazyAirportGame extends Game{
 			}
 		});
 
+		//TODO
 		reactionMethods.put("removeChipFromProjectAndPutItIntoAnotherAnswer",(User user, JsonObject message)->{
 			Subproject fromProject=table.getActiveProjectByID(message.get("fromProjectID").getAsInt());
 			Subproject toProject=table.getActiveProjectByID(message.get("toProjectID").getAsInt());
@@ -796,12 +797,13 @@ public class CrazyAirportGame extends Game{
 		if(diceResult) {
 			pause();
 			ErgebnisLOSCard eCard=table.drawECard();
+			if(eCard.getId()==3) {eCard=table.drawECard();}
 			System.out.println(table.getCurrent().getUser().getName() + " eCard " + eCard.getId());
 			messageToSend=Integer.toString(eCard.getId());
 			sendGameDataToClients("showECard");
 			switch(eCard.getId()) {
 			case 3:
-				table.setTwoChipsInOneProject(table.getActiveProjects().get(random(table.getActiveProjects().size())));
+				table.setTwoChipsInOneProject(table.getActiveProjects().get(random(table.getActiveProjectsMoreThenOneFreeField().size())));
 				sendGameDataToClients("tableStatus");
 				table.endTurn();
 				startTurn();
@@ -854,6 +856,9 @@ public class CrazyAirportGame extends Game{
 				ArrayList<Player> players = table.getPlayersExceptCurrent();
 				Player player = players.get(random(players.size()));
 				table.takeAway20SZTFromPlayer(player);
+				sendGameDataToClients("tableStatus");
+				table.endTurn();
+				startTurn();
 				break;
 			case 53:
 				VerantwortungsLOSCard vCard3=table.drawVCard();

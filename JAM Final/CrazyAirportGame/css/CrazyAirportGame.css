@@ -21,6 +21,10 @@
     display: none;
 }
 
+#main{
+	width: 1700px;
+}
+
 #dice{
     float: left;
 }

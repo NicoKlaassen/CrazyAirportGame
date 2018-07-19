@@ -120,8 +120,10 @@ public class Table {
 	//Fills deck of VerantwortungLOS-Cards by setting ID's
 	public void fillVerantworungsLOSArray() {
 	for(int i=1; i<=24; i++) {
-		VerantwortungsLOSCard c=new VerantwortungsLOSCard(i);
-		vCards.add(c);
+			if(i!=20/*|| i!=3*/) {
+			VerantwortungsLOSCard c=new VerantwortungsLOSCard(i);
+			vCards.add(c);
+			}
 		}
 	}
 	
@@ -367,6 +369,12 @@ public class Table {
 			break;
 		case (13):
 			current.raiseScore(100);
+			break;
+		case (14):
+			current.raiseScore(80);
+			if(!projectsAvailable.isEmpty()) {
+				openUpProject(drawProject());
+			}
 			break;
 		case (18):
 			raiseScoreOfEveryPlayer(50);
