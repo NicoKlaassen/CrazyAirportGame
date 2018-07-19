@@ -13,7 +13,7 @@ function load(){
 		init();
 		console.log("Loading done");
 		sendDataToServer("lobbyJoin");
-		}
+}
 
 var onClickDecide='';
 var removeChipProject='';
@@ -2049,7 +2049,7 @@ function addAI() {
 
 function removeAI() {
     console.log("removeAI");
-    sendDataToServer('removeAI')
+    sendDataToServer('removeAI');
 }
 
 //prints the table of the players
@@ -2074,7 +2074,7 @@ addListener('showPlayer', function(event) {
 });
 
 //leave lobby
-function byeBye() {
+function leaveGame() {
 	console.log("Spiel verlassen");
 	sendDataToServer('quit');
 }
