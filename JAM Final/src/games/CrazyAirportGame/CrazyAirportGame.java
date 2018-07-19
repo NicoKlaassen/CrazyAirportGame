@@ -1034,18 +1034,20 @@ public class CrazyAirportGame extends Game{
 			break;
 		case 17:
 			if(table.getCurrent().getChips().size()>=2) {
-				Subproject projectA = table.getActiveProjects().get(random(table.getActiveProjects().size()));
-				Subproject projectB = table.getActiveProjects().get(random(table.getActiveProjects().size()));
-				table.add2ChipsOnExistingProjects(projectA, projectB);
-				break;
-			}
-			else if(table.getCurrent().getChips().size()==1) {
-				handleVCardForAIAfterChipSet(table.setChipOnProject(table.getActiveProjects().get(random(table.getActiveProjects().size()))));
-				table.endTurn();
-				startTurn();
-				sendGameDataToClients("tableStatus");
-				break;
-			}
+                table.setChipOnProject(
+                        table.getActiveProjects().get(random(
+                        table.getActiveProjects().size())));
+                handleVCardForAIAfterChipSet(
+                        table.setChipOnProject(
+                        table.getActiveProjects().get(random(
+                        table.getActiveProjects().size()))));
+                break;
+            }
+            else if(table.getCurrent().getChips().size()==1) {
+                handleVCardForAIAfterChipSet(table.setChipOnProject(table.getActiveProjects().get(random(table.getActiveProjects().size()))));
+                sendGameDataToClients("tableStatus");
+                break;
+            }
 		case 20:
 			if(table.projectWithMoreThanOneChippedFieldAvailable()) {
 				ArrayList<Subproject> projectsArrTo = table.getActiveProjects();
@@ -1167,7 +1169,6 @@ public class CrazyAirportGame extends Game{
 		if(table.getCurrent().getChips().size()>=2) {
 			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjectTwoSelection");
 			break;
-			
 		}
 		else if(table.getCurrent().getChips().size()==1) {
 			sendGameDataToUser(table.getCurrent().getUser(), "showAvailableProjects");

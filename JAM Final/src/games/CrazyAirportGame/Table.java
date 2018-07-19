@@ -709,12 +709,12 @@ public class Table {
 		if(players.indexOf(current)<2) {
 			Chip chip=players.get(players.size()-players.indexOf(current)-1).removeChip();
 			chip.setCurrentOwner(current);
-			current.addChip(players.get(players.size()-players.indexOf(current)-1).removeChip());
+			current.addChip(chip);
 		}
 		else {
 			Chip chip=players.get(players.indexOf(current)-2).removeChip();
 			chip.setCurrentOwner(current);
-			current.addChip(players.get(players.indexOf(current)-2).removeChip());
+			current.addChip(chip);
 		}
 	}
 	
