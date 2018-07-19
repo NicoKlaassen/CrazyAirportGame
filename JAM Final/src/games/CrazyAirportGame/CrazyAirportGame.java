@@ -853,6 +853,7 @@ public class CrazyAirportGame extends Game{
 			case 47:
 				table.getCurrent().raiseScore(20);
 				VerantwortungsLOSCard vCard=table.drawVCard();
+				if(vCard.getId()==16 || vCard.getId()==17 || vCard.getId()==12) {vCard=table.drawVCard();}
 				messageToSend=Integer.toString(vCard.getId());
 				sendGameDataToClients("showVCard");
 				handleVCardCommunication(vCard.getId());
@@ -860,6 +861,7 @@ public class CrazyAirportGame extends Game{
 			case 49:
 				VerantwortungsLOSCard vCard2=table.drawVCard();
 				messageToSend=Integer.toString(vCard2.getId());
+				if(vCard2.getId()==16 || vCard2.getId()==17 || vCard2.getId()==12) {vCard=table.drawVCard();}
 				sendGameDataToClients("showVCard");
 				handleVCardCommunication(vCard2.getId());
 				break;
@@ -874,6 +876,7 @@ public class CrazyAirportGame extends Game{
 			case 53:
 				VerantwortungsLOSCard vCard3=table.drawVCard();
 				messageToSend=Integer.toString(vCard3.getId());
+				if(vCard3.getId()==16 || vCard3.getId()==17 || vCard3.getId()==12) {vCard=table.drawVCard();}
 				sendGameDataToClients("showVCard");
 				handleVCardCommunication(vCard3.getId());
 				break;
@@ -899,6 +902,7 @@ public class CrazyAirportGame extends Game{
 		if(vCardOnField) {
 			pause();
 			VerantwortungsLOSCard vCard=table.drawVCard();
+			if(vCard.getId()==16 || vCard.getId()==17 || vCard.getId()==12) {vCard=table.drawVCard();}
 			System.out.println("VCard nach Chip Platzierung: " + vCard.getId());
 			messageToSend=Integer.toString(vCard.getId());
 			sendGameDataToClients("showVCard");
