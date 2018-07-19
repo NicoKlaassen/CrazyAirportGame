@@ -626,7 +626,9 @@ public class Table {
 		project.finishProject();
 		projectsFinished.add(project);
 		projectsActive.remove(project);
-		openUpProject(drawProject());
+		if(!projectsAvailable.isEmpty()) {
+			openUpProject(drawProject());
+		}
 	}
 
 	//Returns the right neighbor of the current player
