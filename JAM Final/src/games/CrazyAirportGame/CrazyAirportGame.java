@@ -1335,7 +1335,7 @@ public class CrazyAirportGame extends Game{
 			JsonArray projects4= new JsonArray();
 			JsonObject twiceSelectionProjects=new JsonObject();
 			for(Subproject project:table.getActiveProjects()) {
-				if(project.chipCanBeRemoved()) {
+				if(project.twoChipsCanBeRemoved()) {
 					projects4.add(project.toJson());
 				}
 			}
